@@ -16,5 +16,7 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    // "no-inferrable-types": 0,
+    // "no-inferrable-types": [true, "ignore-params", "ignore-properties"],
   },
 };
