@@ -40,7 +40,7 @@ export default {
     const errormsg = ref(null);
     const load = async () => {
       try {
-        let data = await fetch("http://192.168.0.198:3000/rpi_temp");
+        let data = await fetch("https://nestapi.thelittlesheep.tk/rpi_temp");
         if (!data.ok) {
           throw Error("no data");
         }
@@ -54,14 +54,5 @@ export default {
     load();
     return { tempdatas, errormsg, load };
   },
-  // data() {
-  //   return {
-  //     tempdatas: [
-  //       { id: 1, temp: 52, logtime: "2021-07-13 12:55:01" },
-  //       { id: 2, temp: 51, logtime: "2021-07-13 12:55:02" },
-  //       { id: 3, temp: 50, logtime: "2021-07-13 12:55:03" },
-  //     ],
-  //   };
-  // },
 };
 </script>
