@@ -1,5 +1,14 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <weatherview />
   </div>
 </template>
+
+<script>
+import weatherview from "@/components/weatherview.vue";
+
+export default {
+  name: "Home",
+  components: { weatherview },
+};
+</script>

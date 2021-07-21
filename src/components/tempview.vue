@@ -25,15 +25,6 @@ import { tempdataDTO } from "./dto";
 
 export default {
   setup() {
-    console.log("setup");
-
-    // const name = ref("mario");
-    // const age = ref(30);
-
-    // const handleClick = () => {
-    //   name.value = "mei";
-    //   age.value = 23;
-    // };
     type tempdatasDTO = Array<tempdataDTO>;
     const d: tempdatasDTO = [];
     const tempdatas = ref(d);
