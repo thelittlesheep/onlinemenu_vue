@@ -4,12 +4,17 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && cp -r ./dist/* /home/lsheepr/backendDev/www",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "buildToWWW": "vue-cli-service build && cp -r ./dist/* /home/lsheepr/backendDev/www"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "date-fns": "^2.22.1",
+    "date-fns-tz": "^1.1.4",
     "vue": "^3.0.0",
+    "vue-axios": "^3.2.4",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {

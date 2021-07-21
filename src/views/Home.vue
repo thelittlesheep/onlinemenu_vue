@@ -15,9 +15,9 @@ export default {
 </script>
 
 <style>
-.home {
+/* .home {
   align-self: center;
   align-items: center;
   align-content: space-around;
-}
+} */
 </style>
