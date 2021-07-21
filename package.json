@@ -5,12 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-<<<<<<< HEAD
     "lint": "vue-cli-service lint",
     "buildToWWW": "vue-cli-service build && cp -r ./dist/* /home/lsheepr/backendDev/www"
-=======
-    "lint": "vue-cli-service lint"
->>>>>>> 5afbadb3d464b834a243017d14e3ba59a93796f1
   },
   "dependencies": {
     "axios": "^0.21.1",
