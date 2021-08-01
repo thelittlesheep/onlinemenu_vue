@@ -1,20 +1,24 @@
 import axios, { AxiosResponse } from "axios"; // 參考axios
-import config from "@/api/config";
 
-const instance = axios.create({
-  baseURL: config.baseUrl.dev,
-  timeout: 60000,
-});
+// const instance = axios.create({
+//   baseURL: config.baseUrl.dev,
+//   timeout: 60000,
+// });
 
 export async function asyncget(
   url: string
 ): Promise<AxiosResponse | undefined> {
   try {
-    const res: AxiosResponse = await instance.get(url);
-    return res;
-  } catch (error) {
-    console.log(error);
-    // throw Error(error);
+    const response: AxiosResponse = await axios.get(url);
+    return response;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.isAxiosError) {
+      // console.log(Object.keys(error), error.message);
+      // console.log(error.request);
+      // console.log(error.response);
+      throw Error("CORS ERROR!");
+    }
   }
 }
 

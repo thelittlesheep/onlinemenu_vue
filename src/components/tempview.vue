@@ -1,23 +1,38 @@
 <template>
   <p>TempViewPage</p>
-  <div v-if="tempdatas.length" class="temp">
-    <table>
-      <th v-for="key in tempdataTitle" :key="key">
-        {{ key }}
-      </th>
-      <tr v-for="tempdata in tempdatas" :key="tempdata.id">
-        <td>{{ tempdata.id }}</td>
-        <td>{{ tempdata.logtime.toLocaleString() }}</td>
-        <td>{{ tempdata.temp }}</td>
-      </tr>
-    </table>
+  <div class="cavs">
+    <div v-if="tempdatas.length" class="temp">
+      <table>
+        <th v-for="key in tempdataTitle" :key="key">
+          {{ key }}
+        </th>
+        <tr v-for="tempdata in tempdatas" :key="tempdata.id">
+          <td>{{ tempdata.id }}</td>
+          <td>{{ tempdata.logtime.toLocaleString() }}</td>
+          <td>{{ tempdata.temp }}</td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <button @click="autoupdate()">
+      {{ msg }}
+    </button>
+    <h3 v-show="isShowError">test t or f</h3>
+    <h3>{{ errormsg }}</h3>
+    <h1>WebSocket test area</h1>
+    <div v-if="tempdatas.length" class="temp">
+      <table>
+        <th v-for="key in tempdataTitle" :key="key">
+          {{ key }}
+        </th>
+        <tr v-for="tempdata in tempdatas" :key="tempdata.id">
+          <td>{{ tempdata.id }}</td>
+          <td>{{ tempdata.logtime.toLocaleString() }}</td>
+          <td>{{ tempdata.temp }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
-  <br />
-  <button @click="autoupdate()">
-    {{ msg }}
-  </button>
-  <h3 v-show="isShowError">test t or f</h3>
-  <h3>{{ errormsg }}</h3>
 </template>
 
 <script lang="ts">
@@ -44,7 +59,7 @@ export default defineComponent({
 
     const load = async () => {
       try {
-        let res: AxiosResponse<tempdatasDTO> = (await asyncget(
+        const res: AxiosResponse<tempdatasDTO> = (await asyncget(
           "https://apiprod.thelittlesheep.tk/rpi_temp"
         )) as AxiosResponse;
         // if (res.status != 200) {
