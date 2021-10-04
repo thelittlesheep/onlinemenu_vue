@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { tempdataDTO } from "./dto";
+import { tempdataDTO } from "./tempdatadto";
 import { AxiosResponse } from "axios";
 import { asyncget } from "@/api/http";
 import { format } from "date-fns";

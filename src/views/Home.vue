@@ -1,23 +1,42 @@
 <template>
   <div class="home">
-    <tempview />
+    <!-- <tempview /> -->
+    <div class="resume">
+      <div class="title">
+        <h2>
+          Hank <br />
+          Huang
+        </h2>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import tempview from "@/components/tempview.vue";
+import tempbody from "@/components/tempbody.vue";
 
 export default {
   name: "Home",
-  components: { tempview },
+  // components: { tempbody },
 };
 </script>
 
-<style>
-/* .home {
-  align-self: center;
-  align-items: center;
-  align-content: space-around;
-} */
+<style lang="scss" scoped>
+// .home {
+//   align-self: center;
+//   align-items: center;
+//   align-content: space-around;
+// }
+
+.resume {
+  .title {
+    width: 80%;
+    height: 300px;
+    align-self: center;
+    align-items: center;
+    align-content: space-around;
+    text-align: left;
+  }
+}
 </style>
