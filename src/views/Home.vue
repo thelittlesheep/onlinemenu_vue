@@ -1,20 +1,26 @@
 <template>
   <div class="home">
     <!-- <tempview /> -->
-    <div class="resume">
-      <div class="title">
-        <h2>
-          Hank <br />
-          Huang
-        </h2>
+    <div id="resume">
+      <div id="info">
+        <div id="title">
+          <h4>PERSONAL<br />INFORMATION</h4>
+        </div>
+        <!-- <img src="./profile.jpg" alt="profilepic" id="profilepic"> -->
+        <div id="name">
+          <span>Name:Hank Huang<br />(Zheng-Yang, Huang)</span>
+        </div>
+        <div id="mail">
+          <span>E-mail: u106029202@gap.kmu.edu.tw</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-import tempbody from "@/components/tempbody.vue";
+import tempbody from "@/components/tempandhumidity/tempbody.vue";
 
 export default {
   name: "Home",
@@ -29,14 +35,28 @@ export default {
 //   align-content: space-around;
 // }
 
-.resume {
-  .title {
-    width: 80%;
-    height: 300px;
-    align-self: center;
-    align-items: center;
-    align-content: space-around;
-    text-align: left;
-  }
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+body {
+  font-family: "Noto Sans TC";
+  background-color: aliceblue;
+  font-size: 14px;
+}
+
+#resume {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px 5px;
+  align-items: center;
+  border-top: 10px solid aquamarine;
+}
+
+#info {
+  display: grid;
+  gap: 5% 5%;
+}
+
+#profilepic {
+  height: 200px;
+  width: 200px;
 }
 </style>

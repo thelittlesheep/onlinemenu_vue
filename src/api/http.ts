@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"; // 參考axios
+import axios, { AxiosError, AxiosResponse } from "axios"; // 參考axios
 
 // const instance = axios.create({
 //   baseURL: config.baseUrl.dev,
@@ -7,17 +7,17 @@ import axios, { AxiosResponse } from "axios"; // 參考axios
 
 export async function asyncget(
   url: string
-): Promise<AxiosResponse | undefined> {
+): Promise<AxiosResponse | AxiosError> {
   try {
     const response: AxiosResponse = await axios.get(url);
     return response;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.isAxiosError) {
-      // console.log(Object.keys(error), error.message);
-      // console.log(error.request);
-      // console.log(error.response);
-      throw Error("CORS ERROR!");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errmsg = "CROS Error" + error.code;
+      throw new Error(errmsg);
+    } else {
+      throw new Error("Unknow Error");
     }
   }
 }

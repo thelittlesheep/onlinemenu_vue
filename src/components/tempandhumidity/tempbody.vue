@@ -75,7 +75,7 @@ export default defineComponent({
           const date = Date.parse(element.logtime);
           element.logtime = format(date, "yyyy/MM/dd HH:mm:ss");
         });
-      } catch (error) {
+      } catch (error: any) {
         errormsg.value = error;
       }
     };
