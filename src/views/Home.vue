@@ -20,7 +20,7 @@
 
 <script lang="ts">
 // @ is an alias to /src
-import tempbody from "@/components/tempandhumidity/tempbody.vue";
+// import tempbody from "@/components/tempandhumidity/tempbody.vue";
 
 export default {
   name: "Home",

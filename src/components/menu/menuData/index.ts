@@ -1,19 +1,31 @@
-import { InjectionKey } from "vue";
-import { createStore, useStore as baseUseStore, Store } from "vuex";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { Ref } from "vue";
+import { userDTO } from "../../interfaces/userDTO";
 
-export interface State {
-  shoppingCart: [];
+interface errror {
+  error: string;
+  message: [];
+  statusCode: number;
 }
 
-// export const key: InjectionKey<Store<State>> = Symbol();
+type response = AxiosResponse<userDTO> | AxiosError<userDTO>;
 
-export const store = createStore({
-  state: {
-    menuDataFrom: [], // 購物車列表
-  },
-});
-
-export function useStore() {
-  // 通過key給store提供型別
-  return baseUseStore();
+export async function postForm(
+  user: Ref<userDTO>
+): Promise<AxiosResponse<userDTO>> {
+  return await axios
+    .post("http://localhost:3000/menu/user", {
+      useraccount: user.value.useraccount,
+      name: user.value.name,
+      phone: user.value.phone,
+      age: user.value.age,
+      mail: user.value.mail,
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((e) => {
+      //   console.log(e.response?.status);
+      throw e;
+    });
 }

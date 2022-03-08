@@ -1,11 +1,22 @@
 <template>
+  <myheader />
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link :to="{ name: 'Weather' }">Weather</router-link> |
     <router-link :to="{ name: 'Menu' }">Menu</router-link>
   </div>
   <router-view />
+  <!-- <footer>Kappa123</footer> -->
 </template>
+
+<script lang="ts">
+import myheader from "@/components/share/header.bodt.vue";
+export default {
+  name: "app",
+  components: {
+    myheader,
+  },
+};
+</script>
 
 <style>
 #app {

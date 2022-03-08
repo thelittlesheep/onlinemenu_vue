@@ -32,7 +32,7 @@ import {
 } from "./menuData/menuDataInterface";
 import { getMenu } from "./menuData/menuData";
 import { HandleNameChangeInterface } from "../interfaces/domHandle";
-import menutable from "./menuTable.vue";
+import menutable from "./menuFBTable.vue";
 import ordersection from "./orderSection.vue";
 
 export default defineComponent({
