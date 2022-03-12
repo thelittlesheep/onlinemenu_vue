@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import myheader from "@/components/share/header.bodt.vue";
+
 export default {
   name: "app",
   components: {

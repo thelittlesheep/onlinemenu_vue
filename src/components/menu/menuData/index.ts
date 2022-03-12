@@ -16,6 +16,7 @@ export async function postForm(
   return await axios
     .post("http://localhost:3000/menu/user", {
       useraccount: user.value.useraccount,
+      userpassword: user.value.userpassword,
       name: user.value.name,
       phone: user.value.phone,
       age: user.value.age,
