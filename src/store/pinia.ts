@@ -6,6 +6,7 @@ export const usepinia = defineStore("main", {
   state: () => ({
     user: {} as userDTO,
     menudatas: [] as Array<ImenuGroupByCategory>,
+    activeIndex: "/",
   }),
   getters: {},
   actions: {},

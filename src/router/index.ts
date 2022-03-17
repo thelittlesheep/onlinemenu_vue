@@ -8,6 +8,7 @@ import Home from "@/views/Home.vue";
 import menu from "@/views/Menu.vue";
 import NotFound from "@/views/NotFound.vue";
 import Createuser from "@/views/Createuser.vue";
+import Aboutme from "@/views/Aboutme.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,21 +16,16 @@ const routes: Array<RouteRecordRaw> = [
     name: "Home",
     component: Home,
   },
-  // {
-  //   path: "/weather",
-  //   name: "Weather",
-  //   component: Weather,
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   // component: () =>
-  //   //   import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  // },
   { path: "/createuser", name: "Createuser", component: Createuser },
   {
     path: "/menu",
     name: "Menu",
     component: menu,
+  },
+  {
+    path: "/aboutme",
+    name: "Aboutme",
+    component: Aboutme,
   },
   // catch all 404
   {

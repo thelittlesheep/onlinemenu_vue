@@ -1,21 +1,25 @@
 <template>
-  <myheader />
-  <div id="nav">
+  <!-- <myheader /> -->
+  <Navbar />
+
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link :to="{ name: 'Menu' }">Menu</router-link> |
     <router-link :to="{ name: 'Createuser' }">CreateUser</router-link>
-  </div>
+  </div> -->
   <router-view />
   <!-- <footer>Kappa123</footer> -->
 </template>
 
 <script lang="ts">
 import myheader from "@/components/share/header.bodt.vue";
+import Navbar from "@/views/Navbar.vue";
 
 export default {
   name: "app",
   components: {
-    myheader,
+    // myheader,
+    Navbar,
   },
 };
 </script>
