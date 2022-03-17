@@ -1,7 +1,13 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  createWebHashHistory,
+  RouteRecordRaw,
+} from "vue-router";
 import Home from "@/views/Home.vue";
 import menu from "@/views/Menu.vue";
 import NotFound from "@/views/NotFound.vue";
+import Createuser from "@/views/Createuser.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +25,7 @@ const routes: Array<RouteRecordRaw> = [
   //   // component: () =>
   //   //   import(/* webpackChunkName: "about" */ "../views/About.vue"),
   // },
+  { path: "/createuser", name: "Createuser", component: Createuser },
   {
     path: "/menu",
     name: "Menu",
@@ -33,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 

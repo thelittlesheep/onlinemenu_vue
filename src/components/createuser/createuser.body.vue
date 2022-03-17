@@ -3,7 +3,7 @@
     <div class="row align-items-center">
       <div class="col"></div>
       <div class="col-auto">
-        <menuFormVue @ToF="tof" />
+        <menuform @ToF="tof" />
       </div>
       <div class="col"></div>
     </div>
@@ -44,17 +44,15 @@
 import { defineComponent, ref, Ref } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { userDTO } from "../interfaces/userDTO";
-import menuFormVue from "./menu.form.vue";
-
+// import custom interface
 import { responseError } from "../interfaces/responseError";
-export interface tofDTO {
-  isPostSubmmit: Ref<boolean>;
-  isPostSuccess: Ref<boolean>;
-  errorResponse: Ref<responseError>;
-}
+import { tofDTO } from "./createuserData";
+// import child component
+import menuform from "./createuser.form.vue";
+
 export default defineComponent({
-  components: { menuFormVue },
+  name: "createuserbody",
+  components: { menuform },
   setup() {
     let isPostSubmmit: Ref<boolean> = ref(false);
     let isPostSuccess: Ref<boolean> = ref(false);
@@ -82,7 +80,6 @@ export default defineComponent({
       isShowTestArea,
       showTestArea,
       tof,
-      menuFormVue,
     };
   },
 });

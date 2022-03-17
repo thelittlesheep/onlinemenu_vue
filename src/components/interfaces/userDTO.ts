@@ -1,13 +1,13 @@
 export interface userDTO {
-  useraccount: string;
+  user_account: string;
 
-  userpassword: string;
+  user_password: string;
 
-  name?: string;
+  user_name?: string;
 
-  phone?: string;
+  user_phone?: string;
 
-  age?: number;
+  user_age?: number;
 
-  mail?: string;
+  user_mail?: string;
 }

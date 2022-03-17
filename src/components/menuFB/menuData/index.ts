@@ -1,19 +1,17 @@
-import { InjectionKey } from "vue";
-import { createStore, useStore as baseUseStore, Store } from "vuex";
+import axios, { AxiosResponse } from "axios";
+import { Ref } from "vue";
+import { ImenuGroupByCategory } from "./menuDataInterface";
 
-export interface State {
-  shoppingCart: [];
-}
-
-// export const key: InjectionKey<Store<State>> = Symbol();
-
-export const store = createStore({
-  state: {
-    menuDataFrom: [], // 購物車列表
-  },
-});
-
-export function useStore() {
-  // 通過key給store提供型別
-  return baseUseStore();
+export async function axiosGetmenuDatas(): Promise<
+  AxiosResponse<Array<ImenuGroupByCategory>>
+> {
+  return await axios
+    .get("http://localhost:3000/menu/product", {})
+    .then((res) => {
+      return res;
+    })
+    .catch((e) => {
+      //   console.log(e.response?.status);
+      throw e;
+    });
 }

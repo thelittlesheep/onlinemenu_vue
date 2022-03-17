@@ -182,11 +182,11 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { userDTO } from "../interfaces/userDTO";
 import { AxiosError } from "axios";
-import { postForm } from "./menuData";
+import { postForm, tofDTO } from "./createuserData";
 import { responseError } from "../interfaces/responseError";
-import { tofDTO } from "./menu.body.vue";
 
 export default defineComponent({
+  name: "createuserform",
   emits: ["ToF"],
   setup(props, { emit }) {
     let isPostSubmmit: Ref<boolean> = ref(false);
@@ -245,6 +245,7 @@ export default defineComponent({
         clearForm();
         // console.log("End");
       }
+      // wait untile ajax finished then emit ToF data to menu.body
       await emitToF();
 
       // 另一種寫法
@@ -267,10 +268,10 @@ export default defineComponent({
     }
 
     const onSubmit = handleSubmit((values) => {
-      user.value.useraccount = values.account;
-      user.value.userpassword = values.password;
+      user.value.user_account = values.account;
+      user.value.user_password = values.password;
       return new Promise((resolve, reject) => {
-        if (user.value.useraccount && user.value.userpassword) {
+        if (user.value.user_account && user.value.user_password) {
           resolve(postform(user));
         }
         reject("error FROM onSubmit");

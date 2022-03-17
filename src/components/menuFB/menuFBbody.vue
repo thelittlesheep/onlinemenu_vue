@@ -1,70 +1,73 @@
 <template>
-  <h3>Your choice is {{ store }}</h3>
-  <!-- <input v-model="store" placeholder="Input a Store" />
-  <input type="submit" @click="loadData()" value="Submit" /> -->
-  <!-- <br /><br /> -->
-  <select v-model="selectedStore" @change="loadData($event)">
-    <option value="" disabled selected>--請選擇--</option>
-    <option v-for="store in storeOption" :value="store" :key="store.value">
-      {{ store }}
-    </option>
-  </select>
-  <!-- <span>Selected: {{ selected }}</span> -->
-  <br /><br />
-  {{ orderItemS }}
-  <br /><br />
-  <div v-if="menuDatas.length" class="temp">
-    <menutable v-bind:groupedProps="groupedProps" />
+  <div class="container p-3" style="background-color: orange">
+    <div
+      v-for="(data, index) in menudatas"
+      :key="index"
+      class="row align-items-center p-3 m-3 b-3"
+      style="background-color: MediumSeaGreen"
+    >
+      <!-- {{ data }} -->
+      {{ data.category_name }}
+      <div
+        v-for="(prods, index) in data.products"
+        :key="index"
+        class="col p-3 m-3"
+        style="background-color: Bisque"
+      >
+        {{ prods.product_name }}
+        <!-- <div
+          v-for="(adjtype, index) in data.adjusttypes"
+          :key="index"
+          name="adjtype"
+          class="col p-3 m-3"
+          style="background-color: CornflowerBlue"
+        >
+          {{ adjtype.adjusttype_name }}
+          <br />
+          <span
+            v-for="(adjitem, index) in adjtype.adjustitems"
+            :key="index"
+            style="background-color: Khaki"
+          >
+            <input type="checkbox" />{{ adjitem.adjustitem_name }}
+            &ensp;
+          </span>
+        </div> -->
+      </div>
+    </div>
   </div>
-  <div>
-    <ordersection v-bind:groupedProps="groupedProps" />
-  </div>
+  <button @click="getmenuDatas()">Fetch Data</button>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { db } from "@/api/firebase";
-import {
-  Imenudata,
-  IorderItem,
-  IgroupedProps,
-  IorderItems,
-} from "./menuData/menuDataInterface";
-import { getMenu } from "./menuData/menuData";
-import { HandleNameChangeInterface } from "../interfaces/domHandle";
-import menutable from "./menuFBTable.vue";
-import ordersection from "./orderSection.vue";
+import { defineComponent } from "vue";
+import { usepinia } from "@/store/pinia";
+import { storeToRefs } from "pinia";
+import { AxiosError } from "axios";
+import { responseError } from "../interfaces/responseError";
+import { axiosGetmenuDatas } from "./menuData";
 
 export default defineComponent({
-  components: { menutable, ordersection },
+  // components: { menutable, ordersection },
   setup() {
-    const store = ref<string>("");
-    const menuDatas = ref<Imenudata[]>([]);
-    // const datasTitle = ref<string[]>([]);
-    // const datasTitle: string[] = ["餐點名稱", "價錢", "加蛋", "加起司", "數量"];
-    const storeOption = ref<string[]>(["城市漢堡", "活力菓霖"]);
-    const selectedStore = ref<string>("");
+    // init pinia
+    const pinia = usepinia();
+    const { menudatas } = storeToRefs(pinia);
+    async function getmenuDatas() {
+      try {
+        const res = await axiosGetmenuDatas();
+        // const resdata = res.data;
+        menudatas.value = res.data;
+        // console.log(res.data);
+      } catch (e: unknown) {
+        const errors = e as AxiosError<responseError>;
+        console.log(errors.response!.data);
+      } finally {
+        console.log("End");
+      }
+    }
 
-    const orderItemS = ref<Map<string, IorderItem>>(new Map());
-
-    const loadData = async (event: HandleNameChangeInterface) => {
-      store.value = event.target.value;
-      orderItemS.value.clear();
-      getMenu(db, store.value, "漢堡").then((res) => (menuDatas.value = res));
-    };
-    const groupedProps: IgroupedProps = {
-      datas: menuDatas,
-      orders: orderItemS,
-    };
-    return {
-      menuDatas,
-      store,
-      storeOption,
-      selectedStore,
-      orderItemS,
-      groupedProps,
-      loadData,
-    };
+    return { getmenuDatas, menudatas };
   },
 });
 </script>
