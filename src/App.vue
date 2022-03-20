@@ -1,14 +1,19 @@
 <template>
   <!-- <myheader /> -->
-  <Navbar />
+  <el-container>
+    <el-header style="padding: 0px">
+      <Navbar />
 
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link :to="{ name: 'Menu' }">Menu</router-link> |
-    <router-link :to="{ name: 'Createuser' }">CreateUser</router-link>
-  </div> -->
-  <router-view />
-  <!-- <footer>Kappa123</footer> -->
+      <!-- <el-affix> </el-affix> -->
+    </el-header>
+    <el-main>
+      <!-- <div>123</div> -->
+      <router-view />
+    </el-main>
+    <el-footer>
+      <footer>© 2022 Hank Huang</footer>
+    </el-footer>
+  </el-container>
 </template>
 
 <script lang="ts">
@@ -29,20 +34,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  /* text-align: center; */
+  /* color: #2c3e50; */
 }
 </style>

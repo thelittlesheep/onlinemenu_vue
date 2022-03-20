@@ -71,6 +71,7 @@ export class Menudatas implements ImenuGroupByCategory {
         product_id: NaN,
         product_name: "",
         product_price: NaN,
+        product_image: "",
       },
     ];
   }

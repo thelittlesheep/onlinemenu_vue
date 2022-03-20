@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios";
-import { Ref } from "vue";
 import { ImenuGroupByCategory } from "./menuDataInterface";
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3 });
 
 export async function axiosGetmenuDatas(): Promise<
   AxiosResponse<Array<ImenuGroupByCategory>>
@@ -11,7 +13,11 @@ export async function axiosGetmenuDatas(): Promise<
       return res;
     })
     .catch((e) => {
-      //   console.log(e.response?.status);
-      throw e;
+      if (!e.status) {
+        throw "Network Error Axios Can't reach server";
+      } else {
+        //   console.log(e.response?.status);
+        throw e;
+      }
     });
 }

@@ -4,7 +4,7 @@
     <menubody />
   </div> -->
   <!-- <h2>=============================</h2> -->
-  <h1>This is menuFB component section</h1>
+  <h1>This is 菜單 component section</h1>
   <div class="menuFB">
     <menuFBbody />
   </div>
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 // import menubody from "@/components/menu/menu.body.vue";
-import menuFBbody from "@/components/menuFB/menuFBbody.vue";
+import menuFBbody from "@/components/menu/menubody.vue";
 
 export default {
   name: "Menu",

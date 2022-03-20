@@ -23,6 +23,7 @@ interface Iproductdata {
   product_id: number;
   product_name: string;
   product_price: number;
+  product_image: string;
   category_id?: Icategory;
 }
 interface IorderItem extends Iproductdata {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-3" style="background-color: pink">
+  <div class="container p-3">
     <div class="row gx-5 mb-1" id="formTitle">
       <div class="col-auto align-items-center" id="formTitleCol">
         <h6 class="display-6">建立使用者帳號</h6>

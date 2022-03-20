@@ -3,7 +3,9 @@
     <div class="row align-items-center">
       <div class="col"></div>
       <div class="col-auto">
-        <menuform @ToF="tof" />
+        <el-card shadow="always" style="background-color: lightgrey">
+          <menuform @ToF="tof" />
+        </el-card>
       </div>
       <div class="col"></div>
     </div>
