@@ -62,7 +62,6 @@ export default defineComponent({
     const onClickProdId = ref(0);
     const onClickCategoryId = ref(0);
     function cardClickHandler(productid: number, categoryid: number) {
-      // console.log(id);
       onClickProdId.value = productid;
       onClickCategoryId.value = categoryid;
       dialogVisible.value = true;
@@ -79,6 +78,10 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+/* .el-dialog__body {
+  padding-left: 0;
+  padding-right: 0;
+} */
 .el-row {
   margin-bottom: 20px;
 }

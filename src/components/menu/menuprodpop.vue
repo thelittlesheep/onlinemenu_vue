@@ -8,12 +8,16 @@
     <h2>
       {{ filteredProductData.product_name }}
     </h2>
-    <h3>$ {{ filteredProductData.product_price }}</h3>
+    <!-- <h3>$ {{ filteredProductData.product_price }}</h3> -->
     <div v-for="(type, index) in filteredCategoryData.adjusttypes" :key="index">
       <div v-if="type.adjustitems?.length">
         <el-collapse>
-          <el-collapse-item :title="type.adjusttype_name" name="1">
-            <Menuradiogroup :radios="radios" :type="type" />
+          <el-collapse-item name="1">
+            <template v-slot:title
+              ><h5>{{ type.adjusttype_name }}</h5></template
+            >
+            <!-- {{ type }} -->
+            <Menuradiogroup :propfAdjustTypesData="type" />
           </el-collapse-item>
         </el-collapse>
       </div>
@@ -39,12 +43,7 @@ export default defineComponent({
   components: { Menuradiogroup },
   setup(props) {
     const pinia = usepinia();
-    const { menudatas } = storeToRefs(pinia);
-
-    const radios: Ref<{ add?: number; remove?: number; adjust?: number }> = ref(
-      {}
-    );
-    // const testradios: Ref<number[]> = ref([]);
+    const { menudatas, dialogVis } = storeToRefs(pinia);
 
     // let onClickProductId = toRefs(props).prodid;
     const onClickProductId: Ref = ref(props.prodid);
@@ -58,22 +57,21 @@ export default defineComponent({
     filteredProductData.value = updateClickProduct();
 
     function updateClickProduct() {
-      let adjusttypes = filteredCategoryData.value.adjusttypes;
-      let radiosAvailableType: string[] = [];
-      adjusttypes.forEach((item) => {
-        if ((item.adjustitems as Iadjitem[]).length !== 0) {
-          radiosAvailableType.push(item.adjusttype_type);
-          // testradios.value.push(0);
-        }
-      });
+      // let adjusttypes = filteredCategoryData.value.adjusttypes;
+      // let radiosAvailableType: string[] = [];
+      // adjusttypes.forEach((item) => {
+      //   if ((item.adjustitems as Iadjitem[]).length !== 0) {
+      //     radiosAvailableType.push(item.adjusttype_type);
+      //   }
+      // });
       // console.log(radiosAvailableType);
 
       // console.log(radiosAvailableType.reduce((a, v) => ({ ...a, [v]: 0 }), {}));
 
-      radios.value = radiosAvailableType.reduce(
-        (a, v) => ({ ...a, [v]: 0 }),
-        {}
-      );
+      // radios.value = radiosAvailableType.reduce(
+      //   (a, v) => ({ ...a, [v]: 0 }),
+      //   {}
+      // );
 
       // console.log(radios.value);
 
@@ -94,6 +92,7 @@ export default defineComponent({
       return category.category_id === onClickCategoryId.value ? true : false;
     }
 
+    // watch props change to action
     watch(
       () => [props.prodid, props.categoryid],
       ([newProductId, newCategoryId]) => {
@@ -103,19 +102,32 @@ export default defineComponent({
         filteredProductData.value = updateClickProduct();
       }
     );
+
+    // watch wether dialog is visiable
+    watch(
+      () => dialogVis.value,
+      (val) => {
+        if (val === true) {
+          console.log("hello");
+        }
+      }
+    );
+
     return {
       onClickProductId,
       menudatas,
       isClickCategory,
       filteredCategoryData,
       filteredProductData,
-      radios,
     };
   },
 });
 </script>
 
 <style scpoed>
+.el-collapse-item {
+  font-size: 30px;
+}
 /* .radioDiv {
   margin: 0 auto;
   width: auto;

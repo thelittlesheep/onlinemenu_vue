@@ -1,57 +1,62 @@
 <template>
-  <div v-for="(index, radio) in rgradios" :key="index">
-    <el-radio-group
-      v-show="radio === 'add'"
-      v-model="chooseAdd"
-      v-for="(item, index) in rgtype.adjustitems"
-      :key="index"
-      @change="test"
-    >
-      <el-radio :label="index">
-        <!-- chooseAdd{{ chooseAdd }} chooseRemove{{ chooseRemove }} chooseAdjust{{
-          chooseAdjust
-        }} -->
-        {{ item.adjustitem_name }}
-      </el-radio>
-    </el-radio-group>
-  </div>
+  123
+  {{ fAdjustTypesData }}
+  <!-- <el-checkbox-group
+    v-model="chooseAdd"
+    v-for="(item, index) in fAdjustTypes"
+    :key="index"
+    @change="test(item.adjusttype_name)"
+    style="display: block"
+    ><div style="padding-bottom: 5px, padding-top: 5px " class="radioopt">
+      <el-checkbox :label="index">
+        <h6>{{ item.adjusttype_name }}</h6>
+      </el-checkbox>
+    </div>
+  </el-checkbox-group> -->
 </template>
 
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { defineComponent, Ref, ref, toRefs, watch } from "vue";
+import { defineComponent, PropType, Ref, ref, watch } from "vue";
 import { Iadjtypes, ImenuGroupByCategory } from "./menuData/menuDataInterface";
 export default defineComponent({
   name: "Menuradiogroup",
-  props: ["radios", "type"],
+  props: {
+    propfAdjustTypesData: { type: Object as PropType<Iadjtypes> },
+  },
+  //   props: ["propfCategoryData"],
   setup(props) {
     const pinia = usepinia();
     const { dialogVis } = storeToRefs(pinia);
 
-    const rgradios: Ref<{ add?: number; remove?: number; adjust?: number }> =
-      ref(props.radios);
-    const rgtype: Ref<Iadjtypes> = ref(props.type);
+    const fAdjustTypesData: Ref<Iadjtypes> = ref(
+      props.propfAdjustTypesData as Iadjtypes
+    );
+    // const fAdjustTypes = fCategoryData.value.adjusttypes;
 
     const chooseAdd = ref();
     const chooseRemove = ref();
     const chooseAdjust = ref();
+    const choose: Ref<string[]> = ref([]);
+    const finalPrice: Ref<number> = ref(0);
 
     watch(
-      () => dialogVis.value,
-      () => {
-        chooseAdd.value = NaN;
-        chooseRemove.value = NaN;
-        chooseAdjust.value = NaN;
+      () => [props.propfAdjustTypesData, dialogVis.value],
+      ([newprop, val]) => {
+        console.log(val);
+
+        fAdjustTypesData.value = newprop as Iadjtypes;
+        choose.value = [];
       }
     );
 
-    function test(val: any) {
-      console.log(val);
+    function test(val: string) {
+      choose.value.push(val);
+      console.log(choose.value);
     }
     return {
-      rgradios,
-      rgtype,
+      fAdjustTypesData,
       test,
       chooseAdd,
       chooseRemove,
@@ -61,4 +66,11 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style scoped>
+/* .radioopt {
+  opacity: 0.3;
+} */
+.radioopt:hover {
+  background-color: #f8f8f8;
+}
+</style>
