@@ -5,19 +5,36 @@
       :src="filteredProductData.product_image"
       fit="contain"
     />
-    <h2>
-      {{ filteredProductData.product_name }}
-    </h2>
-    <!-- <h3>$ {{ filteredProductData.product_price }}</h3> -->
+    <h2>{{ filteredProductData.product_name }}</h2>
     <div v-for="(type, index) in filteredCategoryData.adjusttypes" :key="index">
       <div v-if="type.adjustitems?.length">
         <el-collapse>
           <el-collapse-item name="1">
-            <template v-slot:title
-              ><h5>{{ type.adjusttype_name }}</h5></template
+            <template v-slot:title>
+              <h5>{{ type.adjusttype_name }}</h5>
+            </template>
+            <el-checkbox-group
+              v-model="choose"
+              v-for="(item, index) in type.adjustitems"
+              :key="index"
+              style="display: block"
             >
-            <!-- {{ type }} -->
-            <Menuradiogroup :propfAdjustTypesData="type" />
+              <div class="radioopt">
+                <el-checkbox :label="index">
+                  <el-row :gutter="2">
+                    <el-col :span="20" name="item">
+                      <strong>{{ item.adjustitem_name }}</strong>
+                    </el-col>
+                    <el-col
+                      :span="4"
+                      name="price"
+                      style="text-align: end;"
+                    >+$ {{ item.adjustitem_priceadjust }}</el-col>
+                  </el-row>
+                </el-checkbox>
+              </div>
+            </el-checkbox-group>
+            <!-- <Menuradiogroup :propfAdjustTypesData=" type" /> -->
           </el-collapse-item>
         </el-collapse>
       </div>
@@ -40,7 +57,7 @@ import Menuradiogroup from "./menuradiogroup.vue";
 export default defineComponent({
   name: "Menuprodpop",
   props: ["prodid", "categoryid"],
-  components: { Menuradiogroup },
+  // components: { Menuradiogroup },
   setup(props) {
     const pinia = usepinia();
     const { menudatas, dialogVis } = storeToRefs(pinia);
@@ -112,8 +129,16 @@ export default defineComponent({
         }
       }
     );
+    const choose: Ref<string[]> = ref([]);
+
+    function test(val: string) {
+      choose.value.push(val);
+      console.log(choose.value);
+    }
 
     return {
+      choose,
+      test,
       onClickProductId,
       menudatas,
       isClickCategory,
@@ -125,13 +150,36 @@ export default defineComponent({
 </script>
 
 <style scpoed>
+#item {
+  background-color: yellow;
+}
+
+#price {
+  background-color: plum;
+  align-content: end;
+}
+
 .el-collapse-item {
   font-size: 30px;
 }
-/* .radioDiv {
-  margin: 0 auto;
-  width: auto;
-  text-align: left;
-  display: table;
-} */
+
+.el-checkbox.el-checkbox--default {
+  width: 100%;
+  /* background-color: blue; */
+}
+
+.el-checkbox__label {
+  width: 100%;
+
+  /* background-color: aquamarine; */
+}
+
+.radioopt {
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.radioopt:hover {
+  background-color: #f8f8f8;
+}
 </style>
