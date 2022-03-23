@@ -20,6 +20,7 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElSpace: typeof import('element-plus/es')['ElSpace']
     'Header.bodt': typeof import('./src/components/share/header.bodt.vue')['default']
     Menubody: typeof import('./src/components/menu/menubody.vue')['default']
     Menuprodpop: typeof import('./src/components/menu/menuprodpop.vue')['default']
