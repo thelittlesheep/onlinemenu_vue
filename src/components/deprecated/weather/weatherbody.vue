@@ -1,6 +1,8 @@
 <template>
   <h1>This is Weather Page!</h1>
-  <button @click="getdata()">Get Data</button>
+  <button @click="getdata()">
+    Get Data
+  </button>
 </template>
 
 <script lang="ts">

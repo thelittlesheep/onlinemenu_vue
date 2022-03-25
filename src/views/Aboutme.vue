@@ -2,11 +2,11 @@
   <div id="resume">
     <div id="info">
       <div id="title">
-        <h4>PERSONAL<br />INFORMATION</h4>
+        <h4>PERSONAL<br>INFORMATION</h4>
       </div>
       <!-- <img src="./profile.jpg" alt="profilepic" id="profilepic"> -->
       <div id="name">
-        <span>Name:Hank Huang<br />(Zheng-Yang, Huang)</span>
+        <span>Name:Hank Huang<br>(Zheng-Yang, Huang)</span>
       </div>
       <div id="mail">
         <span>E-mail: u106029202@gap.kmu.edu.tw</span>

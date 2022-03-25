@@ -1,43 +1,32 @@
 <template>
   <div>
     <el-image
-      style="width: 90%; height: 1vh padding:1%"
       :src="filteredProductData.product_image"
       fit="contain"
     />
-    <h2>{{ filteredProductData.product_name }}</h2>
-    <div v-for="(type, index) in filteredCategoryData.adjusttypes" :key="index">
-      <div v-if="type.adjustitems?.length">
-        <el-collapse>
-          <el-collapse-item name="1">
-            <template v-slot:title>
+    <div style="padding-left: 3%; padding-right: 3%">
+      <h2>{{ filteredProductData.product_name }}</h2>
+    </div>
+    <div
+      v-for="(type, index) in filteredCategoryData.adjusttypes"
+      :key="index"
+    >
+      <el-collapse
+        v-if="type.adjustitems?.length"
+        v-model="activateCollapseItem"
+      >
+        <el-collapse-item
+          :name="index"
+          accordion="false"
+        >
+          <template #title>
+            <div style="padding: 3%">
               <h5>{{ type.adjusttype_name }}</h5>
-            </template>
-            <el-checkbox-group
-              v-model="choose"
-              v-for="(item, index) in type.adjustitems"
-              :key="index"
-              style="display: block"
-            >
-              <div class="radioopt">
-                <el-checkbox :label="index">
-                  <el-row :gutter="2">
-                    <el-col :span="20" name="item">
-                      <strong>{{ item.adjustitem_name }}</strong>
-                    </el-col>
-                    <el-col
-                      :span="4"
-                      name="price"
-                      style="text-align: end;"
-                    >+$ {{ item.adjustitem_priceadjust }}</el-col>
-                  </el-row>
-                </el-checkbox>
-              </div>
-            </el-checkbox-group>
-            <!-- <Menuradiogroup :propfAdjustTypesData=" type" /> -->
-          </el-collapse-item>
-        </el-collapse>
-      </div>
+            </div>
+          </template>
+          <Menuradiogroup :propf-adjust-types-data="type" />
+        </el-collapse-item>
+      </el-collapse>
     </div>
   </div>
 </template>
@@ -45,53 +34,49 @@
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { defineComponent, Ref, ref, toRefs, watch } from "vue";
+import { defineComponent, Ref, ref, watch } from "vue";
 import {
   Iadjitem,
+  Iadjtypes,
   Icategory,
   ImenuGroupByCategory,
   Iproductdata,
 } from "./menuData/menuDataInterface";
-import Menuradiogroup from "./menuradiogroup.vue";
+import Menuradiogroup from "./menuAdjustItems.vue";
 
 export default defineComponent({
   name: "Menuprodpop",
+  components: { Menuradiogroup },
   props: ["prodid", "categoryid"],
-  // components: { Menuradiogroup },
   setup(props) {
     const pinia = usepinia();
-    const { menudatas, dialogVis } = storeToRefs(pinia);
+    const { menudatas, singleProductTempData, checkbox, cartData } =
+      storeToRefs(pinia);
+
+    checkbox.value = [];
 
     // let onClickProductId = toRefs(props).prodid;
     const onClickProductId: Ref = ref(props.prodid);
     const onClickCategoryId: Ref = ref(props.categoryid);
+    const activateCollapseItem = ref([0, 1, 2]);
 
     const filteredCategoryData: Ref<ImenuGroupByCategory> = ref(
-      {} as ImenuGroupByCategory
+      {} as ImenuGroupByCategory,
     );
     const filteredProductData: Ref<Iproductdata> = ref({} as Iproductdata);
     filteredCategoryData.value = updateClickCategory();
     filteredProductData.value = updateClickProduct();
 
+    // singleProductTempData.value.qty = 1
+
+    singleProductTempData.value = {
+      ...filteredProductData.value,
+      adjustitems: [] as Array<Iadjitem>,
+      qty: 1,
+      finalPrice: filteredProductData.value.product_price,
+    };
+
     function updateClickProduct() {
-      // let adjusttypes = filteredCategoryData.value.adjusttypes;
-      // let radiosAvailableType: string[] = [];
-      // adjusttypes.forEach((item) => {
-      //   if ((item.adjustitems as Iadjitem[]).length !== 0) {
-      //     radiosAvailableType.push(item.adjusttype_type);
-      //   }
-      // });
-      // console.log(radiosAvailableType);
-
-      // console.log(radiosAvailableType.reduce((a, v) => ({ ...a, [v]: 0 }), {}));
-
-      // radios.value = radiosAvailableType.reduce(
-      //   (a, v) => ({ ...a, [v]: 0 }),
-      //   {}
-      // );
-
-      // console.log(radios.value);
-
       return menudatas.value
         .find(isClickCategory)
         ?.products.find(isClickProduct) as Iproductdata;
@@ -109,36 +94,72 @@ export default defineComponent({
       return category.category_id === onClickCategoryId.value ? true : false;
     }
 
-    // watch props change to action
-    watch(
-      () => [props.prodid, props.categoryid],
-      ([newProductId, newCategoryId]) => {
-        onClickCategoryId.value = newCategoryId;
-        onClickProductId.value = newProductId;
-        filteredCategoryData.value = updateClickCategory();
-        filteredProductData.value = updateClickProduct();
-      }
-    );
-
-    // watch wether dialog is visiable
-    watch(
-      () => dialogVis.value,
-      (val) => {
-        if (val === true) {
-          console.log("hello");
-        }
-      }
-    );
-    const choose: Ref<string[]> = ref([]);
-
-    function test(val: string) {
-      choose.value.push(val);
-      console.log(choose.value);
+    function modifysingleProductTempDataadjustitems(val: Array<number>) {
+      val.forEach((selectedId) => {
+        // console.log(selectedId);
+        filteredCategoryData.value.adjusttypes.forEach((category) => {
+          category.adjustitems?.forEach((adjustitems) => {
+            if (adjustitems.adjustitem_id === selectedId) {
+              if (
+                singleProductTempData.value.adjustitems?.indexOf(
+                  adjustitems,
+                ) === -1
+              ) {
+                // console.log(adjustitems);
+                singleProductTempData.value.adjustitems?.push(adjustitems);
+                singleProductTempData.value.finalPrice +=
+                  adjustitems.adjustitem_priceadjust;
+              }
+            }
+          });
+        });
+      });
     }
 
+    watch(
+      () => checkbox.value,
+      (afterVal, beforeVal) => {
+        if (afterVal.length > beforeVal.length) {
+          modifysingleProductTempDataadjustitems(afterVal);
+        } else {
+          singleProductTempData.value.adjustitems = [];
+          singleProductTempData.value.finalPrice =
+            filteredProductData.value.product_price;
+          modifysingleProductTempDataadjustitems(afterVal);
+        }
+
+        // console.log(val)
+      },
+    );
+
+    // watch(() => singleProductTempData.value, (val) => {
+    //   console.log(val)
+    // })
+
+    // watch props change to action
+    // watch(
+    //   () => [props.prodid, props.categoryid],
+    //   ([newProductId, newCategoryId]) => {
+    //     onClickCategoryId.value = newCategoryId;
+    //     onClickProductId.value = newProductId;
+    //     filteredCategoryData.value = updateClickCategory();
+    //     filteredProductData.value = updateClickProduct();
+    //   }
+    // );
+
+    // watch wether dialog is visiable
+    // watch(
+    //   () => dialogVis.value,
+    //   (val) => {
+    //     if (val === true) {
+    //       activateCollapseItem.value = [0, 1, 2]
+    //     }
+    //   }
+    // );
+
     return {
-      choose,
-      test,
+      singleProductTempData,
+      activateCollapseItem,
       onClickProductId,
       menudatas,
       isClickCategory,
@@ -150,17 +171,32 @@ export default defineComponent({
 </script>
 
 <style scpoed>
-#item {
-  background-color: yellow;
+div.el-collapse {
+  border-top: 0;
+  border-bottom: 0;
 }
-
-#price {
-  background-color: plum;
-  align-content: end;
+div.el-collapse-item__header {
+  border-bottom: 0;
 }
-
 .el-collapse-item {
   font-size: 30px;
+}
+
+.el-dialog .el-dialog__body {
+  padding: 0;
+}
+
+.el-dialog .el-dialog__footer {
+  padding-top: 10px;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  /* border: 5px solid #ffff00; */
+  /* background-color: #99a9bf; */
+}
+
+.el-collapse-item__content {
+  padding-bottom: 10px;
 }
 
 .el-checkbox.el-checkbox--default {
@@ -170,16 +206,15 @@ export default defineComponent({
 
 .el-checkbox__label {
   width: 100%;
-
   /* background-color: aquamarine; */
 }
 
-.radioopt {
-  padding-bottom: 5px;
-  padding-top: 5px;
+#item {
+  background-color: yellow;
 }
 
-.radioopt:hover {
-  background-color: #f8f8f8;
+#price {
+  background-color: plum;
+  align-content: end;
 }
 </style>

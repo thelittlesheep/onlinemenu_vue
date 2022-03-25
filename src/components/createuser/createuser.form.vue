@@ -1,15 +1,26 @@
 <template>
   <div class="container p-3">
-    <div class="row gx-5 mb-1" id="formTitle">
-      <div class="col-auto align-items-center" id="formTitleCol">
-        <h6 class="display-6">建立使用者帳號</h6>
+    <div
+      id="formTitle"
+      class="row gx-5 mb-1"
+    >
+      <div
+        id="formTitleCol"
+        class="col-auto align-items-center"
+      >
+        <h6 class="display-6">
+          建立使用者帳號
+        </h6>
       </div>
-      <div class="col"></div>
+      <div class="col" />
     </div>
     <div class="row gx-5">
       <!-- <Form @submit="onSubmit" class="form" ref="target" v-slot="{ errors }"> -->
       <form @submit="onSubmit">
-        <div class="col" name="accountInput">
+        <div
+          class="col"
+          name="accountInput"
+        >
           <div class="form-floating mb-3">
             <!-- <Field
               type="text"
@@ -22,23 +33,29 @@
             /> -->
 
             <input
+              id="floatingInputAccount"
+              v-model="account"
               type="text"
               name="account"
-              v-model="account"
               class="form-control"
-              id="floatingInputAccount"
               placeholder=""
               autocomplete="off"
-            />
+            >
 
             <label for="floatingInputAccount">請輸入用使用者名稱</label>
             <!-- <span>{{ errors.useraccount }}</span> -->
             <span>{{ accountError }}</span>
           </div>
         </div>
-        <div class="col" name="passwordInput">
+        <div
+          class="col"
+          name="passwordInput"
+        >
           <div class="row gx-5">
-            <div class="col" id="passwordInput">
+            <div
+              id="passwordInput"
+              class="col"
+            >
               <div class="form-floating mb-3">
                 <!-- <Field
                   type="password"
@@ -51,20 +68,23 @@
                 /> -->
 
                 <input
+                  id="floatingInputPassword"
+                  v-model="password"
                   type="password"
                   name="password"
-                  v-model="password"
                   class="form-control"
-                  id="floatingInputPassword"
                   placeholder=""
                   autocomplete="off"
-                />
+                >
                 <label for="floatingInputPassword">Password</label>
                 <!-- <span>{{ errors.userpassword }}</span> -->
                 <span>{{ passwordError }}</span>
               </div>
             </div>
-            <div class="col" id="pwdInputConfirm">
+            <div
+              id="pwdInputConfirm"
+              class="col"
+            >
               <div class="form-floating mb-3">
                 <!-- <Field
                   type="password"
@@ -77,14 +97,14 @@
                   :validateOnChange="true"
                 /> -->
                 <input
+                  id="floatingInputPwdConfirm"
+                  v-model="confirm"
                   type="password"
                   name="confirm"
-                  v-model="confirm"
                   class="form-control"
-                  id="floatingInputPwdConfirm"
                   placeholder=""
                   autocomplete="off"
-                />
+                >
                 <label for="floatingInputPwdConfirm">Password Confirm</label>
                 <!-- <span>{{ errors.pwdconfirm }}</span> -->
                 <span>{{ confirmError }}</span>
@@ -154,7 +174,7 @@
           </div>
         </div> -->
         <div class="row gx-5">
-          <div class="col"></div>
+          <div class="col" />
           <div class="col-4">
             <button
               type="submit"
@@ -165,7 +185,12 @@
             </button>
           </div>
           <div class="col-4">
-            <button type="reset" class="btn btn-primary">Reset all</button>
+            <button
+              type="reset"
+              class="btn btn-primary"
+            >
+              Reset all
+            </button>
           </div>
         </div>
       </form>
@@ -186,7 +211,7 @@ import { postForm, tofDTO } from "./createuserData";
 import { responseError } from "../interfaces/responseError";
 
 export default defineComponent({
-  name: "createuserform",
+  name: "Createuserform",
   emits: ["ToF"],
   setup(props, { emit }) {
     let isPostSubmmit: Ref<boolean> = ref(false);
@@ -212,15 +237,15 @@ export default defineComponent({
 
     const { errorMessage: accountError, value: account } = useField(
       "account",
-      "useraccount"
+      "useraccount",
     );
     const { errorMessage: passwordError, value: password } = useField(
       "password",
-      "userpassword"
+      "userpassword",
     );
     const { errorMessage: confirmError, value: confirm } = useField(
       "confirm",
-      "pwdconfirm:password"
+      "pwdconfirm:password",
     );
 
     async function emitToF(): Promise<void> {

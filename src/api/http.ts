@@ -6,7 +6,7 @@ import axios, { AxiosError, AxiosResponse } from "axios"; // 參考axios
 // });
 
 export async function asyncget(
-  url: string
+  url: string,
 ): Promise<AxiosResponse | AxiosError> {
   try {
     const response: AxiosResponse = await axios.get(url);

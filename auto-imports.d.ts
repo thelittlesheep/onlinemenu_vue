@@ -3,6 +3,8 @@
 declare global {
   const ElButton: typeof import('element-plus/es')['ElButton']
   const ElCard: typeof import('element-plus/es')['ElCard']
+  const ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
+  const ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
   const ElCol: typeof import('element-plus/es')['ElCol']
   const ElCollapse: typeof import('element-plus/es')['ElCollapse']
   const ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
@@ -10,11 +12,12 @@ declare global {
   const ElDialog: typeof import('element-plus/es')['ElDialog']
   const ElFooter: typeof import('element-plus/es')['ElFooter']
   const ElHeader: typeof import('element-plus/es')['ElHeader']
+  const ElIcon: typeof import('element-plus/es')['ElIcon']
   const ElImage: typeof import('element-plus/es')['ElImage']
+  const ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
   const ElMain: typeof import('element-plus/es')['ElMain']
   const ElMenu: typeof import('element-plus/es')['ElMenu']
   const ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
   const ElRow: typeof import('element-plus/es')['ElRow']
-  const ElSpace: typeof import('element-plus/es')['ElSpace']
 }
 export {}

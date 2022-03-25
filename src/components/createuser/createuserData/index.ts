@@ -18,7 +18,7 @@ export interface tofDTO {
 }
 
 export async function postForm(
-  user: Ref<userDTO>
+  user: Ref<userDTO>,
 ): Promise<AxiosResponse<userDTO>> {
   return await axios
     .post("http://localhost:3000/menu/user", {

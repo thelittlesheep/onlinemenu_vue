@@ -1,8 +1,15 @@
 <template>
   <div class="home">
     <!-- <tempview /> -->
-    <h1>Home Page</h1>
-    <el-button type="primary">Hello</el-button>
+    <my-RWDcontainer>
+      <h1>Home Page</h1>
+      <el-button type="primary">
+        Hello
+      </el-button>
+      <div style="background: red">
+        內容
+      </div>
+    </my-RWDcontainer>
   </div>
 </template>
 

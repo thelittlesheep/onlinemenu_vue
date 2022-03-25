@@ -45,6 +45,16 @@ interface ImenuGroupByCategory extends Icategory {
   products: [Iproductdata];
 }
 
+interface IshoppingProduct extends Iproductdata {
+  qty: number;
+  finalPrice: number;
+  adjustitems?: Array<Iadjitem>;
+}
+
+interface IshoppingCart {
+  products_id: number[];
+}
+
 export {
   Iadjtypes,
   Iadjitem,
@@ -54,4 +64,5 @@ export {
   IorderItems,
   IgroupedProps,
   ImenuGroupByCategory,
+  IshoppingProduct,
 };

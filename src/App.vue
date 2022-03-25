@@ -21,7 +21,7 @@ import myheader from "@/components/share/header.bodt.vue";
 import Navbar from "@/views/Navbar.vue";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     // myheader,
     Navbar,

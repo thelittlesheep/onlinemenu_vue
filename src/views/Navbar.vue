@@ -13,7 +13,8 @@
       :key="item"
       :index="item.routepath"
       :route="{ path: item.routepath }"
-      >{{ item.name }}
+    >
+      {{ item.name }}
     </el-menu-item>
   </el-menu>
   <div class="h-6" />

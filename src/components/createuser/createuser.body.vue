@@ -1,13 +1,16 @@
 <template>
   <div class="container">
     <div class="row align-items-center">
-      <div class="col"></div>
+      <div class="col" />
       <div class="col-auto">
-        <el-card shadow="always" style="background-color: lightgrey">
+        <el-card
+          shadow="always"
+          style="background-color: lightgrey"
+        >
           <menuform @ToF="tof" />
         </el-card>
       </div>
-      <div class="col"></div>
+      <div class="col" />
     </div>
     <!-- <hr />
     <label class="switch">
@@ -27,15 +30,22 @@
       <p>phone is: {{ user.phone }}</p>
       <p>age is: {{ user.age }}</p>
     </div> -->
-    <hr />
+    <hr>
     <div v-show="isPostSubmmit">
-      <div v-if="isPostSuccess">POST success</div>
+      <div v-if="isPostSuccess">
+        POST success
+      </div>
       <div v-else>
-        POST failed<br />
-        {{ errorResponse.error }}<br />
-        {{ errorResponse.statusCode }}<br />
+        POST failed<br>
+        {{ errorResponse.error }}<br>
+        {{ errorResponse.statusCode }}<br>
         <ol type="I">
-          <li v-for="msg in errorResponse.message" :key="msg">{{ msg }}</li>
+          <li
+            v-for="msg in errorResponse.message"
+            :key="msg"
+          >
+            {{ msg }}
+          </li>
         </ol>
       </div>
     </div>
@@ -53,7 +63,7 @@ import { tofDTO } from "./createuserData";
 import menuform from "./createuser.form.vue";
 
 export default defineComponent({
-  name: "createuserbody",
+  name: "Createuserbody",
   components: { menuform },
   setup() {
     let isPostSubmmit: Ref<boolean> = ref(false);

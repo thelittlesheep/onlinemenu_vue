@@ -3,6 +3,7 @@ const Components = require("unplugin-vue-components/webpack");
 const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 
 module.exports = {
+  runtimeCompiler: true,
   devServer: {
     host: "0.0.0.0",
     port: 8080,

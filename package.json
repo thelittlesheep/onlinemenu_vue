@@ -9,6 +9,7 @@
     "buildToWWW": "vue-cli-service build && cp -r ./dist/* /home/lsheep/remote_vultr/nginx/staticfile/html"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^1.1.4",
     "@popperjs/core": "^2.11.2",
     "@vee-validate/rules": "^4.5.10",
     "axios": "^0.21.1",
@@ -40,7 +41,7 @@
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
     "node-sass": "6.0.1",
