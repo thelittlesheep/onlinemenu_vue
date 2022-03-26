@@ -7,7 +7,7 @@
           shadow="always"
           style="background-color: lightgrey"
         >
-          <menuform @ToF="tof" />
+          <createuser @ToF="tof" />
         </el-card>
       </div>
       <div class="col" />
@@ -60,11 +60,11 @@ import { storeToRefs } from "pinia";
 import { responseError } from "../interfaces/responseError";
 import { tofDTO } from "./createuserData";
 // import child component
-import menuform from "./createuser.form.vue";
+import createuser from "./createuser.form.vue";
 
 export default defineComponent({
   name: "Createuserbody",
-  components: { menuform },
+  components: { createuser },
   setup() {
     let isPostSubmmit: Ref<boolean> = ref(false);
     let isPostSuccess: Ref<boolean> = ref(false);

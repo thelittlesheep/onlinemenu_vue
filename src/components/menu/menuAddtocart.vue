@@ -15,7 +15,10 @@
       :span="16"
       name="button"
     >
-      <el-button size="large">
+      <el-button
+        size="large"
+        @click="test"
+      >
         <template #icon>
           <el-icon size="24px">
             <ShoppingCart />
@@ -45,10 +48,13 @@ export default defineComponent({
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
-    const { singleProductTempData } = storeToRefs(pinia);
+    const { singleProductTempData ,cartData} = storeToRefs(pinia);
     const finalPrice = ref(
       singleProductTempData.value.finalPrice * singleProductTempData.value.qty,
     );
+    function test(){
+      cartData.value.push(singleProductTempData.value)
+    }
 
     watch(
       () => [
@@ -62,7 +68,7 @@ export default defineComponent({
       },
     );
 
-    return { ShoppingCart, singleProductTempData, finalPrice };
+    return { ShoppingCart, singleProductTempData, finalPrice, test };
   },
 });
 </script>
