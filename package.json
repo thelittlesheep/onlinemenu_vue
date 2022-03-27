@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "buildToWWW": "vue-cli-service build && cp -r ./dist/* /home/lsheep/remote_vultr/nginx/staticfile/html"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview --host 0.0.0.0",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
@@ -15,7 +15,6 @@
     "axios": "^0.21.1",
     "axios-retry": "^3.2.4",
     "bootstrap": "^5.1.3",
-    "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
     "date-fns-tz": "^1.1.4",
     "element-plus": "^2.1.4",
@@ -32,23 +31,20 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "@vue/cli-plugin-babel": "~5.0.1",
-    "@vue/cli-plugin-eslint": "~5.0.1",
-    "@vue/cli-plugin-router": "~5.0.1",
+    "@vitejs/plugin-vue": "^2.2.4",
     "@vue/cli-plugin-typescript": "~5.0.1",
-    "@vue/cli-service": "^5.0.1",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
-    "eslint": "^7.32.0",
+    "eslint": "8",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vue": "8",
     "node-sass": "6.0.1",
     "prettier": "^2.4.1",
-    "sass-loader": "12.6.0",
     "typescript": "~4.5.5",
     "unplugin-auto-import": "^0.6.6",
-    "unplugin-vue-components": "^0.18.0"
+    "unplugin-vue-components": "^0.18.0",
+    "vite": "^2.8.6"
   }
 }

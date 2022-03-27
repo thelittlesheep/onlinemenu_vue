@@ -61,7 +61,7 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref } from "vue";
 import Menuprodpop from "./menuProductPopout.vue";
-import Addtocart from "./menuAddToCart.vue";
+import Addtocart from "./menuData/menuAddToCart.vue";
 
 export default defineComponent({
   name: "Menutable",

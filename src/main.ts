@@ -11,7 +11,7 @@ import RWDcontainer from "@/components/share/RWD.vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
-import "@/scss/main.scss";
+// import "@/scss/main.scss";
 
 const app = createApp(App);
 app.use(ElementPlus);

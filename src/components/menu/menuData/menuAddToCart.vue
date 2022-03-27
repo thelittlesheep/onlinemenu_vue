@@ -42,8 +42,8 @@ import { defineComponent, Ref, ref, watch } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
-import { axiosPostmenuCartDatas } from "./menuData";
-import { cartdataDTO } from "../interfaces/cartDataDTO";
+import { axiosPostmenuCartDatas } from ".";
+import { cartdataDTO } from "../../interfaces/cartDataDTO";
 
 export default defineComponent({
   name: "Addtocart",

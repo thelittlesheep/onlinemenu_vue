@@ -26,12 +26,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-// .home {
-//   align-self: center;
-//   align-items: center;
-//   align-content: space-around;
-// }
+<!-- <style lang="scss" scoped>
 
 @import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 body {
@@ -57,4 +52,4 @@ body {
   height: 200px;
   width: 200px;
 }
-</style>
+</style> -->
