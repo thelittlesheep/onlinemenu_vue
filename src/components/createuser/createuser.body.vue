@@ -3,10 +3,7 @@
     <div class="row align-items-center">
       <div class="col" />
       <div class="col-auto">
-        <el-card
-          shadow="always"
-          style="background-color: lightgrey"
-        >
+        <el-card shadow="always" style="background-color: lightgrey">
           <createuser @ToF="tof" />
         </el-card>
       </div>
@@ -30,20 +27,15 @@
       <p>phone is: {{ user.phone }}</p>
       <p>age is: {{ user.age }}</p>
     </div> -->
-    <hr>
+    <hr />
     <div v-show="isPostSubmmit">
-      <div v-if="isPostSuccess">
-        POST success
-      </div>
+      <div v-if="isPostSuccess">POST success</div>
       <div v-else>
-        POST failed<br>
-        {{ errorResponse.error }}<br>
-        {{ errorResponse.statusCode }}<br>
+        POST failed<br />
+        {{ errorResponse.error }}<br />
+        {{ errorResponse.statusCode }}<br />
         <ol type="I">
-          <li
-            v-for="msg in errorResponse.message"
-            :key="msg"
-          >
+          <li v-for="msg in errorResponse.message" :key="msg">
             {{ msg }}
           </li>
         </ol>

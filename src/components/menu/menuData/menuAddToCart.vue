@@ -1,8 +1,5 @@
 <template>
-  <el-row
-    :gutter="50"
-    align="middle"
-  >
+  <el-row :gutter="50" align="middle">
     <el-col :span="8">
       <el-input-number
         v-model="singleProductTempData.qty"
@@ -11,14 +8,8 @@
         name="selector"
       />
     </el-col>
-    <el-col
-      :span="16"
-      name="button"
-    >
-      <el-button
-        size="large"
-        @click="test"
-      >
+    <el-col :span="16" name="button">
+      <el-button size="large" @click="test">
         <template #icon>
           <el-icon size="24px">
             <ShoppingCart />
@@ -50,18 +41,18 @@ export default defineComponent({
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
-    const { singleProductTempData ,cartData,checkbox } = storeToRefs(pinia);
+    const { singleProductTempData, cartData, checkbox } = storeToRefs(pinia);
     const finalPrice = ref(
       singleProductTempData.value.finalPrice * singleProductTempData.value.qty,
     );
-    function test(){
-      const payload:Ref<cartdataDTO> =ref({
-        product_id : singleProductTempData.value.product_id,
-        order_product_quantity : singleProductTempData.value.qty,
-        adjustitems: checkbox.value
-      })
+    function test() {
+      const payload: Ref<cartdataDTO> = ref({
+        product_id: singleProductTempData.value.product_id,
+        order_product_quantity: singleProductTempData.value.qty,
+        adjustitems: checkbox.value,
+      });
       postCartData(payload);
-      cartData.value.push(singleProductTempData.value)
+      cartData.value.push(singleProductTempData.value);
     }
 
     watch(
@@ -76,15 +67,21 @@ export default defineComponent({
       },
     );
 
-    async function postCartData(payload:Ref<cartdataDTO>) {
-        try{
-          await axiosPostmenuCartDatas(payload);
-        } catch(e:unknown){
-          console.log(e);
-        }
+    async function postCartData(payload: Ref<cartdataDTO>) {
+      try {
+        await axiosPostmenuCartDatas(payload);
+      } catch (e: unknown) {
+        console.log(e);
+      }
     }
 
-    return { ShoppingCart, singleProductTempData, finalPrice, test, postCartData };
+    return {
+      ShoppingCart,
+      singleProductTempData,
+      finalPrice,
+      test,
+      postCartData,
+    };
   },
 });
 </script>

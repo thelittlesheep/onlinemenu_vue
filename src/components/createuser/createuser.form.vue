@@ -8,9 +8,7 @@
         id="formTitleCol"
         class="col-auto align-items-center"
       >
-        <h6 class="display-6">
-          建立使用者帳號
-        </h6>
+        <h6 class="display-6">建立使用者帳號</h6>
       </div>
       <div class="col" />
     </div>
@@ -30,7 +28,7 @@
               class="form-control"
               placeholder=""
               autocomplete="off"
-            >
+            />
             <label for="floatingInputAccount">請輸入用使用者名稱</label>
             <span>{{ accountError }}</span>
           </div>
@@ -53,7 +51,7 @@
                   class="form-control"
                   placeholder=""
                   autocomplete="off"
-                >
+                />
                 <label for="floatingInputPassword">Password</label>
                 <span>{{ passwordError }}</span>
               </div>
@@ -71,7 +69,7 @@
                   class="form-control"
                   placeholder=""
                   autocomplete="off"
-                >
+                />
                 <label for="floatingInputPwdConfirm">Password Confirm</label>
                 <span>{{ confirmError }}</span>
               </div>
@@ -138,7 +136,7 @@
             <label for="floatingInputEmail">Email address</label>
             <span>{{ mailError }}</span>
           </div>
-        </div> -->
+        </div>-->
         <div class="row gx-5">
           <div class="col" />
           <div class="col-4">
@@ -187,7 +185,7 @@ export default defineComponent({
     const tureOrFalse: tofDTO = {
       isPostSubmmit: isPostSubmmit,
       isPostSuccess: isPostSuccess,
-      errorResponse: errorResponse,
+      errorResponse: errorResponse
     };
     // pinia data 宣告
     const pinia = usepinia();
@@ -198,20 +196,22 @@ export default defineComponent({
       resetForm();
     };
     // 定義 form validating 相關變數
-    const { isSubmitting, handleSubmit, resetForm } =
-      useForm<{ account: string; password: string }>();
+    const { isSubmitting, handleSubmit, resetForm } = useForm<{
+      account: string;
+      password: string;
+    }>();
 
     const { errorMessage: accountError, value: account } = useField(
       "account",
-      "useraccount",
+      "useraccount"
     );
     const { errorMessage: passwordError, value: password } = useField(
       "password",
-      "userpassword",
+      "userpassword"
     );
     const { errorMessage: confirmError, value: confirm } = useField(
       "confirm",
-      "pwdconfirm:password",
+      "pwdconfirm:password"
     );
 
     async function emitToF(): Promise<void> {
@@ -283,9 +283,9 @@ export default defineComponent({
       password,
       confirmError,
       confirm,
-      isSubmitting,
+      isSubmitting
     };
-  },
+  }
 });
 </script>
 

@@ -8,17 +8,10 @@
     <div class="radioopt">
       <el-checkbox :label="item.adjustitem_id">
         <el-row>
-          <el-col
-            :span="20"
-            name="item"
-          >
+          <el-col :span="20" name="item">
             <strong>{{ item.adjustitem_name }}</strong>
           </el-col>
-          <el-col
-            :span="4"
-            name="price"
-            style="text-align: end"
-          >
+          <el-col :span="4" name="price" style="text-align: end">
             +$ {{ item.adjustitem_priceadjust }}
           </el-col>
         </el-row>

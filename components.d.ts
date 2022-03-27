@@ -2,38 +2,38 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module 'vue' {
+declare module "vue" {
   export interface GlobalComponents {
-    'Createuser.body': typeof import('./src/components/createuser/createuser.body.vue')['default']
-    'Createuser.form': typeof import('./src/components/createuser/createuser.form.vue')['default']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElCard: typeof import('element-plus/es')['ElCard']
-    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
-    ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
-    ElCol: typeof import('element-plus/es')['ElCol']
-    ElCollapse: typeof import('element-plus/es')['ElCollapse']
-    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
-    ElContainer: typeof import('element-plus/es')['ElContainer']
-    ElDialog: typeof import('element-plus/es')['ElDialog']
-    ElFooter: typeof import('element-plus/es')['ElFooter']
-    ElHeader: typeof import('element-plus/es')['ElHeader']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
-    ElImage: typeof import('element-plus/es')['ElImage']
-    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
-    ElMain: typeof import('element-plus/es')['ElMain']
-    ElMenu: typeof import('element-plus/es')['ElMenu']
-    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElRow: typeof import('element-plus/es')['ElRow']
-    'Header.bodt': typeof import('./src/components/share/header.bodt.vue')['default']
-    MenuAddToCart: typeof import('./src/components/menu/menuAddToCart.vue')['default']
-    MenuAdjustItems: typeof import('./src/components/menu/menuAdjustItems.vue')['default']
-    MenuBody: typeof import('./src/components/menu/menuBody.vue')['default']
-    MenuProductPopout: typeof import('./src/components/menu/menuProductPopout.vue')['default']
-    MenuTable: typeof import('./src/components/menu/menuTable.vue')['default']
-    RWD: typeof import('./src/components/share/RWD.vue')['default']
-    Tempbody: typeof import('./src/components/deprecated/tempandhumidity/tempbody.vue')['default']
-    Weatherbody: typeof import('./src/components/deprecated/weather/weatherbody.vue')['default']
+    "Createuser.body": typeof import("./src/components/createuser/createuser.body.vue")["default"];
+    "Createuser.form": typeof import("./src/components/createuser/createuser.form.vue")["default"];
+    ElButton: typeof import("element-plus/es")["ElButton"];
+    ElCard: typeof import("element-plus/es")["ElCard"];
+    ElCheckbox: typeof import("element-plus/es")["ElCheckbox"];
+    ElCheckboxGroup: typeof import("element-plus/es")["ElCheckboxGroup"];
+    ElCol: typeof import("element-plus/es")["ElCol"];
+    ElCollapse: typeof import("element-plus/es")["ElCollapse"];
+    ElCollapseItem: typeof import("element-plus/es")["ElCollapseItem"];
+    ElContainer: typeof import("element-plus/es")["ElContainer"];
+    ElDialog: typeof import("element-plus/es")["ElDialog"];
+    ElFooter: typeof import("element-plus/es")["ElFooter"];
+    ElHeader: typeof import("element-plus/es")["ElHeader"];
+    ElIcon: typeof import("element-plus/es")["ElIcon"];
+    ElImage: typeof import("element-plus/es")["ElImage"];
+    ElInputNumber: typeof import("element-plus/es")["ElInputNumber"];
+    ElMain: typeof import("element-plus/es")["ElMain"];
+    ElMenu: typeof import("element-plus/es")["ElMenu"];
+    ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
+    ElRow: typeof import("element-plus/es")["ElRow"];
+    "Header.bodt": typeof import("./src/components/share/header.bodt.vue")["default"];
+    MenuAddToCart: typeof import("./src/components/menu/menuAddToCart.vue")["default"];
+    MenuAdjustItems: typeof import("./src/components/menu/menuAdjustItems.vue")["default"];
+    MenuBody: typeof import("./src/components/menu/menuBody.vue")["default"];
+    MenuProductPopout: typeof import("./src/components/menu/menuProductPopout.vue")["default"];
+    MenuTable: typeof import("./src/components/menu/menuTable.vue")["default"];
+    RWD: typeof import("./src/components/share/RWD.vue")["default"];
+    Tempbody: typeof import("./src/components/deprecated/tempandhumidity/tempbody.vue")["default"];
+    Weatherbody: typeof import("./src/components/deprecated/weather/weatherbody.vue")["default"];
   }
 }
 
-export { }
+export {};

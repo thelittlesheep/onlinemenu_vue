@@ -1,24 +1,15 @@
 <template>
   <div>
-    <el-image
-      :src="filteredProductData.product_image"
-      fit="contain"
-    />
+    <el-image :src="filteredProductData.product_image" fit="contain" />
     <div style="padding-left: 3%; padding-right: 3%">
       <h2>{{ filteredProductData.product_name }}</h2>
     </div>
-    <div
-      v-for="(type, index) in filteredCategoryData.adjusttypes"
-      :key="index"
-    >
+    <div v-for="(type, index) in filteredCategoryData.adjusttypes" :key="index">
       <el-collapse
         v-if="type.adjustitems?.length"
         v-model="activateCollapseItem"
       >
-        <el-collapse-item
-          :name="index"
-          accordion="false"
-        >
+        <el-collapse-item :name="index" accordion="false">
           <template #title>
             <div style="padding: 3%">
               <h5>{{ type.adjusttype_name }}</h5>

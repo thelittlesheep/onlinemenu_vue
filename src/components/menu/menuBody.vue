@@ -28,25 +28,14 @@
   </div>
   <div v-else>
     <Menutable />
-    <div
-      name="fetch button"
-      class="m-3"
-    >
+    <div name="fetch button" class="m-3">
       <div v-if="!isLoading">
-        <el-button
-          type="primary"
-          @click="getmenuDatas()"
-        >
+        <el-button type="primary" @click="getmenuDatas()">
           Fetch Data
         </el-button>
       </div>
       <div v-else>
-        <el-button
-          type="primary"
-          loading
-        >
-          Fetching Data
-        </el-button>
+        <el-button type="primary" loading> Fetching Data </el-button>
       </div>
     </div>
   </div>
