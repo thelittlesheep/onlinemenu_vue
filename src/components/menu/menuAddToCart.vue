@@ -38,21 +38,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, Ref, ref, watch } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
+import { axiosPostmenuCartDatas } from "./menuData";
+import { cartdataDTO } from "../interfaces/cartDataDTO";
 
 export default defineComponent({
   name: "Addtocart",
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
-    const { singleProductTempData ,cartData} = storeToRefs(pinia);
+    const { singleProductTempData ,cartData,checkbox } = storeToRefs(pinia);
     const finalPrice = ref(
       singleProductTempData.value.finalPrice * singleProductTempData.value.qty,
     );
     function test(){
+      const payload:Ref<cartdataDTO> =ref({
+        product_id : singleProductTempData.value.product_id,
+        order_product_quantity : singleProductTempData.value.qty,
+        adjustitems: checkbox.value
+      })
+      postCartData(payload);
       cartData.value.push(singleProductTempData.value)
     }
 
@@ -68,7 +76,15 @@ export default defineComponent({
       },
     );
 
-    return { ShoppingCart, singleProductTempData, finalPrice, test };
+    async function postCartData(payload:Ref<cartdataDTO>) {
+        try{
+          await axiosPostmenuCartDatas(payload);
+        } catch(e:unknown){
+          console.log(e);
+        }
+    }
+
+    return { ShoppingCart, singleProductTempData, finalPrice, test, postCartData };
   },
 });
 </script>

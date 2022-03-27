@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { userDTO } from "../components/interfaces/userDTO";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { Ref } from "vue";
 import {
   ImenuGroupByCategory,
   IshoppingProduct,
@@ -17,5 +19,19 @@ export const usepinia = defineStore("main", {
     checkbox: [] as number[],
   }),
   getters: {},
-  actions: {},
+  actions: {
+    async postForm(user: Ref<userDTO>): Promise<AxiosResponse<userDTO>> {
+      console.log(user);
+
+      return await axios
+        .post("http://localhost:3000/menu/user", { ...user.value })
+        .then((res) => {
+          return res;
+        })
+        .catch((e) => {
+          //   console.log(e.response?.status);
+          throw e;
+        });
+    },
+  },
 });

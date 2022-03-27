@@ -22,16 +22,6 @@
           name="accountInput"
         >
           <div class="form-floating mb-3">
-            <!-- <Field
-              type="text"
-              name="useraccount"
-              class="form-control"
-              id="floatingInputAccount"
-              rules="useraccount"
-              placeholder=""
-              autocomplete="off"
-            /> -->
-
             <input
               id="floatingInputAccount"
               v-model="account"
@@ -41,9 +31,7 @@
               placeholder=""
               autocomplete="off"
             >
-
             <label for="floatingInputAccount">請輸入用使用者名稱</label>
-            <!-- <span>{{ errors.useraccount }}</span> -->
             <span>{{ accountError }}</span>
           </div>
         </div>
@@ -57,16 +45,6 @@
               class="col"
             >
               <div class="form-floating mb-3">
-                <!-- <Field
-                  type="password"
-                  name="userpassword"
-                  class="form-control"
-                  id="floatingInputPassword"
-                  rules="userpassword"
-                  placeholder=""
-                  autocomplete="off"
-                /> -->
-
                 <input
                   id="floatingInputPassword"
                   v-model="password"
@@ -77,7 +55,6 @@
                   autocomplete="off"
                 >
                 <label for="floatingInputPassword">Password</label>
-                <!-- <span>{{ errors.userpassword }}</span> -->
                 <span>{{ passwordError }}</span>
               </div>
             </div>
@@ -86,16 +63,6 @@
               class="col"
             >
               <div class="form-floating mb-3">
-                <!-- <Field
-                  type="password"
-                  name="pwdconfirm"
-                  class="form-control"
-                  id="floatingInputPassword"
-                  rules="pwdconfirm:userpassword"
-                  placeholder=""
-                  autocomplete="off"
-                  :validateOnChange="true"
-                /> -->
                 <input
                   id="floatingInputPwdConfirm"
                   v-model="confirm"
@@ -106,7 +73,6 @@
                   autocomplete="off"
                 >
                 <label for="floatingInputPwdConfirm">Password Confirm</label>
-                <!-- <span>{{ errors.pwdconfirm }}</span> -->
                 <span>{{ confirmError }}</span>
               </div>
             </div>
@@ -207,7 +173,7 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { userDTO } from "../interfaces/userDTO";
 import { AxiosError } from "axios";
-import { postForm, tofDTO } from "./createuserData";
+import { tofDTO } from "./createuserData";
 import { responseError } from "../interfaces/responseError";
 
 export default defineComponent({
@@ -257,12 +223,14 @@ export default defineComponent({
     async function postform(user: Ref<userDTO>) {
       // user.value = {} as userDTO;
       try {
-        const res = await postForm(user);
+        const res = await pinia.postForm(user);
         // console.log(res.data);
         isPostSuccess.value = true;
       } catch (e: unknown) {
         const errors = e as AxiosError<responseError>;
         // console.log(errors.response!.data);
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         errorResponse.value = errors.response!.data;
         isPostSuccess.value = false;
       } finally {
@@ -270,7 +238,7 @@ export default defineComponent({
         clearForm();
         // console.log("End");
       }
-      // wait untile ajax finished then emit ToF data to menu.body
+      // wait untile ajax finished then emit ToF data to createuser .body
       await emitToF();
 
       // 另一種寫法
