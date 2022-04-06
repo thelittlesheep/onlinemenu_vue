@@ -4,7 +4,7 @@
       v-model:active="isLoading"
       :can-cancel="true"
       :on-cancel="onCancel"
-      :is-full-page="fullPage"
+      :is-full-page="true"
     >
       <div>
         <div class="loadingio-spinner-spinner-2uqnsxvpidy">
@@ -27,15 +27,38 @@
     </loading>
   </div>
   <div v-else>
+    <div
+      name="opencart button"
+      class="m-3"
+    >
+      <el-button
+        type="primary"
+        @click="openDrawer()"
+      >
+        Open Cart
+      </el-button>
+    </div>
     <Menutable />
-    <div name="fetch button" class="m-3">
+    <Menucartdrawer />
+    <div
+      name="fetch button"
+      class="m-3"
+    >
       <div v-if="!isLoading">
-        <el-button type="primary" @click="getmenuDatas()">
+        <el-button
+          type="primary"
+          @click="getMenuDatas()"
+        >
           Fetch Data
         </el-button>
       </div>
       <div v-else>
-        <el-button type="primary" loading> Fetching Data </el-button>
+        <el-button
+          type="primary"
+          loading
+        >
+          Fetching Data
+        </el-button>
       </div>
     </div>
   </div>
@@ -45,30 +68,28 @@
 import { defineComponent, ref } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { axiosGetmenuDatas } from "./menuData";
 import Menutable from "./menuTable.vue";
+import Menucartdrawer from "./menuCartDrawer.vue";
 
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 
 export default defineComponent({
-  components: { Loading, Menutable },
+  components: { Loading, Menutable, Menucartdrawer },
   setup() {
     // init pinia
     const pinia = usepinia();
-    const { menudatas } = storeToRefs(pinia);
+    const { menudatas, drawer } = storeToRefs(pinia);
     const isLoading = ref(true);
-    const fullPage = true;
 
     function onCancel() {
       console.log("User cancelled the loader.");
       isLoading.value = false;
-      // console.log(isLoading.value);
     }
-    async function getmenuDatas() {
+    async function getMenuDatas() {
       isLoading.value = true;
       try {
-        const res = await axiosGetmenuDatas();
+        const res = await pinia.getMenuData();
         menudatas.value = res.data;
         isLoading.value = false;
 
@@ -83,24 +104,28 @@ export default defineComponent({
         console.log(e);
       }
     }
-    async function initLoadDataFunc() {
-      await getmenuDatas();
+    async function isDataReceive() {
+      await getMenuDatas();
       if (menudatas.value.length !== 0) {
         isLoading.value = false;
       }
     }
 
-    const initLoadData = initLoadDataFunc();
+    function openDrawer() {
+      drawer.value = true;
+    }
+
+    const initLoadData = isDataReceive();
 
     return {
       isLoading,
-      fullPage,
-      onCancel,
-      getmenuDatas,
-      menudatas,
       initLoadData,
+      menudatas,
+      onCancel,
+      getMenuDatas,
+      openDrawer
     };
-  },
+  }
 });
 </script>
 

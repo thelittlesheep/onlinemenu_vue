@@ -40,25 +40,25 @@ export default defineComponent({
     const tabItems = [
       {
         name: "Home",
-        routepath: "/",
+        routepath: "/"
       },
-      {
-        name: "Createuser",
-        routepath: "/createuser",
-      },
+      // {
+      //   name: "Createuser",
+      //   routepath: "/createuser"
+      // },
       {
         name: "Menu",
-        routepath: "/menu",
-      },
-      {
-        name: "Aboutme",
-        routepath: "/aboutme",
-      },
+        routepath: "/menu"
+      }
+      // {
+      //   name: "Aboutme",
+      //   routepath: "/aboutme"
+      // }
     ];
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
     return { activeIndex, tabItems, route };
-  },
+  }
 });
 </script>

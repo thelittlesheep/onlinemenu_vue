@@ -1,17 +1,33 @@
 <template>
-  <el-dialog v-model="dialogVisible" width="600px" :destroy-on-close="true">
-    <Menuprodpop :prodid="onClickProdId" :categoryid="onClickCategoryId" />
+  <el-dialog
+    v-model="dialogVis"
+    width="600px"
+    :destroy-on-close="true"
+    :before-close="beforeDialogClose"
+  >
+    <Menuprodpop
+      :prodid="onClickProdId"
+      :categoryid="onClickCategoryId"
+    />
     <template #footer>
       <Addtocart />
     </template>
   </el-dialog>
 
   <div class="container p-3">
-    <el-row v-for="(data, index) in menudatas" :key="index" :gutter="20">
+    <el-row
+      v-for="(data, index) in menudatas"
+      :key="index"
+      :gutter="20"
+    >
       <el-col>
         <h2>{{ data.category_name }}</h2>
       </el-col>
-      <el-col v-for="(prod, index) in data.products" :key="index" :span="6">
+      <el-col
+        v-for="(prod, index2) in data.products"
+        :key="index2"
+        :span="6"
+      >
         <el-card
           :id="prod.product_id"
           shadow="hover"
@@ -23,10 +39,16 @@
             :src="prod.product_image"
             fit="contain"
           />
-          <div class="prodname" style="padding: 3px">
+          <div
+            class="prodname"
+            style="padding: 3px"
+          >
             <span>{{ prod.product_name }}</span>
           </div>
-          <div class="prodprice" style="padding: 3px">
+          <div
+            class="prodprice"
+            style="padding: 3px"
+          >
             <span>$ {{ prod.product_price }}</span>
           </div>
         </el-card>
@@ -40,7 +62,8 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref } from "vue";
 import Menuprodpop from "./menuProductPopout.vue";
-import Addtocart from "./menuData/menuAddToCart.vue";
+import Addtocart from "./menuAddToCart.vue";
+import { IshoppingProduct } from "./menuData/menuDataInterface";
 
 export default defineComponent({
   name: "Menutable",
@@ -61,7 +84,13 @@ export default defineComponent({
   // },
   setup() {
     const pinia = usepinia();
-    const { menudatas, dialogVis } = storeToRefs(pinia);
+    const {
+      menudatas,
+      dialogVis,
+      singleProductTempData,
+      clickedCartItemId,
+      checkbox
+    } = storeToRefs(pinia);
 
     const dialogVisible = dialogVis;
     const onClickProdId = ref(0);
@@ -71,15 +100,23 @@ export default defineComponent({
       onClickCategoryId.value = categoryid;
       dialogVisible.value = true;
     }
+    const beforeDialogClose = (done: () => void) => {
+      singleProductTempData.value = {} as IshoppingProduct;
+      clickedCartItemId.value = "";
+      checkbox.value = [];
+      done();
+    };
 
     return {
       menudatas,
-      cardClickHandler,
+      dialogVis,
       dialogVisible,
       onClickProdId,
       onClickCategoryId,
+      cardClickHandler,
+      beforeDialogClose
     };
-  },
+  }
 });
 </script>
 <style scoped>

@@ -171,30 +171,13 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { userDTO } from "../interfaces/userDTO";
 import { AxiosError } from "axios";
-import { tofDTO } from "./createuserData";
+import { isShowProps } from "./createuser.body.vue";
 import { responseError } from "../interfaces/responseError";
 
 export default defineComponent({
   name: "Createuserform",
-  emits: ["ToF"],
+  emits: ["showafterpost"],
   setup(props, { emit }) {
-    let isPostSubmmit: Ref<boolean> = ref(false);
-    let isPostSuccess: Ref<boolean> = ref(false);
-    let errorResponse: Ref<responseError> = ref({} as responseError);
-
-    const tureOrFalse: tofDTO = {
-      isPostSubmmit: isPostSubmmit,
-      isPostSuccess: isPostSuccess,
-      errorResponse: errorResponse
-    };
-    // pinia data 宣告
-    const pinia = usepinia();
-    const { user } = storeToRefs(pinia);
-
-    const clearForm = () => {
-      user.value = {} as userDTO;
-      resetForm();
-    };
     // 定義 form validating 相關變數
     const { isSubmitting, handleSubmit, resetForm } = useForm<{
       account: string;
@@ -214,32 +197,49 @@ export default defineComponent({
       "pwdconfirm:password"
     );
 
-    async function emitToF(): Promise<void> {
+    // let isPostSubmmit: Ref<boolean> = ref(false);
+    // let isPostSuccess: Ref<boolean> = ref(false);
+    // let errorResponse: Ref<string> = ref("");
+
+    const payload: isShowProps = {
+      isPostSubmmit: ref(false),
+      isPostSuccess: ref(false),
+      errorResponse: ref("")
+    };
+    // pinia data 宣告
+    const pinia = usepinia();
+    const { user } = storeToRefs(pinia);
+
+    const clearForm = () => {
+      user.value = {} as userDTO;
+      resetForm();
+    };
+
+    async function emitShowAfterPost(): Promise<void> {
       return new Promise((resolve) => {
-        resolve(emit("ToF", tureOrFalse));
+        resolve(emit("showafterpost", payload));
       });
     }
 
     async function postform(user: Ref<userDTO>) {
       // user.value = {} as userDTO;
       try {
-        const res = await pinia.postForm(user);
+        await pinia.postCreateUserForm(user.value);
         // console.log(res.data);
-        isPostSuccess.value = true;
-      } catch (e: unknown) {
-        const errors = e as AxiosError<responseError>;
-        // console.log(errors.response!.data);
-
+        payload.isPostSuccess.value = true;
+      } catch (e: any) {
+        // const errors = e as AxiosError<responseError>;
+        // console.log(errors.response);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        errorResponse.value = errors.response!.data;
-        isPostSuccess.value = false;
+        payload.errorResponse.value = "NetWork Error Please try it later";
+        payload.isPostSuccess.value = false;
       } finally {
-        isPostSubmmit.value = true;
+        payload.isPostSubmmit.value = true;
         clearForm();
         // console.log("End");
       }
       // wait untile ajax finished then emit ToF data to createuser .body
-      await emitToF();
+      await emitShowAfterPost();
 
       // 另一種寫法
 

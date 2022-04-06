@@ -3,8 +3,11 @@
     <div class="row align-items-center">
       <div class="col" />
       <div class="col-auto">
-        <el-card shadow="always" style="background-color: lightgrey">
-          <createuser @ToF="tof" />
+        <el-card
+          shadow="always"
+          style="background-color: lightgrey"
+        >
+          <createuser @showafterpost="showAfterPost" />
         </el-card>
       </div>
       <div class="col" />
@@ -32,13 +35,7 @@
       <div v-if="isPostSuccess">POST success</div>
       <div v-else>
         POST failed<br />
-        {{ errorResponse.error }}<br />
-        {{ errorResponse.statusCode }}<br />
-        <ol type="I">
-          <li v-for="msg in errorResponse.message" :key="msg">
-            {{ msg }}
-          </li>
-        </ol>
+        {{ errorResponse }}
       </div>
     </div>
   </div>
@@ -50,26 +47,33 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 // import custom interface
 import { responseError } from "../interfaces/responseError";
-import { tofDTO } from "./createuserData";
 // import child component
 import createuser from "./createuser.form.vue";
+
+// declare props type
+export interface isShowProps {
+  isPostSubmmit: Ref<boolean>;
+  isPostSuccess: Ref<boolean>;
+  errorResponse: Ref<string>;
+}
 
 export default defineComponent({
   name: "Createuserbody",
   components: { createuser },
   setup() {
-    let isPostSubmmit: Ref<boolean> = ref(false);
-    let isPostSuccess: Ref<boolean> = ref(false);
-    let isShowTestArea: Ref<boolean> = ref(false);
-    let errorResponse: Ref<responseError> = ref({} as responseError);
-
     const pinia = usepinia();
     const { user } = storeToRefs(pinia);
 
-    const tof = async (e: tofDTO) => {
-      isPostSubmmit.value = e.isPostSubmmit.value;
-      isPostSuccess.value = e.isPostSuccess.value;
-      errorResponse.value = e.errorResponse.value;
+    const isPostSubmmit: Ref<boolean> = ref(false);
+    const isPostSuccess: Ref<boolean> = ref(false);
+    const errorResponse: Ref<string> = ref("");
+
+    const isShowTestArea: Ref<boolean> = ref(false);
+
+    const showAfterPost = (payload: isShowProps) => {
+      isPostSubmmit.value = payload.isPostSubmmit.value;
+      isPostSuccess.value = payload.isPostSuccess.value;
+      errorResponse.value = payload.errorResponse.value;
     };
 
     const showTestArea = () => {
@@ -83,9 +87,9 @@ export default defineComponent({
       errorResponse,
       isShowTestArea,
       showTestArea,
-      tof,
+      showAfterPost
     };
-  },
+  }
 });
 </script>
 

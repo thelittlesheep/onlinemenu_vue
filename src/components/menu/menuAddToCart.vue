@@ -1,5 +1,8 @@
 <template>
-  <el-row :gutter="50" align="middle">
+  <el-row
+    :gutter="50"
+    align="middle"
+  >
     <el-col :span="8">
       <el-input-number
         v-model="singleProductTempData.qty"
@@ -8,8 +11,14 @@
         name="selector"
       />
     </el-col>
-    <el-col :span="16" name="button">
-      <el-button size="large" @click="test">
+    <el-col
+      :span="16"
+      name="button"
+    >
+      <el-button
+        size="large"
+        @click="addToCart"
+      >
         <template #icon>
           <el-icon size="24px">
             <ShoppingCart />
@@ -17,7 +26,7 @@
         </template>
         <div>
           <span>Add {{ singleProductTempData.qty }} to cart</span>
-          <span>NT$ {{ finalPrice }}</span>
+          <span>NT$ {{ tempFinalPrice }}</span>
         </div>
         <!-- <el-row>
                     <el-col :span="16">Add 1 to cart</el-col>
@@ -33,43 +42,46 @@ import { defineComponent, Ref, ref, watch } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
-import { axiosPostmenuCartDatas } from ".";
-import { cartdataDTO } from "../../interfaces/cartDataDTO";
+import { cartdataDTO } from "../interfaces/cartDataDTO";
 
 export default defineComponent({
   name: "Addtocart",
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
-    const { singleProductTempData, cartData, checkbox } = storeToRefs(pinia);
-    const finalPrice = ref(
-      singleProductTempData.value.finalPrice * singleProductTempData.value.qty,
+    const { singleProductTempData, cartData, checkbox, dialogVis } =
+      storeToRefs(pinia);
+    const tempFinalPrice = ref(
+      singleProductTempData.value.afterAdjustSinglePrice *
+        singleProductTempData.value.qty
     );
-    function test() {
+    function addToCart() {
       const payload: Ref<cartdataDTO> = ref({
         product_id: singleProductTempData.value.product_id,
         order_product_quantity: singleProductTempData.value.qty,
-        adjustitems: checkbox.value,
+        adjustitems: checkbox.value
       });
-      postCartData(payload);
+      // postCartData(payload);
+      singleProductTempData.value.finalPrice = tempFinalPrice.value;
       cartData.value.push(singleProductTempData.value);
+      dialogVis.value = false;
     }
 
     watch(
       () => [
         singleProductTempData.value.finalPrice,
-        singleProductTempData.value.qty,
+        singleProductTempData.value.qty
       ],
       () => {
-        finalPrice.value =
+        tempFinalPrice.value =
           singleProductTempData.value.finalPrice *
           singleProductTempData.value.qty;
-      },
+      }
     );
 
     async function postCartData(payload: Ref<cartdataDTO>) {
       try {
-        await axiosPostmenuCartDatas(payload);
+        await pinia.postMenuCartData(payload);
       } catch (e: unknown) {
         console.log(e);
       }
@@ -78,11 +90,11 @@ export default defineComponent({
     return {
       ShoppingCart,
       singleProductTempData,
-      finalPrice,
-      test,
-      postCartData,
+      tempFinalPrice,
+      addToCart,
+      postCartData
     };
-  },
+  }
 });
 </script>
 

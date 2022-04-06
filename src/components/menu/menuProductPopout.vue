@@ -1,15 +1,24 @@
 <template>
   <div>
-    <el-image :src="filteredProductData.product_image" fit="contain" />
+    <el-image
+      :src="singleProductTempData.product_image"
+      fit="contain"
+    />
     <div style="padding-left: 3%; padding-right: 3%">
-      <h2>{{ filteredProductData.product_name }}</h2>
+      <h2>{{ singleProductTempData.product_name }}</h2>
     </div>
-    <div v-for="(type, index) in filteredCategoryData.adjusttypes" :key="index">
+    <div
+      v-for="(type, index) in filteredCategoryData.adjusttypes"
+      :key="index"
+    >
       <el-collapse
         v-if="type.adjustitems?.length"
         v-model="activateCollapseItem"
       >
-        <el-collapse-item :name="index" accordion="false">
+        <el-collapse-item
+          :name="index"
+          accordion="false"
+        >
           <template #title>
             <div style="padding: 3%">
               <h5>{{ type.adjusttype_name }}</h5>
@@ -31,20 +40,29 @@ import {
   Iadjtypes,
   Icategory,
   ImenuGroupByCategory,
-  Iproductdata,
+  Iproductdata
 } from "./menuData/menuDataInterface";
 import Menuradiogroup from "./menuAdjustItems.vue";
+import { v4 as uuidv4 } from "uuid";
 
 export default defineComponent({
   name: "Menuprodpop",
   components: { Menuradiogroup },
-  props: ["prodid", "categoryid"],
+  props: {
+    prodid: { type: Number, default: 0 },
+    categoryid: { type: Number, default: 0 }
+  },
   setup(props) {
     const pinia = usepinia();
-    const { menudatas, singleProductTempData, checkbox, cartData } =
-      storeToRefs(pinia);
+    const {
+      menudatas,
+      singleProductTempData,
+      checkbox,
+      cartData,
+      clickedCartItemId
+    } = storeToRefs(pinia);
 
-    checkbox.value = [];
+    // checkbox.value = [];
 
     // let onClickProductId = toRefs(props).prodid;
     const onClickProductId: Ref = ref(props.prodid);
@@ -52,20 +70,25 @@ export default defineComponent({
     const activateCollapseItem = ref([0, 1, 2]);
 
     const filteredCategoryData: Ref<ImenuGroupByCategory> = ref(
-      {} as ImenuGroupByCategory,
+      {} as ImenuGroupByCategory
     );
     const filteredProductData: Ref<Iproductdata> = ref({} as Iproductdata);
-    filteredCategoryData.value = updateClickCategory();
-    filteredProductData.value = updateClickProduct();
 
-    // singleProductTempData.value.qty = 1
+    if (clickedCartItemId.value === "") {
+      filteredCategoryData.value = updateClickCategory();
+      filteredProductData.value = updateClickProduct();
+      console.log(filteredCategoryData.value);
 
-    singleProductTempData.value = {
-      ...filteredProductData.value,
-      adjustitems: [] as Array<Iadjitem>,
-      qty: 1,
-      finalPrice: filteredProductData.value.product_price,
-    };
+      singleProductTempData.value = {
+        itemCartId: uuidv4(),
+        ...filteredProductData.value,
+        category_id: filteredCategoryData.value.category_id,
+        adjustitems: [] as Array<Iadjitem>,
+        qty: 1,
+        afterAdjustSinglePrice: filteredProductData.value.product_price,
+        finalPrice: filteredProductData.value.product_price
+      };
+    }
 
     function updateClickProduct() {
       return menudatas.value
@@ -93,13 +116,15 @@ export default defineComponent({
             if (adjustitems.adjustitem_id === selectedId) {
               if (
                 singleProductTempData.value.adjustitems?.indexOf(
-                  adjustitems,
+                  adjustitems
                 ) === -1
               ) {
                 // console.log(adjustitems);
                 singleProductTempData.value.adjustitems?.push(adjustitems);
-                singleProductTempData.value.finalPrice +=
+                singleProductTempData.value.afterAdjustSinglePrice +=
                   adjustitems.adjustitem_priceadjust;
+                singleProductTempData.value.finalPrice =
+                  singleProductTempData.value.afterAdjustSinglePrice;
               }
             }
           });
@@ -112,15 +137,16 @@ export default defineComponent({
       (afterVal, beforeVal) => {
         if (afterVal.length > beforeVal.length) {
           modifysingleProductTempDataadjustitems(afterVal);
-        } else {
-          singleProductTempData.value.adjustitems = [];
-          singleProductTempData.value.finalPrice =
-            filteredProductData.value.product_price;
-          modifysingleProductTempDataadjustitems(afterVal);
         }
+        //  else {
+        //   singleProductTempData.value.adjustitems = [];
+        //   singleProductTempData.value.afterAdjustSinglePrice =
+        //     filteredProductData.value.product_price;
+        //   modifysingleProductTempDataadjustitems(afterVal);
+        // }
 
         // console.log(val)
-      },
+      }
     );
 
     // watch(() => singleProductTempData.value, (val) => {
@@ -155,9 +181,9 @@ export default defineComponent({
       menudatas,
       isClickCategory,
       filteredCategoryData,
-      filteredProductData,
+      filteredProductData
     };
-  },
+  }
 });
 </script>
 

@@ -4,7 +4,7 @@
 import {
   ImenuGroupByCategory,
   Iadjtypes,
-  Iproductdata,
+  Iproductdata
 } from "./menuDataInterface";
 
 // async function getMenu(
@@ -61,18 +61,18 @@ export class Menudatas implements ImenuGroupByCategory {
           {
             adjustitem_id: NaN,
             adjustitem_name: "",
-            adjustitem_priceadjust: NaN,
-          },
-        ],
-      },
+            adjustitem_priceadjust: NaN
+          }
+        ]
+      }
     ];
     this.products = [
       {
         product_id: NaN,
         product_name: "",
         product_price: NaN,
-        product_image: "",
-      },
+        product_image: ""
+      }
     ];
   }
 }

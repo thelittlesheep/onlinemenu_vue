@@ -24,7 +24,7 @@ interface Iproductdata {
   product_name: string;
   product_price: number;
   product_image: string;
-  category_id?: Icategory;
+  category_id?: number;
 }
 interface IorderItem extends Iproductdata {
   orderItemQty?: number;
@@ -46,8 +46,10 @@ interface ImenuGroupByCategory extends Icategory {
 }
 
 interface IshoppingProduct extends Iproductdata {
+  itemCartId: string;
   qty: number;
   finalPrice: number;
+  afterAdjustSinglePrice: number;
   adjustitems?: Array<Iadjitem>;
 }
 
@@ -64,5 +66,5 @@ export {
   IorderItems,
   IgroupedProps,
   ImenuGroupByCategory,
-  IshoppingProduct,
+  IshoppingProduct
 };
