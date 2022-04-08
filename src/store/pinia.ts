@@ -7,6 +7,7 @@ import axiosRetry from "axios-retry";
 
 import {
   ImenuGroupByCategory,
+  Iproductdata,
   IshoppingProduct
 } from "../components/menu/menuData/menuDataInterface";
 import { cartdataDTO } from "@/components/interfaces/cartDataDTO";
@@ -21,66 +22,50 @@ export const usepinia = defineStore("main", {
     drawer: false,
     cartData: [
       {
-        itemCartId: "364b27be-6f7a-46c7-ba62-1a8259db77a0",
-        product_id: 4,
-        product_name: "卡拉脆雞美式堡",
+        product_id: 1,
+        product_name: "嫩汁雞排美式堡",
         product_price: 60,
-        product_image: "https://thumbs.dreamstime.com/z/hamburger-11198171.jpg",
-        adjustitems: [
-          {
-            adjustitem_id: 3,
-            adjustitem_name: "起司",
-            adjustitem_priceadjust: 10,
-            adjusttype_id: 1
-          },
-          {
-            adjustitem_id: 4,
-            adjustitem_name: "生菜",
-            adjustitem_priceadjust: 10,
-            adjusttype_id: 1
-          }
-        ],
-        qty: 1,
-        afterAdjustSinglePrice: 80,
-        finalPrice: 80
-      },
-      {
-        itemCartId: "ea4b4ff8-23f6-4c14-861b-7563d59c8bec",
-        product_id: 2,
-        product_name: "嫩汁雞排輕捲餅",
-        product_price: 60,
-        product_image:
-          "https://thumbs.dreamstime.com/z/sausage-burger-cheese-sandwich-english-muffin-isolated-white-background-sausage-burger-cheese-sandwich-187211969.jpg",
-        adjustitems: [
-          {
-            adjustitem_id: 3,
-            adjustitem_name: "起司",
-            adjustitem_priceadjust: 10,
-            adjusttype_id: 1
-          },
-          {
-            adjustitem_id: 2,
-            adjustitem_name: "荷包蛋",
-            adjustitem_priceadjust: 10,
-            adjusttype_id: 1
-          },
-          {
-            adjustitem_id: 7,
-            adjustitem_name: "玉米",
-            adjustitem_priceadjust: 10,
-            adjusttype_id: 1
-          }
-        ],
-        qty: 1,
-        afterAdjustSinglePrice: 90,
-        finalPrice: 90
+        product_image: "https://thumbs.dreamstime.com/z/hamburger-7831093.jpg",
+        category_id: 1,
+        shoppingProduct_uuid: "eccf2ddd-f257-4e4d-97e4-3a0bf6e6e042",
+        shoppingProduct_qty: 3,
+        shoppingProduct_afterAdjustSinglePrice: 60,
+        shoppingProduct_finalPrice: 180,
+        shoppingProduct_adjustitems: []
       }
     ] as IshoppingProduct[],
     singleProductTempData: {} as IshoppingProduct,
     clickedCartItemId: "",
-    checkbox: [] as number[]
+    clickedProductId: NaN,
+    clickedProductCategoryId: NaN,
+    checkbox: [] as number[],
+    isModifyMode: false
   }),
-  getters: {},
+  getters: {
+    getClickedTempProductData: (state) => {
+      return state.menudatas
+        .find(
+          (category) => category.category_id === state.clickedProductCategoryId
+        )
+        ?.products.find(
+          (product) => product.product_id === state.clickedProductId
+        ) as Iproductdata;
+    },
+    getClickedTempCategoryData: (state) => {
+      return state.menudatas.find(
+        (category) => category.category_id === state.clickedProductCategoryId
+      ) as ImenuGroupByCategory;
+    },
+    singleProductFinalPrice: (state): number => {
+      return (
+        state.singleProductTempData.shoppingProduct_qty *
+        state.singleProductTempData.shoppingProduct_afterAdjustSinglePrice
+      );
+    },
+    isEmptyCart: (state) => {
+      return state.cartData.length === 0 ? true : false;
+    }
+  },
   actions: {
     async postCreateUserForm(user: userDTO): Promise<AxiosResponse<userDTO>> {
       return await axios
@@ -120,7 +105,7 @@ export const usepinia = defineStore("main", {
           order_pickupdate: "2022-02-11 20:30:00",
           product_id: payload.value.product_id,
           order_product_quantity: payload.value.order_product_quantity,
-          adjustitems: payload.value.adjustitems
+          shoppingProduct_adjustitems: payload.value.adjustitems
         })
         .then((res) => {
           return res;
@@ -132,11 +117,13 @@ export const usepinia = defineStore("main", {
     },
     getSingleCartItem(queryuuid: string) {
       return this.cartData.find(
-        (item) => item.itemCartId === queryuuid
+        (item) => item.shoppingProduct_uuid === queryuuid
       ) as IshoppingProduct;
     },
     getSingleCartItemArrayIndex(queryuuid: string) {
-      return this.cartData.findIndex((item) => item.itemCartId === queryuuid);
+      return this.cartData.findIndex(
+        (item) => item.shoppingProduct_uuid === queryuuid
+      );
     }
   }
 });

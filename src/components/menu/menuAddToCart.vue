@@ -5,7 +5,7 @@
   >
     <el-col :span="8">
       <el-input-number
-        v-model="singleProductTempData.qty"
+        v-model="singleProductTempData.shoppingProduct_qty"
         :min="1"
         :max="10"
         name="selector"
@@ -25,8 +25,22 @@
           </el-icon>
         </template>
         <div>
-          <span>Add {{ singleProductTempData.qty }} to cart</span>
-          <span>NT$ {{ tempFinalPrice }}</span>
+          <span v-if="!isModifyMode">
+            <span
+              >Add {{ singleProductTempData.shoppingProduct_qty }} to cart</span
+            >
+          </span>
+          <span v-else>
+            <span v-if="singleProductTempData.shoppingProduct_qty <= 1"
+              >Update {{ singleProductTempData.shoppingProduct_qty }} item</span
+            >
+            <span v-else>
+              Update {{ singleProductTempData.shoppingProduct_qty }} items
+            </span>
+          </span>
+          <span
+            >NT$ {{ singleProductTempData.shoppingProduct_finalPrice }}</span
+          >
         </div>
         <!-- <el-row>
                     <el-col :span="16">Add 1 to cart</el-col>
@@ -43,39 +57,49 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
 import { cartdataDTO } from "../interfaces/cartDataDTO";
+import { IshoppingProduct } from "./menuData/menuDataInterface";
 
 export default defineComponent({
   name: "Addtocart",
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
-    const { singleProductTempData, cartData, checkbox, dialogVis } =
-      storeToRefs(pinia);
-    const tempFinalPrice = ref(
-      singleProductTempData.value.afterAdjustSinglePrice *
-        singleProductTempData.value.qty
-    );
+    const {
+      singleProductTempData,
+      clickedProductId,
+      clickedProductCategoryId,
+      cartData,
+      checkbox,
+      dialogVis,
+      isModifyMode
+    } = storeToRefs(pinia);
     function addToCart() {
-      const payload: Ref<cartdataDTO> = ref({
-        product_id: singleProductTempData.value.product_id,
-        order_product_quantity: singleProductTempData.value.qty,
-        adjustitems: checkbox.value
-      });
+      // const payload: Ref<cartdataDTO> = ref({
+      //   product_id: singleProductTempData.value.product_id,
+      //   order_product_quantity: singleProductTempData.value.shoppingProduct_qty,
+      //   adjustitems: checkbox.value
+      // });
       // postCartData(payload);
-      singleProductTempData.value.finalPrice = tempFinalPrice.value;
-      cartData.value.push(singleProductTempData.value);
+      // singleProductTempData.value.shoppingProduct_finalPrice =
+      //   tempFinalPrice.value;
+      if (!isModifyMode.value) {
+        cartData.value.push(singleProductTempData.value);
+      }
+      singleProductTempData.value = {} as IshoppingProduct;
+      checkbox.value = [];
+      clickedProductId.value = NaN;
+      clickedProductCategoryId.value = NaN;
       dialogVis.value = false;
     }
 
     watch(
       () => [
-        singleProductTempData.value.finalPrice,
-        singleProductTempData.value.qty
+        singleProductTempData.value.shoppingProduct_finalPrice,
+        singleProductTempData.value.shoppingProduct_qty
       ],
       () => {
-        tempFinalPrice.value =
-          singleProductTempData.value.finalPrice *
-          singleProductTempData.value.qty;
+        singleProductTempData.value.shoppingProduct_finalPrice =
+          pinia.singleProductFinalPrice;
       }
     );
 
@@ -90,7 +114,7 @@ export default defineComponent({
     return {
       ShoppingCart,
       singleProductTempData,
-      tempFinalPrice,
+      isModifyMode,
       addToCart,
       postCartData
     };

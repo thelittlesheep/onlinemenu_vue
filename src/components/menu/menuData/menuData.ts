@@ -4,8 +4,11 @@
 import {
   ImenuGroupByCategory,
   Iadjtypes,
-  Iproductdata
+  Iproductdata,
+  IshoppingProduct,
+  Iadjitem
 } from "./menuDataInterface";
+import { v4 as uuidv4 } from "uuid";
 
 // async function getMenu(
 //   db: Firestore,
@@ -76,3 +79,28 @@ export class Menudatas implements ImenuGroupByCategory {
     ];
   }
 }
+
+// export class ShoppingProduct implements IshoppingProduct {
+//   product_id: number;
+//   product_name: string;
+//   product_price: number;
+//   product_image: string;
+//   shoppingProduct_id: string;
+//   shoppingProductCategory_id: number;
+//   shoppingProduct_qty: number;
+//   shoppingProduct_finalPrice: number;
+//   shoppingProduct_afterAdjustSinglePrice: number;
+//   shoppingProduct_adjustitems: Array<Iadjitem>;
+//   constructor() {
+//     this.product_id = NaN;
+//     this.product_name = "";
+//     this.product_price = NaN;
+//     this.product_image = "";
+//     this.shoppingProduct_id = uuidv4();
+//     this.shoppingProductCategory_id = NaN;
+//     this.shoppingProduct_qty = 1;
+//     this.shoppingProduct_finalPrice = NaN;
+//     this.shoppingProduct_afterAdjustSinglePrice = NaN;
+//     this.shoppingProduct_adjustitems = [];
+//   }
+// }

@@ -9,21 +9,23 @@
       <h2>BurGers</h2>
     </template>
     <template #default>
-      <div v-if="cartData.length === 0">
-        <div class="emptycart">
-          <div class="emptycartcontent">
-            <el-icon size="96px">
-              <ShoppingCart />
-            </el-icon>
-            <div>
-              Your Cart is Empty
-              <br />
-              Try to add somthing
-            </div>
-          </div>
+      <div
+        v-if="cartData.length === 0"
+        class="emptycart"
+      >
+        <el-icon size="96px">
+          <ShoppingCart />
+        </el-icon>
+        <div>
+          Your Cart is Empty
+          <br />
+          Try to add somthing
         </div>
       </div>
-      <div v-else>
+      <div
+        v-else
+        class="menucartitem"
+      >
         <Menucartitem />
       </div>
     </template>
@@ -58,15 +60,13 @@ export default defineComponent({
     const pinia = usepinia();
     const { drawer, cartData } = storeToRefs(pinia);
 
-    const isCartEmpty = ref(true);
-    const drawerClass = ref("normalCart");
+    // const isCartEmpty = ref(true);
+    const drawerClass =
+      pinia.isEmptyCart === true ? ref("emptyCart") : ref("normalCart");
 
     watch(cartData.value, (val) => {
-      // console.log(val);
-
-      isCartEmpty.value = cartData.value.length === 0 ? true : false;
       drawerClass.value =
-        isCartEmpty.value === true ? "emptyCart" : "normalCart";
+        pinia.isEmptyCart === true ? "emptyCart" : "normalCart";
     });
 
     // const drawer = ref(false);
@@ -89,10 +89,10 @@ export default defineComponent({
     return {
       cancelClick,
       confirmClick,
+      handleClose,
       drawer,
       direction,
       cartData,
-      handleClose,
       drawerClass
     };
   }
@@ -125,12 +125,23 @@ export default defineComponent({
   color: pink;
 }
 .el-drawer.emptyCart .el-drawer__body {
-  background: yellowgreen;
+  /* background: yellowgreen; */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
+.emptycart {
+  /* background: violet; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* padding-left: 10%;
+  padding-right: 10%; */
+}
+
 .el-drawer.normalCart .el-drawer__body {
   /* background: lightcyan; */
   display: flex;
@@ -139,17 +150,11 @@ export default defineComponent({
   width: 100%;
 }
 
-.emptycart {
-  /* background: saddlebrown; */
-  width: 100%;
+.el-drawer.normalCart .el-drawer__body .menucartitem {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  /* margin-top: auto; */
-}
-.emptycartcontent {
-  /* background: violet; */
-  padding-left: 20%;
-  padding-right: 20%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
 }
 </style>

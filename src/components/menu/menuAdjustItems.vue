@@ -27,6 +27,16 @@
   </el-checkbox-group>
 </template>
 
+<!-- <script
+  setup
+  lang="ts"
+>
+const props = defineProps({
+  foo: String,
+  bar: Number
+});
+const test = 123;
+</script> -->
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
@@ -35,6 +45,7 @@ import { Iadjtypes, ImenuGroupByCategory } from "./menuData/menuDataInterface";
 export default defineComponent({
   name: "Menucheckboxgroup",
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     propfAdjustTypesData: { type: Object as PropType<Iadjtypes> }
   },
   //   props: ["propfCategoryData"],
@@ -46,12 +57,12 @@ export default defineComponent({
       props.propfAdjustTypesData as Iadjtypes
     );
 
-    watch(
-      () => props.propfAdjustTypesData,
-      (newprop) => {
-        fAdjustTypesData.value = newprop as Iadjtypes;
-      }
-    );
+    // watch(
+    //   () => checkbox.value,
+    //   (newval) => {
+    //     console.log(newval);
+    //   }
+    // );
 
     return {
       checkbox,

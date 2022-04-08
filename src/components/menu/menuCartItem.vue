@@ -3,29 +3,42 @@
     v-for="(item, index) in cartData"
     :key="index"
     class="cartItem"
-    @click="clickItem(item.itemCartId)"
+    @click="clickItem(item.shoppingProduct_uuid)"
   >
-    {{ item.product_name }}
-    <div
-      v-for="(adjitem, index2) in item.adjustitems"
-      :key="index2"
-    >
-      {{ adjitem.adjustitem_name }}
+    <div class="itemContent">
+      <span>
+        <h3>
+          {{ item.product_name }}
+        </h3>
+      </span>
+      <ul
+        v-for="(adjitem, index2) in item.shoppingProduct_adjustitems"
+        :key="index2"
+      >
+        <li>
+          {{ adjitem.adjustitem_name }}
+        </li>
+      </ul>
+      <span>NT$ {{ item.shoppingProduct_finalPrice }}</span
+      ><br />
+      <el-select
+        v-model="item.shoppingProduct_qty"
+        @change="selectchange(item.shoppingProduct_uuid)"
+      >
+        <el-option
+          v-for="opt in options"
+          :key="opt.value"
+          :label="opt.label"
+          :value="opt.value"
+        />
+      </el-select>
     </div>
-    <span>NT$ {{ item.finalPrice }}</span
-    ><br />
-    <el-select
-      v-model="item.qty"
-      @change="selectchange(item.itemCartId)"
-    >
-      <el-option
-        v-for="opt in options"
-        :key="opt.value"
-        :label="opt.label"
-        :value="opt.value"
-      />
-    </el-select>
-    <el-divider />
+    <el-image
+      :src="item.product_image"
+      fit="scale-down"
+      class="itemImg"
+    />
+    <!-- <el-divider /> -->
   </div>
 </template>
 
@@ -44,38 +57,46 @@ export default defineComponent({
       dialogVis,
       clickedCartItemId,
       singleProductTempData,
-      checkbox
+      checkbox,
+      clickedProductId,
+      clickedProductCategoryId
     } = storeToRefs(pinia);
     // const value = ref();
-    const arr = [...Array(10).keys()];
+    const arr = [...Array(11).keys()];
     const options: any = [];
     arr.forEach((i) => {
       options.push({ value: i, label: String(i) });
     });
 
-    function selectchange(itemCartId: string) {
+    function selectchange(shoppingProduct_id: string) {
       const selectItem = ref(
-        pinia.getSingleCartItem(itemCartId)
+        pinia.getSingleCartItem(shoppingProduct_id)
       ) as Ref<IshoppingProduct>;
       // console.log(value);
 
-      if (selectItem.value.qty !== 0) {
-        selectItem.value.finalPrice =
-          selectItem.value.afterAdjustSinglePrice * selectItem.value.qty;
+      if (selectItem.value.shoppingProduct_qty !== 0) {
+        selectItem.value.shoppingProduct_finalPrice =
+          selectItem.value.shoppingProduct_afterAdjustSinglePrice *
+          selectItem.value.shoppingProduct_qty;
       } else {
-        const itemIndex = pinia.getSingleCartItemArrayIndex(itemCartId);
+        const itemIndex = pinia.getSingleCartItemArrayIndex(shoppingProduct_id);
         cartData.value.splice(itemIndex, 1);
       }
     }
 
-    function clickItem(itemCartId: string) {
-      clickedCartItemId.value = itemCartId;
-      singleProductTempData.value = pinia.getSingleCartItem(itemCartId);
-      singleProductTempData.value.adjustitems?.forEach((adjitem) => {
-        checkbox.value.push(adjitem.adjustitem_id);
-      });
+    function clickItem(shoppingProduct_id: string) {
+      clickedCartItemId.value = shoppingProduct_id;
+      singleProductTempData.value = pinia.getSingleCartItem(shoppingProduct_id);
+      singleProductTempData.value.shoppingProduct_adjustitems?.forEach(
+        (adjitem) => {
+          checkbox.value.push(adjitem.adjustitem_id);
+        }
+      );
+      clickedProductId.value = singleProductTempData.value.product_id;
+      clickedProductCategoryId.value = singleProductTempData.value
+        .category_id as number;
       dialogVis.value = true;
-      // console.log(itemCartId);
+      // console.log(shoppingProduct_id);
     }
 
     return { options, cartData, dialogVis, selectchange, clickItem };
@@ -84,7 +105,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* .el-select.quantitySelect {
-  background: goldenrod;
-} */
+.cartItem {
+  /* background-color: firebrick; */
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  /* flex-direction: column; */
+}
+.cartItem .itemContent {
+  /* background: aquamarine; */
+  align-self: stretch;
+}
+.cartItem .itemImg {
+  width: 30%;
+  /* margin-left: auto; */
+}
 </style>

@@ -4,7 +4,7 @@ interface Iadjtypes {
   adjusttype_id: number;
   adjusttype_name: string;
   adjusttype_type: string;
-  adjustitems?: [Iadjitem];
+  adjustitems: [Iadjitem];
 }
 
 interface Iadjitem {
@@ -46,11 +46,11 @@ interface ImenuGroupByCategory extends Icategory {
 }
 
 interface IshoppingProduct extends Iproductdata {
-  itemCartId: string;
-  qty: number;
-  finalPrice: number;
-  afterAdjustSinglePrice: number;
-  adjustitems?: Array<Iadjitem>;
+  shoppingProduct_uuid: string;
+  shoppingProduct_qty: number;
+  shoppingProduct_finalPrice: number;
+  shoppingProduct_afterAdjustSinglePrice: number;
+  shoppingProduct_adjustitems: Array<Iadjitem>;
 }
 
 interface IshoppingCart {

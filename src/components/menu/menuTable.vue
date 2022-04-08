@@ -5,10 +5,7 @@
     :destroy-on-close="true"
     :before-close="beforeDialogClose"
   >
-    <Menuprodpop
-      :prodid="onClickProdId"
-      :categoryid="onClickCategoryId"
-    />
+    <Menuprodpop />
     <template #footer>
       <Addtocart />
     </template>
@@ -60,7 +57,7 @@
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import Menuprodpop from "./menuProductPopout.vue";
 import Addtocart from "./menuAddToCart.vue";
 import { IshoppingProduct } from "./menuData/menuDataInterface";
@@ -89,30 +86,32 @@ export default defineComponent({
       dialogVis,
       singleProductTempData,
       clickedCartItemId,
-      checkbox
+      clickedProductId,
+      clickedProductCategoryId,
+      checkbox,
+      isModifyMode
     } = storeToRefs(pinia);
 
     const dialogVisible = dialogVis;
-    const onClickProdId = ref(0);
-    const onClickCategoryId = ref(0);
     function cardClickHandler(productid: number, categoryid: number) {
-      onClickProdId.value = productid;
-      onClickCategoryId.value = categoryid;
+      clickedProductId.value = productid;
+      clickedProductCategoryId.value = categoryid;
       dialogVisible.value = true;
     }
     const beforeDialogClose = (done: () => void) => {
+      done();
       singleProductTempData.value = {} as IshoppingProduct;
       clickedCartItemId.value = "";
       checkbox.value = [];
-      done();
+      isModifyMode.value = false;
+      clickedProductId.value = NaN;
+      clickedProductCategoryId.value = NaN;
     };
 
     return {
       menudatas,
       dialogVis,
       dialogVisible,
-      onClickProdId,
-      onClickCategoryId,
       cardClickHandler,
       beforeDialogClose
     };

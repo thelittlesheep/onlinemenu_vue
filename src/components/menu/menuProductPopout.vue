@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="pinia.getClickedTempCategoryData">
     <el-image
       :src="singleProductTempData.product_image"
       fit="contain"
@@ -8,11 +8,11 @@
       <h2>{{ singleProductTempData.product_name }}</h2>
     </div>
     <div
-      v-for="(type, index) in filteredCategoryData.adjusttypes"
+      v-for="(types, index) in pinia.getClickedTempCategoryData.adjusttypes"
       :key="index"
     >
       <el-collapse
-        v-if="type.adjustitems?.length"
+        v-if="types.adjustitems?.length"
         v-model="activateCollapseItem"
       >
         <el-collapse-item
@@ -21,10 +21,10 @@
         >
           <template #title>
             <div style="padding: 3%">
-              <h5>{{ type.adjusttype_name }}</h5>
+              <h5>{{ types.adjusttype_name }}</h5>
             </div>
           </template>
-          <Menuradiogroup :propf-adjust-types-data="type" />
+          <Menuradiogroup :propf-adjust-types-data="types" />
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -34,97 +34,59 @@
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { defineComponent, Ref, ref, watch } from "vue";
-import {
-  Iadjitem,
-  Iadjtypes,
-  Icategory,
-  ImenuGroupByCategory,
-  Iproductdata
-} from "./menuData/menuDataInterface";
+import { defineComponent, ref, watch } from "vue";
 import Menuradiogroup from "./menuAdjustItems.vue";
 import { v4 as uuidv4 } from "uuid";
 
 export default defineComponent({
   name: "Menuprodpop",
   components: { Menuradiogroup },
-  props: {
-    prodid: { type: Number, default: 0 },
-    categoryid: { type: Number, default: 0 }
-  },
-  setup(props) {
+  setup() {
     const pinia = usepinia();
     const {
       menudatas,
       singleProductTempData,
       checkbox,
-      cartData,
-      clickedCartItemId
+      clickedCartItemId,
+      isModifyMode
     } = storeToRefs(pinia);
 
-    // checkbox.value = [];
-
-    // let onClickProductId = toRefs(props).prodid;
-    const onClickProductId: Ref = ref(props.prodid);
-    const onClickCategoryId: Ref = ref(props.categoryid);
+    // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
 
-    const filteredCategoryData: Ref<ImenuGroupByCategory> = ref(
-      {} as ImenuGroupByCategory
-    );
-    const filteredProductData: Ref<Iproductdata> = ref({} as Iproductdata);
-
     if (clickedCartItemId.value === "") {
-      filteredCategoryData.value = updateClickCategory();
-      filteredProductData.value = updateClickProduct();
-      console.log(filteredCategoryData.value);
-
       singleProductTempData.value = {
-        itemCartId: uuidv4(),
-        ...filteredProductData.value,
-        category_id: filteredCategoryData.value.category_id,
-        adjustitems: [] as Array<Iadjitem>,
-        qty: 1,
-        afterAdjustSinglePrice: filteredProductData.value.product_price,
-        finalPrice: filteredProductData.value.product_price
+        ...pinia.getClickedTempProductData,
+        category_id: pinia.getClickedTempCategoryData.category_id,
+        shoppingProduct_uuid: uuidv4(),
+        shoppingProduct_qty: 1,
+        shoppingProduct_afterAdjustSinglePrice:
+          pinia.getClickedTempProductData.product_price,
+        shoppingProduct_finalPrice:
+          pinia.getClickedTempProductData.product_price,
+        shoppingProduct_adjustitems: []
       };
-    }
-
-    function updateClickProduct() {
-      return menudatas.value
-        .find(isClickCategory)
-        ?.products.find(isClickProduct) as Iproductdata;
-    }
-
-    function updateClickCategory() {
-      return menudatas.value.find(isClickCategory) as ImenuGroupByCategory;
-    }
-
-    function isClickProduct(product: Iproductdata) {
-      return product.product_id === onClickProductId.value ? true : false;
-    }
-
-    function isClickCategory(category: Icategory) {
-      return category.category_id === onClickCategoryId.value ? true : false;
+    } else {
+      isModifyMode.value = true;
     }
 
     function modifysingleProductTempDataadjustitems(val: Array<number>) {
       val.forEach((selectedId) => {
-        // console.log(selectedId);
-        filteredCategoryData.value.adjusttypes.forEach((category) => {
-          category.adjustitems?.forEach((adjustitems) => {
+        pinia.getClickedTempCategoryData.adjusttypes.forEach((category) => {
+          category.adjustitems.find((adjustitems) => {
             if (adjustitems.adjustitem_id === selectedId) {
               if (
-                singleProductTempData.value.adjustitems?.indexOf(
+                singleProductTempData.value.shoppingProduct_adjustitems.indexOf(
                   adjustitems
                 ) === -1
               ) {
-                // console.log(adjustitems);
-                singleProductTempData.value.adjustitems?.push(adjustitems);
-                singleProductTempData.value.afterAdjustSinglePrice +=
+                singleProductTempData.value.shoppingProduct_adjustitems.push(
+                  adjustitems
+                );
+                singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice +=
                   adjustitems.adjustitem_priceadjust;
-                singleProductTempData.value.finalPrice =
-                  singleProductTempData.value.afterAdjustSinglePrice;
+                singleProductTempData.value.shoppingProduct_finalPrice =
+                  singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice;
               }
             }
           });
@@ -136,52 +98,30 @@ export default defineComponent({
       () => checkbox.value,
       (afterVal, beforeVal) => {
         if (afterVal.length > beforeVal.length) {
+          // console.log(afterVal);
+          modifysingleProductTempDataadjustitems(afterVal);
+        } else {
+          // 重置 shoppingProduct_adjustitems ,
+          // shoppingProduct_afterAdjustSinglePrice ,
+          // shoppingProduct_finalPrice 為預設值
+          // console.log(afterVal);
+          singleProductTempData.value.shoppingProduct_adjustitems = [];
+          singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice =
+            singleProductTempData.value.product_price;
+          singleProductTempData.value.shoppingProduct_finalPrice =
+            pinia.singleProductFinalPrice;
           modifysingleProductTempDataadjustitems(afterVal);
         }
-        //  else {
-        //   singleProductTempData.value.adjustitems = [];
-        //   singleProductTempData.value.afterAdjustSinglePrice =
-        //     filteredProductData.value.product_price;
-        //   modifysingleProductTempDataadjustitems(afterVal);
-        // }
-
-        // console.log(val)
       }
     );
-
-    // watch(() => singleProductTempData.value, (val) => {
-    //   console.log(val)
-    // })
-
-    // watch props change to action
-    // watch(
-    //   () => [props.prodid, props.categoryid],
-    //   ([newProductId, newCategoryId]) => {
-    //     onClickCategoryId.value = newCategoryId;
-    //     onClickProductId.value = newProductId;
-    //     filteredCategoryData.value = updateClickCategory();
-    //     filteredProductData.value = updateClickProduct();
-    //   }
-    // );
-
-    // watch wether dialog is visiable
-    // watch(
-    //   () => dialogVis.value,
-    //   (val) => {
-    //     if (val === true) {
-    //       activateCollapseItem.value = [0, 1, 2]
-    //     }
-    //   }
-    // );
 
     return {
       singleProductTempData,
       activateCollapseItem,
-      onClickProductId,
       menudatas,
-      isClickCategory,
-      filteredCategoryData,
-      filteredProductData
+      pinia
+      // filteredCategoryData,
+      // filteredProductData
     };
   }
 });
