@@ -1,60 +1,75 @@
 <template>
-  <div v-if="pinia.getClickedTempCategoryData">
-    <el-image
-      :src="singleProductTempData.product_image"
-      fit="contain"
-    />
-    <div style="padding-left: 3%; padding-right: 3%">
-      <h2>{{ singleProductTempData.product_name }}</h2>
-    </div>
-    <div
-      v-for="(types, index) in pinia.getClickedTempCategoryData.adjusttypes"
-      :key="index"
-    >
-      <el-collapse
-        v-if="types.adjustitems?.length"
-        v-model="activateCollapseItem"
+  <el-dialog
+    v-model="dialogVis"
+    width="600px"
+    :lock-scroll="scroll"
+    :destroy-on-close="true"
+    :before-close="beforeDialogClose"
+  >
+    <div v-if="pinia.getClickedTempCategoryData">
+      <el-image
+        :src="pinia.getClickedTempProductData.product_image"
+        fit="contain"
+      />
+      <div style="padding-left: 3%; padding-right: 3%">
+        <h2>{{ pinia.getClickedTempProductData.product_name }}</h2>
+      </div>
+      <div
+        v-for="(types, index) in pinia.getClickedTempCategoryData.adjusttypes"
+        :key="index"
       >
-        <el-collapse-item
-          :name="index"
-          accordion="false"
+        <el-collapse
+          v-if="types.adjustitems?.length"
+          v-model="activateCollapseItem"
         >
-          <template #title>
-            <div style="padding: 3%">
-              <h5>{{ types.adjusttype_name }}</h5>
-            </div>
-          </template>
-          <Menuradiogroup :propf-adjust-types-data="types" />
-        </el-collapse-item>
-      </el-collapse>
+          <el-collapse-item
+            :name="index"
+            accordion="false"
+          >
+            <template #title>
+              <div style="padding: 3%">
+                <h5>{{ types.adjusttype_name }}</h5>
+              </div>
+            </template>
+            <Menucheckboxgroup :propf-adjust-types-data="types" />
+          </el-collapse-item>
+        </el-collapse>
+      </div>
     </div>
-  </div>
+    <template #footer>
+      <Menuaddtocart />
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, watch } from "vue";
-import Menuradiogroup from "./menuAdjustItems.vue";
+import Menucheckboxgroup from "./menu.AdjustItemCheckBox.vue";
 import { v4 as uuidv4 } from "uuid";
+import { IshoppingProduct } from "@/interface/menuDataInterface";
 
 export default defineComponent({
-  name: "Menuprodpop",
-  components: { Menuradiogroup },
+  name: "Menuproductpopout",
+  components: { Menucheckboxgroup },
   setup() {
     const pinia = usepinia();
     const {
       menudatas,
+      dialogVis,
       singleProductTempData,
       checkbox,
       clickedCartItemId,
-      isModifyMode
+      isModifyMode,
+      clickedProductId,
+      clickedProductCategoryId
     } = storeToRefs(pinia);
 
     // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
 
-    if (clickedCartItemId.value === "") {
+    if (clickedCartItemId.value === "" && dialogVis.value === true) {
       singleProductTempData.value = {
         ...pinia.getClickedTempProductData,
         category_id: pinia.getClickedTempCategoryData.category_id,
@@ -115,11 +130,24 @@ export default defineComponent({
       }
     );
 
+    const scroll = ref(false);
+    const beforeDialogClose = (done: () => void) => {
+      done();
+      singleProductTempData.value = {} as IshoppingProduct;
+      clickedCartItemId.value = "";
+      checkbox.value = [];
+      isModifyMode.value = false;
+      clickedProductId.value = NaN;
+      clickedProductCategoryId.value = NaN;
+    };
     return {
       singleProductTempData,
       activateCollapseItem,
       menudatas,
-      pinia
+      pinia,
+      dialogVis,
+      scroll,
+      beforeDialogClose
       // filteredCategoryData,
       // filteredProductData
     };

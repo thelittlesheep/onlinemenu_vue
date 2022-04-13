@@ -40,10 +40,10 @@ const test = 123;
 <script lang="ts">
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { defineComponent, PropType, Ref, ref, watch } from "vue";
-import { Iadjtypes, ImenuGroupByCategory } from "./menuData/menuDataInterface";
+import { defineComponent, PropType, Ref, ref } from "vue";
+import { Iadjtypes } from "@/interface/menuDataInterface";
 export default defineComponent({
-  name: "Menucheckboxgroup",
+  name: "Menuadjustitemcheckbox",
   props: {
     // eslint-disable-next-line vue/require-default-prop
     propfAdjustTypesData: { type: Object as PropType<Iadjtypes> }

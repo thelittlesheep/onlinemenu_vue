@@ -1,54 +1,45 @@
 <template>
-  <el-row
-    :gutter="50"
-    align="middle"
+  <div
+    v-if="dialogVis === true"
+    class="addToCartFooter"
   >
-    <el-col :span="8">
-      <el-input-number
-        v-model="singleProductTempData.shoppingProduct_qty"
-        :min="1"
-        :max="10"
-        name="selector"
-      />
-    </el-col>
-    <el-col
-      :span="16"
-      name="button"
+    <el-input-number
+      v-model="singleProductTempData.shoppingProduct_qty"
+      :min="1"
+      :max="10"
+      name="selector"
+    />
+    <el-button
+      size="large"
+      @click="addToCart"
     >
-      <el-button
-        size="large"
-        @click="addToCart"
-      >
-        <template #icon>
-          <el-icon size="24px">
-            <ShoppingCart />
-          </el-icon>
-        </template>
-        <div>
-          <span v-if="!isModifyMode">
-            <span
-              >Add {{ singleProductTempData.shoppingProduct_qty }} to cart</span
-            >
-          </span>
-          <span v-else>
-            <span v-if="singleProductTempData.shoppingProduct_qty <= 1"
-              >Update {{ singleProductTempData.shoppingProduct_qty }} item</span
-            >
-            <span v-else>
-              Update {{ singleProductTempData.shoppingProduct_qty }} items
-            </span>
-          </span>
+      <template #icon>
+        <el-icon size="24px">
+          <ShoppingCart />
+        </el-icon>
+      </template>
+      <div>
+        <span v-if="!isModifyMode">
           <span
-            >NT$ {{ singleProductTempData.shoppingProduct_finalPrice }}</span
+            >Add {{ singleProductTempData.shoppingProduct_qty }} to cart</span
           >
-        </div>
-        <!-- <el-row>
+        </span>
+        <span v-else>
+          <span v-if="singleProductTempData.shoppingProduct_qty <= 1"
+            >Update {{ singleProductTempData.shoppingProduct_qty }} item</span
+          >
+          <span v-else>
+            Update {{ singleProductTempData.shoppingProduct_qty }} items
+          </span>
+        </span>
+        <span>NT$ {{ singleProductTempData.shoppingProduct_finalPrice }}</span>
+      </div>
+      <!-- <el-row>
                     <el-col :span="16">Add 1 to cart</el-col>
                     <el-col :span="8">NT${{ singleProductTempData.product_price }}</el-col>
                 </el-row>-->
-      </el-button>
-    </el-col>
-  </el-row>
+    </el-button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -57,10 +48,10 @@ import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
 import { cartdataDTO } from "../interfaces/cartDataDTO";
-import { IshoppingProduct } from "./menuData/menuDataInterface";
+import { Iadjitem, IshoppingProduct } from "@/interface/menuDataInterface";
 
 export default defineComponent({
-  name: "Addtocart",
+  name: "Menuaddtocart",
   components: { ShoppingCart },
   setup() {
     const pinia = usepinia();
@@ -82,9 +73,20 @@ export default defineComponent({
       // postCartData(payload);
       // singleProductTempData.value.shoppingProduct_finalPrice =
       //   tempFinalPrice.value;
-      if (!isModifyMode.value) {
-        cartData.value.push(singleProductTempData.value);
+      function adjustitemsSort(a: Iadjitem, b: Iadjitem) {
+        if (a.adjustitem_id < b.adjustitem_id) {
+          return -1;
+        }
+        if (a.adjustitem_id > b.adjustitem_id) {
+          return 1;
+        }
+        return 0;
       }
+
+      singleProductTempData.value.shoppingProduct_adjustitems.sort(
+        adjustitemsSort
+      );
+      cartData.value.push(singleProductTempData.value);
       singleProductTempData.value = {} as IshoppingProduct;
       checkbox.value = [];
       clickedProductId.value = NaN;
@@ -112,6 +114,7 @@ export default defineComponent({
     }
 
     return {
+      dialogVis,
       ShoppingCart,
       singleProductTempData,
       isModifyMode,
@@ -123,34 +126,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* .el-button span {
-    display: inline-block;
-    width: 100px;
-    background-color: aqua;
+.addToCartFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: limegreen;
+  width: 1re;
+  /* padding-left: 10%;
+  padding-right: 10%; */
 }
-.el-button span .el-row {
-    align-content: center;
-    display: inline-block;
-    width: 25vw;
-    background: violet;
-}
-.el-button span div.el-row div.el-col {
-    background: sandybrown;
-} */
-.el-button span {
-  display: inline-block;
-  width: 80%;
-  /* background: aquamarine; */
+.el-input-number {
+  background: sandybrown;
 }
 .el-button {
-  /* background-color: wheat; */
-  /* padding: 0; */
-  width: 100%;
-}
-.el-row {
-  width: 100%;
-  padding-top: 2%;
-  /* border: 5px solid #ffff00; */
-  /* background-color: firebrick; */
+  /* background: silver; */
 }
 </style>

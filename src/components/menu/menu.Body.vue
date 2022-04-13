@@ -27,19 +27,7 @@
     </loading>
   </div>
   <div v-else>
-    <div
-      name="opencart button"
-      class="m-3"
-    >
-      <el-button
-        type="primary"
-        @click="openDrawer()"
-      >
-        Open Cart
-      </el-button>
-    </div>
     <Menutable />
-    <Menucartdrawer />
     <div
       name="fetch button"
       class="m-3"
@@ -66,20 +54,34 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+// import loading component
+import "vue-loading-overlay/dist/vue-loading.css";
+import Loading from "vue-loading-overlay";
+
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import Menutable from "./menuTable.vue";
-import Menucartdrawer from "./menuCartDrawer.vue";
+import { IshoppingProduct } from "@/interface/menuDataInterface";
 
-import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
+import Menutable from "./menu.ProductTable.vue";
+import Menuprodpop from "./menu.ProductPopout.vue";
+import Addtocart from "./menu.AddToCart.vue";
 
 export default defineComponent({
-  components: { Loading, Menutable, Menucartdrawer },
+  name: "MenuBody",
+  components: { Loading, Menutable },
   setup() {
     // init pinia
     const pinia = usepinia();
-    const { menudatas, drawer } = storeToRefs(pinia);
+    const {
+      menudatas,
+      drawer,
+      singleProductTempData,
+      clickedCartItemId,
+      checkbox,
+      isModifyMode,
+      clickedProductId,
+      clickedProductCategoryId
+    } = storeToRefs(pinia);
     const isLoading = ref(true);
 
     function onCancel() {
@@ -106,13 +108,7 @@ export default defineComponent({
     }
     async function isDataReceive() {
       await getMenuDatas();
-      if (menudatas.value.length !== 0) {
-        isLoading.value = false;
-      }
-    }
-
-    function openDrawer() {
-      drawer.value = true;
+      isLoading.value = menudatas.value.length !== 0 ? false : true;
     }
 
     const initLoadData = isDataReceive();
@@ -122,8 +118,7 @@ export default defineComponent({
       initLoadData,
       menudatas,
       onCancel,
-      getMenuDatas,
-      openDrawer
+      getMenuDatas
     };
   }
 });

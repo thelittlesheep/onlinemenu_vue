@@ -1,15 +1,15 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
-import { userDTO } from "../components/interfaces/userDTO";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { userDTO } from "@/components/interfaces/userDTO";
+import axios, { AxiosResponse } from "axios";
 import { Ref } from "vue";
 import axiosRetry from "axios-retry";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   ImenuGroupByCategory,
   Iproductdata,
   IshoppingProduct
-} from "../components/menu/menuData/menuDataInterface";
+} from "@/interface/menuDataInterface";
 import { cartdataDTO } from "@/components/interfaces/cartDataDTO";
 
 axiosRetry(axios, { retries: 3 });
@@ -32,6 +32,107 @@ export const usepinia = defineStore("main", {
         shoppingProduct_afterAdjustSinglePrice: 60,
         shoppingProduct_finalPrice: 180,
         shoppingProduct_adjustitems: []
+      },
+      {
+        product_id: 4,
+        product_name: "卡拉脆雞美式堡",
+        product_price: 60,
+        product_image: "https://thumbs.dreamstime.com/z/hamburger-11198171.jpg",
+        category_id: 1,
+        shoppingProduct_uuid: "40e72d70-3670-4b81-bc35-0c5b881be591",
+        shoppingProduct_qty: 1,
+        shoppingProduct_afterAdjustSinglePrice: 90,
+        shoppingProduct_finalPrice: 90,
+        shoppingProduct_adjustitems: [
+          {
+            adjustitem_id: 2,
+            adjustitem_name: "荷包蛋",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 4,
+            adjustitem_name: "生菜",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 5,
+            adjustitem_name: "花生醬",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          }
+        ]
+      },
+      {
+        product_id: 2,
+        product_name: "嫩汁雞排輕捲餅",
+        product_price: 60,
+        product_image:
+          "https://thumbs.dreamstime.com/z/sausage-burger-cheese-sandwich-english-muffin-isolated-white-background-sausage-burger-cheese-sandwich-187211969.jpg",
+        category_id: 2,
+        shoppingProduct_uuid: "15c15ffc-c784-440f-8b6e-4b543649ab91",
+        shoppingProduct_qty: 1,
+        shoppingProduct_afterAdjustSinglePrice: 115,
+        shoppingProduct_finalPrice: 115,
+        shoppingProduct_adjustitems: [
+          {
+            adjustitem_id: 3,
+            adjustitem_name: "起司",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 4,
+            adjustitem_name: "生菜",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 5,
+            adjustitem_name: "花生醬",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 6,
+            adjustitem_name: "肉鬆",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 8,
+            adjustitem_name: "培根",
+            adjustitem_priceadjust: 15,
+            adjusttype_id: 1
+          }
+        ]
+      },
+      {
+        product_id: 3,
+        product_name: "嫩汁雞排瑪芬堡",
+        product_price: 60,
+        product_image:
+          "https://thumbs.dreamstime.com/z/taco-filling-cherry-tomatoes-chicken-cucumbers-onions-63100029.jpg",
+        category_id: 3,
+        shoppingProduct_uuid: "7b8febf3-ae64-49e9-919c-cc0af87a30f9",
+        shoppingProduct_qty: 1,
+        shoppingProduct_afterAdjustSinglePrice: 80,
+        shoppingProduct_finalPrice: 80,
+        shoppingProduct_adjustitems: [
+          {
+            adjustitem_id: 2,
+            adjustitem_name: "荷包蛋",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          },
+          {
+            adjustitem_id: 4,
+            adjustitem_name: "生菜",
+            adjustitem_priceadjust: 10,
+            adjusttype_id: 1
+          }
+        ]
       }
     ] as IshoppingProduct[],
     singleProductTempData: {} as IshoppingProduct,
@@ -124,6 +225,19 @@ export const usepinia = defineStore("main", {
       return this.cartData.findIndex(
         (item) => item.shoppingProduct_uuid === queryuuid
       );
+    },
+    setNewSingleProductTempData() {
+      this.singleProductTempData = {
+        ...this.getClickedTempProductData,
+        category_id: this.getClickedTempCategoryData.category_id,
+        shoppingProduct_uuid: uuidv4(),
+        shoppingProduct_qty: 1,
+        shoppingProduct_afterAdjustSinglePrice:
+          this.getClickedTempProductData.product_price,
+        shoppingProduct_finalPrice:
+          this.getClickedTempProductData.product_price,
+        shoppingProduct_adjustitems: []
+      };
     }
   }
 });

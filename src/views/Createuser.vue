@@ -10,6 +10,6 @@ import createuserbody from "@/components/createuser/createuser.body.vue";
 
 export default {
   name: "Createuser",
-  components: { createuserbody },
+  components: { createuserbody }
 };
 </script>

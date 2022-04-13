@@ -47,10 +47,11 @@ import { defineComponent, watch } from "vue";
 import { ref } from "vue";
 import { ElMessageBox } from "element-plus";
 import { ShoppingCart } from "@element-plus/icons-vue";
-import Menucartitem from "./menuCartItem.vue";
+import Menucartitem from "./menu.CartItem.vue";
 
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 // import { cartdata } from "../interfaces/cartDataDTO";
 
 export default defineComponent({
@@ -59,6 +60,7 @@ export default defineComponent({
   setup() {
     const pinia = usepinia();
     const { drawer, cartData } = storeToRefs(pinia);
+    const router = useRouter();
 
     // const isCartEmpty = ref(true);
     const drawerClass =
@@ -84,7 +86,8 @@ export default defineComponent({
       drawer.value = false;
     }
     function confirmClick() {
-      console.log("confirm");
+      drawer.value = false;
+      router.push("/checkout");
     }
     return {
       cancelClick,

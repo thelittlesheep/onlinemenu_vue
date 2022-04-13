@@ -6,39 +6,46 @@
     @click="clickItem(item.shoppingProduct_uuid)"
   >
     <div class="itemContent">
-      <span>
-        <h3>
-          {{ item.product_name }}
-        </h3>
-      </span>
-      <ul
-        v-for="(adjitem, index2) in item.shoppingProduct_adjustitems"
-        :key="index2"
-      >
-        <li>
-          {{ adjitem.adjustitem_name }}
-        </li>
-      </ul>
-      <span>NT$ {{ item.shoppingProduct_finalPrice }}</span
-      ><br />
-      <el-select
-        v-model="item.shoppingProduct_qty"
-        @change="selectchange(item.shoppingProduct_uuid)"
-      >
-        <el-option
-          v-for="opt in options"
-          :key="opt.value"
-          :label="opt.label"
-          :value="opt.value"
-        />
-      </el-select>
+      <div class="itemText">
+        <span>
+          <h3>
+            {{ item.product_name }}
+          </h3>
+        </span>
+        <ul
+          v-for="(adjitem, index2) in item.shoppingProduct_adjustitems"
+          :key="index2"
+        >
+          <li>
+            <span>{{ adjitem.adjustitem_name }}</span>
+            <span v-if="adjitem.adjustitem_priceadjust > 0">
+              (+${{ adjitem.adjustitem_priceadjust }})</span
+            >
+            <span v-else-if="adjitem.adjustitem_priceadjust < 0">
+              (-${{ adjitem.adjustitem_priceadjust }})
+            </span>
+          </li>
+        </ul>
+        <span>NT$ {{ item.shoppingProduct_finalPrice }}</span>
+        <el-select
+          v-model="item.shoppingProduct_qty"
+          @change="selectchange(item.shoppingProduct_uuid)"
+        >
+          <el-option
+            v-for="opt in options"
+            :key="opt.value"
+            :label="opt.label"
+            :value="opt.value"
+          />
+        </el-select>
+      </div>
+      <el-image
+        :src="item.product_image"
+        fit="scale-down"
+        class="itemImg"
+      />
     </div>
-    <el-image
-      :src="item.product_image"
-      fit="scale-down"
-      class="itemImg"
-    />
-    <!-- <el-divider /> -->
+    <el-divider />
   </div>
 </template>
 
@@ -46,7 +53,7 @@
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, Ref } from "vue";
-import { IshoppingProduct } from "./menuData/menuDataInterface";
+import { IshoppingProduct } from "@/interface/menuDataInterface";
 
 export default defineComponent({
   name: "Menucartitem",
@@ -95,8 +102,10 @@ export default defineComponent({
       clickedProductId.value = singleProductTempData.value.product_id;
       clickedProductCategoryId.value = singleProductTempData.value
         .category_id as number;
+      console.log(pinia.getClickedTempCategoryData);
+      console.log(shoppingProduct_id);
+
       dialogVis.value = true;
-      // console.log(shoppingProduct_id);
     }
 
     return { options, cartData, dialogVis, selectchange, clickItem };
@@ -107,18 +116,32 @@ export default defineComponent({
 <style scoped>
 .cartItem {
   /* background-color: firebrick; */
-  width: 100%;
+  /* width: 100%; */
+  /* display: flex;
+  align-items: flex-start; */
+  flex-direction: column;
+}
+.cartItem .itemContent {
+  /* background-color: aqua; */
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  /* flex-direction: column; */
 }
-.cartItem .itemContent {
+.cartItem .itemText {
   /* background: aquamarine; */
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   align-self: stretch;
+  justify-content: space-between;
 }
 .cartItem .itemImg {
   width: 30%;
+  display: flex;
+  align-self: center;
   /* margin-left: auto; */
+}
+.cartItem .el-divider {
+  background: sandybrown;
 }
 </style>

@@ -9,6 +9,8 @@
     <el-main>
       <!-- <div>123</div> -->
       <router-view />
+      <Menucartdrawer />
+      <Menuproductpopout />
     </el-main>
     <el-footer>
       <footer>© 2022 Hank Huang</footer>
@@ -24,8 +26,8 @@ export default {
   name: "App",
   components: {
     // myheader,
-    Navbar,
-  },
+    Navbar
+  }
 };
 </script>
 
@@ -36,5 +38,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   /* color: #2c3e50; */
+}
+html,
+body,
+#app {
+  height: 100%;
 }
 </style>

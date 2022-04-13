@@ -1,5 +1,3 @@
-import { Iadjitem } from "../menu/menuData/menuDataInterface";
-
 export interface cartdataDTO {
   user_id?: number;
   order_quantity?: number;

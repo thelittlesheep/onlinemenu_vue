@@ -1,7 +1,6 @@
 <template>
   <el-menu
     :default-active="activeIndex"
-    class="el-menu"
     mode="horizontal"
     background-color="#545c64"
     text-color="#fff"
@@ -16,18 +15,28 @@
     >
       {{ item.name }}
     </el-menu-item>
+    <el-button
+      class="opencartbutton"
+      type="primary"
+      @click="openDrawer()"
+    >
+      Open Cart
+    </el-button>
   </el-menu>
-  <div class="h-6" />
+  <!-- <div class="h-6" /> -->
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { usepinia } from "@/store/pinia";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
   name: "Navbar",
   setup() {
     const route = useRoute();
+
     // 直接在 :default-active 加上 route.fullpath 即可完成重新載入頁面後，
     // 仍保持 Navbar 之 menu-item 在正確的 tab 上啟用
 
@@ -58,7 +67,19 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { activeIndex, tabItems, route };
+    const { drawer } = storeToRefs(usepinia());
+    function openDrawer() {
+      drawer.value = true;
+    }
+    return { activeIndex, tabItems, route, openDrawer };
   }
 });
 </script>
+
+<style scoped>
+.opencartbutton {
+  align-self: center;
+  margin-left: auto;
+  margin-right: 1rem;
+}
+</style>

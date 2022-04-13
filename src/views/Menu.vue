@@ -1,15 +1,14 @@
 <template>
-  <!-- <h1>This is 菜單 component section</h1> -->
-  <div class="menuFB">
-    <menuFBbody />
+  <div class="menu">
+    <Menubody />
   </div>
 </template>
 
 <script lang="ts">
-import menuFBbody from "@/components/menu/menuBody.vue";
+import Menubody from "@/components/menu/menu.Body.vue";
 
 export default {
   name: "Menu",
-  components: { menuFBbody }
+  components: { Menubody }
 };
 </script>
