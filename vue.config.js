@@ -6,7 +6,7 @@ module.exports = {
   runtimeCompiler: true,
   devServer: {
     host: "0.0.0.0",
-    port: 8080,
+    port: 8080
   },
   publicPath: "",
   configureWebpack: {
@@ -15,17 +15,17 @@ module.exports = {
         {
           test: /\.mjs$/,
           include: /node_modules/,
-          type: "javascript/auto",
-        },
-      ],
+          type: "javascript/auto"
+        }
+      ]
     },
     plugins: [
       AutoImport({
-        resolvers: [ElementPlusResolver()],
+        resolvers: [ElementPlusResolver()]
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
-      }),
-    ],
-  },
+        resolvers: [ElementPlusResolver()]
+      })
+    ]
+  }
 };

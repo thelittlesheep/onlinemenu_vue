@@ -1,4 +1,5 @@
 <template>
+  <Menuproductpopout />
   <div class="Checkoutbody">
     <div class="Checkoutcartdiv">
       <h1>商品明細</h1>

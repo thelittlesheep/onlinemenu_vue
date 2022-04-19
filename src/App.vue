@@ -10,7 +10,6 @@
       <!-- <div>123</div> -->
       <router-view />
       <Menucartdrawer />
-      <Menuproductpopout />
     </el-main>
     <el-footer>
       <footer>© 2022 Hank Huang</footer>

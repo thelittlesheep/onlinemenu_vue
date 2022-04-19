@@ -16,6 +16,7 @@
       {{ item.name }}
     </el-menu-item>
     <el-button
+      v-if="path === '/menu'"
       class="opencartbutton"
       type="primary"
       @click="openDrawer()"
@@ -31,11 +32,14 @@ import { defineComponent, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
+import { log } from "console";
+import { computed } from "@vue/reactivity";
 
 export default defineComponent({
   name: "Navbar",
   setup() {
     const route = useRoute();
+    const path = computed(() => route.path);
 
     // 直接在 :default-active 加上 route.fullpath 即可完成重新載入頁面後，
     // 仍保持 Navbar 之 menu-item 在正確的 tab 上啟用
@@ -71,7 +75,7 @@ export default defineComponent({
     function openDrawer() {
       drawer.value = true;
     }
-    return { activeIndex, tabItems, route, openDrawer };
+    return { activeIndex, tabItems, route, path, openDrawer };
   }
 });
 </script>

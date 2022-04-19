@@ -62,6 +62,7 @@ export default defineComponent({
     const {
       cartData,
       dialogVis,
+      isModifyMode,
       clickedCartItemId,
       singleProductTempData,
       checkbox,
@@ -102,9 +103,9 @@ export default defineComponent({
       clickedProductId.value = singleProductTempData.value.product_id;
       clickedProductCategoryId.value = singleProductTempData.value
         .category_id as number;
-      console.log(pinia.getClickedTempCategoryData);
-      console.log(shoppingProduct_id);
-
+      // console.log(pinia.getClickedTempCategoryData);
+      // console.log(shoppingProduct_id);
+      isModifyMode.value = true;
       dialogVis.value = true;
     }
 

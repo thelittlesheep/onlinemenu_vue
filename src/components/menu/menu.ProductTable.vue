@@ -51,6 +51,7 @@
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent } from "vue";
+import { v4 as uuidv4 } from "uuid";
 
 export default defineComponent({
   name: "Menutable",
@@ -75,6 +76,7 @@ export default defineComponent({
       clickedProductId,
       clickedProductCategoryId,
       dialogVis,
+      isModifyMode,
       clickedCartItemId,
       singleProductTempData
     } = storeToRefs(pinia);
@@ -82,7 +84,23 @@ export default defineComponent({
     function cardClickHandler(productid: number, categoryid: number) {
       clickedProductId.value = productid;
       clickedProductCategoryId.value = categoryid;
+
       dialogVis.value = true;
+      isModifyMode.value = false;
+
+      if (isModifyMode.value === false && pinia.getClickedTempCategoryData) {
+        singleProductTempData.value = {
+          ...pinia.getClickedTempProductData,
+          category_id: pinia.getClickedTempCategoryData.category_id,
+          shoppingProduct_uuid: uuidv4(),
+          shoppingProduct_qty: 1,
+          shoppingProduct_afterAdjustSinglePrice:
+            pinia.getClickedTempProductData.product_price,
+          shoppingProduct_finalPrice:
+            pinia.getClickedTempProductData.product_price,
+          shoppingProduct_adjustitems: []
+        };
+      }
     }
 
     return {

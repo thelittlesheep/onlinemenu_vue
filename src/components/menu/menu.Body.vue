@@ -1,4 +1,5 @@
 <template>
+  <Menuproductpopout />
   <div v-if="isLoading">
     <loading
       v-model:active="isLoading"

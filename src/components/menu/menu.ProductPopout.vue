@@ -69,22 +69,6 @@ export default defineComponent({
     // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
 
-    if (clickedCartItemId.value === "" && dialogVis.value === true) {
-      singleProductTempData.value = {
-        ...pinia.getClickedTempProductData,
-        category_id: pinia.getClickedTempCategoryData.category_id,
-        shoppingProduct_uuid: uuidv4(),
-        shoppingProduct_qty: 1,
-        shoppingProduct_afterAdjustSinglePrice:
-          pinia.getClickedTempProductData.product_price,
-        shoppingProduct_finalPrice:
-          pinia.getClickedTempProductData.product_price,
-        shoppingProduct_adjustitems: []
-      };
-    } else {
-      isModifyMode.value = true;
-    }
-
     function modifysingleProductTempDataadjustitems(val: Array<number>) {
       val.forEach((selectedId) => {
         pinia.getClickedTempCategoryData.adjusttypes.forEach((category) => {

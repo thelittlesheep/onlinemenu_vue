@@ -13,11 +13,14 @@ import Menuaddtocart from "@/components/menu/menu.AddToCart.vue";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import zhTw from "element-plus/es/locale/lang/zh-tw";
 
 // import "@/scss/main.scss";
 
 const app = createApp(App);
-app.use(ElementPlus);
+app.use(ElementPlus, {
+  locale: zhTw
+});
 app.use(router);
 app.use(createPinia());
 app.component("MyRWDcontainer", RWDcontainer);
