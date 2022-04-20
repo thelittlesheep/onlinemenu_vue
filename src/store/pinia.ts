@@ -12,6 +12,8 @@ import {
 } from "@/interface/menuDataInterface";
 import { cartdataDTO } from "@/components/interfaces/cartDataDTO";
 
+const dev_url = import.meta.env.VITE_BACKEND_DEV_HOST;
+
 axiosRetry(axios, { retries: 3 });
 
 export const usepinia = defineStore("main", {
@@ -170,7 +172,7 @@ export const usepinia = defineStore("main", {
   actions: {
     async postCreateUserForm(user: userDTO): Promise<AxiosResponse<userDTO>> {
       return await axios
-        .post("http://localhost:3000/menu/user", user)
+        .post(dev_url + "/menu/user", user)
         .then((res) => {
           return res;
         })
@@ -180,7 +182,7 @@ export const usepinia = defineStore("main", {
     },
     async getMenuData(): Promise<AxiosResponse<Array<ImenuGroupByCategory>>> {
       return await axios
-        .get("http://localhost:3000/menu/product")
+        .get(dev_url + "/menu/product")
         .then((res) => {
           return res;
         })
@@ -199,7 +201,7 @@ export const usepinia = defineStore("main", {
       // console.log(payload);
 
       return await axios
-        .post("http://localhost:3000/menu/order", {
+        .post(dev_url + "/menu/order", {
           user_id: 1,
           order_quantity: 1,
           order_orderdate: "2022-02-11 19:30:00",
