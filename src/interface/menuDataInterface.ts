@@ -53,10 +53,6 @@ interface IshoppingProduct extends Iproductdata {
   shoppingProduct_adjustitems: Array<Iadjitem>;
 }
 
-interface IshoppingCart {
-  products_id: number[];
-}
-
 export {
   Iadjtypes,
   Iadjitem,

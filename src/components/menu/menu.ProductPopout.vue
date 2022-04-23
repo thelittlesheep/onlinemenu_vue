@@ -132,8 +132,6 @@ export default defineComponent({
       dialogVis,
       scroll,
       beforeDialogClose
-      // filteredCategoryData,
-      // filteredProductData
     };
   }
 });

@@ -14,6 +14,6 @@ export default defineComponent({
       await store.dispatch("getWeatherData");
     };
     return { getdata };
-  },
+  }
 });
 </script>

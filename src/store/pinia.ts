@@ -10,9 +10,11 @@ import {
   Iproductdata,
   IshoppingProduct
 } from "@/interface/menuDataInterface";
-import { cartdataDTO } from "@/components/interfaces/cartDataDTO";
+import { orderDTO } from "@/components/interfaces/orderDTO";
 
+const dev_remote_url = import.meta.env.VITE_BACKEND_DEV_REMOTE_HOST;
 const dev_url = import.meta.env.VITE_BACKEND_DEV_HOST;
+const url = dev_url;
 
 axiosRetry(axios, { retries: 3 });
 
@@ -22,6 +24,7 @@ export const usepinia = defineStore("main", {
     menudatas: [] as Array<ImenuGroupByCategory>,
     dialogVis: false,
     drawer: false,
+    isModifyMode: false,
     cartData: [
       {
         product_id: 1,
@@ -137,12 +140,12 @@ export const usepinia = defineStore("main", {
         ]
       }
     ] as IshoppingProduct[],
+    order: {} as orderDTO,
     singleProductTempData: {} as IshoppingProduct,
     clickedCartItemId: "",
     clickedProductId: NaN,
     clickedProductCategoryId: NaN,
-    checkbox: [] as number[],
-    isModifyMode: false
+    checkbox: [] as number[]
   }),
   getters: {
     getClickedTempProductData: (state) => {
@@ -172,7 +175,7 @@ export const usepinia = defineStore("main", {
   actions: {
     async postCreateUserForm(user: userDTO): Promise<AxiosResponse<userDTO>> {
       return await axios
-        .post(dev_url + "/menu/user", user)
+        .post(url + "/menu/user", user)
         .then((res) => {
           return res;
         })
@@ -182,7 +185,7 @@ export const usepinia = defineStore("main", {
     },
     async getMenuData(): Promise<AxiosResponse<Array<ImenuGroupByCategory>>> {
       return await axios
-        .get(dev_url + "/menu/product")
+        .get(url + "/menu/product")
         .then((res) => {
           return res;
         })
@@ -196,19 +199,17 @@ export const usepinia = defineStore("main", {
         });
     },
     async postMenuCartData(
-      payload: Ref<cartdataDTO>
-    ): Promise<AxiosResponse<cartdataDTO>> {
+      payload: Ref<orderDTO>
+    ): Promise<AxiosResponse<orderDTO>> {
       // console.log(payload);
 
       return await axios
-        .post(dev_url + "/menu/order", {
-          user_id: 1,
-          order_quantity: 1,
-          order_orderdate: "2022-02-11 19:30:00",
-          order_pickupdate: "2022-02-11 20:30:00",
-          product_id: payload.value.product_id,
-          order_product_quantity: payload.value.order_product_quantity,
-          shoppingProduct_adjustitems: payload.value.adjustitems
+        .post(url + "/menu/order", {
+          user_id: payload.value.user_id,
+          order_quantity: payload.value.order_products?.length,
+          order_orderdate: payload.value.order_orderdate,
+          order_pickupdate: payload.value.order_pickupdate,
+          order_products: payload.value.order_products
         })
         .then((res) => {
           return res;

@@ -22,7 +22,7 @@ export default defineComponent({
   name: "Aboutme",
   setup() {
     return {};
-  },
+  }
 });
 </script>
 
