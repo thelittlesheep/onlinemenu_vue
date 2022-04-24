@@ -38,13 +38,20 @@ export default defineComponent({
     const pinia = usepinia();
     const { order, cartData } = storeToRefs(pinia);
 
-    function sentOrder() {
+    async function sentOrder() {
       order.value.user_id = 1;
       order.value.order_products = cartData.value;
       order.value.order_quantity = order.value.order_products?.length;
       order.value.order_orderdate = moment().format("YYYY-MM-DD HH:mm:ss");
-      pinia.postMenuCartData(order);
-      // console.log(order);
+      try {
+        const res = await pinia.postMenuCartData(order);
+        if (res.status === 201) {
+          alert("訂單已送出");
+          // cartData.value = [];
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
     return { sentOrder };
   }
