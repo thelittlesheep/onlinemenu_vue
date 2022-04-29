@@ -4,7 +4,7 @@
     class="addToCartFooter"
   >
     <el-input-number
-      v-model="singleProductTempData.shoppingProduct_qty"
+      v-model="shoppingProduct.shoppingProduct_qty"
       :min="1"
       :max="10"
       name="selector"
@@ -20,23 +20,20 @@
       </template>
       <div>
         <span v-if="!isModifyMode">
-          <span
-            >Add {{ singleProductTempData.shoppingProduct_qty }} to cart</span
-          >
+          <span>Add {{ shoppingProduct.shoppingProduct_qty }} to cart</span>
         </span>
         <span v-else>
-          <span v-if="singleProductTempData.shoppingProduct_qty <= 1"
-            >Update {{ singleProductTempData.shoppingProduct_qty }} item</span
-          >
-          <span v-else>
-            Update {{ singleProductTempData.shoppingProduct_qty }} items
+          <span
+            >Update {{ shoppingProduct.shoppingProduct_qty }}
+            <span v-if="shoppingProduct.shoppingProduct_qty <= 1">item</span>
+            <span v-else> items </span>
           </span>
         </span>
-        <span>NT$ {{ singleProductTempData.shoppingProduct_finalPrice }}</span>
+        <span>NT$ {{ shoppingProduct.shoppingProduct_finalPrice }}</span>
       </div>
       <!-- <el-row>
                     <el-col :span="16">Add 1 to cart</el-col>
-                    <el-col :span="8">NT${{ singleProductTempData.product_price }}</el-col>
+                    <el-col :span="8">NT${{ shoppingProduct.product_price }}</el-col>
                 </el-row>-->
     </el-button>
   </div>
@@ -47,8 +44,8 @@ import { defineComponent, Ref, ref, watch } from "vue";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
-import { cartdataDTO } from "../interfaces/cartDataDTO";
-import { Iadjitem, IshoppingProduct } from "@/interface/menuDataInterface";
+import { orderDTO } from "@/interface/orderDTO";
+import { Iadjitem, IshoppingProduct } from "@/interface/menuData.Interface";
 
 export default defineComponent({
   name: "Menuaddtocart",
@@ -56,7 +53,7 @@ export default defineComponent({
   setup() {
     const pinia = usepinia();
     const {
-      singleProductTempData,
+      shoppingProduct,
       clickedProductId,
       clickedProductCategoryId,
       cartData,
@@ -65,29 +62,8 @@ export default defineComponent({
       isModifyMode
     } = storeToRefs(pinia);
     function addToCart() {
-      // const payload: Ref<cartdataDTO> = ref({
-      //   product_id: singleProductTempData.value.product_id,
-      //   order_product_quantity: singleProductTempData.value.shoppingProduct_qty,
-      //   adjustitems: checkbox.value
-      // });
-      // postCartData(payload);
-      // singleProductTempData.value.shoppingProduct_finalPrice =
-      //   tempFinalPrice.value;
-      function adjustitemsSort(a: Iadjitem, b: Iadjitem) {
-        if (a.adjustitem_id < b.adjustitem_id) {
-          return -1;
-        }
-        if (a.adjustitem_id > b.adjustitem_id) {
-          return 1;
-        }
-        return 0;
-      }
-
-      singleProductTempData.value.shoppingProduct_adjustitems.sort(
-        adjustitemsSort
-      );
-      cartData.value.push(singleProductTempData.value);
-      singleProductTempData.value = {} as IshoppingProduct;
+      cartData.value.push(shoppingProduct.value);
+      shoppingProduct.value = {} as IshoppingProduct;
       checkbox.value = [];
       clickedProductId.value = NaN;
       clickedProductCategoryId.value = NaN;
@@ -96,16 +72,16 @@ export default defineComponent({
 
     watch(
       () => [
-        singleProductTempData.value.shoppingProduct_finalPrice,
-        singleProductTempData.value.shoppingProduct_qty
+        shoppingProduct.value.shoppingProduct_finalPrice,
+        shoppingProduct.value.shoppingProduct_qty
       ],
       () => {
-        singleProductTempData.value.shoppingProduct_finalPrice =
+        shoppingProduct.value.shoppingProduct_finalPrice =
           pinia.singleProductFinalPrice;
       }
     );
 
-    async function postCartData(payload: Ref<cartdataDTO>) {
+    async function postCartData(payload: Ref<orderDTO>) {
       try {
         await pinia.postMenuCartData(payload);
       } catch (e: unknown) {
@@ -116,7 +92,7 @@ export default defineComponent({
     return {
       dialogVis,
       ShoppingCart,
-      singleProductTempData,
+      shoppingProduct,
       isModifyMode,
       addToCart,
       postCartData

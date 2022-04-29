@@ -2,7 +2,7 @@
   <el-dialog
     v-model="dialogVis"
     width="600px"
-    :lock-scroll="scroll"
+    :lock-scroll="false"
     :destroy-on-close="true"
     :before-close="beforeDialogClose"
   >
@@ -48,7 +48,7 @@ import { storeToRefs } from "pinia";
 import { defineComponent, ref, watch } from "vue";
 import Menucheckboxgroup from "./menu.AdjustItemCheckBox.vue";
 import { v4 as uuidv4 } from "uuid";
-import { IshoppingProduct } from "@/interface/menuDataInterface";
+import { IshoppingProduct } from "@/interface/menuData.Interface";
 
 export default defineComponent({
   name: "Menuproductpopout",
@@ -58,7 +58,7 @@ export default defineComponent({
     const {
       menudatas,
       dialogVis,
-      singleProductTempData,
+      shoppingProduct,
       checkbox,
       clickedCartItemId,
       isModifyMode,
@@ -69,55 +69,24 @@ export default defineComponent({
     // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
 
-    function modifysingleProductTempDataadjustitems(val: Array<number>) {
-      val.forEach((selectedId) => {
-        pinia.getClickedTempCategoryData.adjusttypes.forEach((category) => {
-          category.adjustitems.find((adjustitems) => {
-            if (adjustitems.adjustitem_id === selectedId) {
-              if (
-                singleProductTempData.value.shoppingProduct_adjustitems.indexOf(
-                  adjustitems
-                ) === -1
-              ) {
-                singleProductTempData.value.shoppingProduct_adjustitems.push(
-                  adjustitems
-                );
-                singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice +=
-                  adjustitems.adjustitem_priceadjust;
-                singleProductTempData.value.shoppingProduct_finalPrice =
-                  singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice;
-              }
-            }
-          });
-        });
-      });
-    }
-
     watch(
       () => checkbox.value,
-      (afterVal, beforeVal) => {
-        if (afterVal.length > beforeVal.length) {
-          // console.log(afterVal);
-          modifysingleProductTempDataadjustitems(afterVal);
-        } else {
-          // 重置 shoppingProduct_adjustitems ,
-          // shoppingProduct_afterAdjustSinglePrice ,
-          // shoppingProduct_finalPrice 為預設值
-          // console.log(afterVal);
-          singleProductTempData.value.shoppingProduct_adjustitems = [];
-          singleProductTempData.value.shoppingProduct_afterAdjustSinglePrice =
-            singleProductTempData.value.product_price;
-          singleProductTempData.value.shoppingProduct_finalPrice =
-            pinia.singleProductFinalPrice;
-          modifysingleProductTempDataadjustitems(afterVal);
-        }
+      (afterVal) => {
+        // 重置 shoppingProduct_adjustitems
+        // shoppingProduct_afterAdjustSinglePrice ,
+        // shoppingProduct_finalPrice 為預設值
+        shoppingProduct.value.shoppingProduct_adjustitems = [];
+        shoppingProduct.value.shoppingProduct_afterAdjustSinglePrice =
+          shoppingProduct.value.product_price;
+        shoppingProduct.value.shoppingProduct_finalPrice =
+          pinia.singleProductFinalPrice;
+        pinia.modifyshoppingProductadjustitems(afterVal);
       }
     );
 
-    const scroll = ref(false);
     const beforeDialogClose = (done: () => void) => {
       done();
-      singleProductTempData.value = {} as IshoppingProduct;
+      shoppingProduct.value = {} as IshoppingProduct;
       clickedCartItemId.value = "";
       checkbox.value = [];
       isModifyMode.value = false;
@@ -125,12 +94,11 @@ export default defineComponent({
       clickedProductCategoryId.value = NaN;
     };
     return {
-      singleProductTempData,
+      shoppingProduct,
       activateCollapseItem,
       menudatas,
       pinia,
       dialogVis,
-      scroll,
       beforeDialogClose
     };
   }

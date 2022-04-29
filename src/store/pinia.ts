@@ -1,17 +1,19 @@
+// 必要
 import { defineStore } from "pinia";
-import { userDTO } from "@/components/interfaces/userDTO";
+import { userDTO } from "@/interface/userDTO";
 import axios, { AxiosResponse } from "axios";
 import { Ref } from "vue";
 import axiosRetry from "axios-retry";
 import { v4 as uuidv4 } from "uuid";
-
+// 資料型態
 import {
   ImenuGroupByCategory,
   Iproductdata,
   IshoppingProduct
-} from "@/interface/menuDataInterface";
-import { orderDTO } from "@/components/interfaces/orderDTO";
-
+} from "@/interface/menuData.Interface";
+import { Iorderproduct, orderDTO } from "@/interface/orderDTO";
+import moment from "moment";
+// 環境變數
 const dev_remote_url = import.meta.env.VITE_BACKEND_DEV_REMOTE_HOST;
 const dev_url = import.meta.env.VITE_BACKEND_DEV_HOST;
 const url = dev_url;
@@ -23,7 +25,7 @@ export const usepinia = defineStore("main", {
     user: {} as userDTO,
     menudatas: [] as Array<ImenuGroupByCategory>,
     dialogVis: false,
-    drawer: false,
+    drawerVis: false,
     isModifyMode: false,
     cartData: [
       {
@@ -141,7 +143,7 @@ export const usepinia = defineStore("main", {
       }
     ] as IshoppingProduct[],
     order: {} as orderDTO,
-    singleProductTempData: {} as IshoppingProduct,
+    shoppingProduct: {} as IshoppingProduct,
     clickedCartItemId: "",
     clickedProductId: NaN,
     clickedProductCategoryId: NaN,
@@ -154,7 +156,8 @@ export const usepinia = defineStore("main", {
           (category) => category.category_id === state.clickedProductCategoryId
         )
         ?.products.find(
-          (product) => product.product_id === state.clickedProductId
+          (product: { product_id: number }) =>
+            product.product_id === state.clickedProductId
         ) as Iproductdata;
     },
     getClickedTempCategoryData: (state) => {
@@ -164,15 +167,85 @@ export const usepinia = defineStore("main", {
     },
     singleProductFinalPrice: (state): number => {
       return (
-        state.singleProductTempData.shoppingProduct_qty *
-        state.singleProductTempData.shoppingProduct_afterAdjustSinglePrice
+        state.shoppingProduct.shoppingProduct_qty *
+        state.shoppingProduct.shoppingProduct_afterAdjustSinglePrice
       );
     },
     isEmptyCart: (state) => {
       return state.cartData.length === 0 ? true : false;
+    },
+    adjustitemsTocheckbox: (state): number[] | [] => {
+      return state.shoppingProduct.shoppingProduct_adjustitems
+        ? state.shoppingProduct.shoppingProduct_adjustitems.map(
+            (adjustitem) => {
+              return adjustitem.adjustitem_id;
+            }
+          )
+        : [];
     }
   },
   actions: {
+    async login(account: string, password: string): Promise<void> {
+      const jsonpayload = JSON.stringify({
+        account: account,
+        password: password
+      });
+      console.log(jsonpayload);
+
+      return await axios
+        .post(url + "/login", {
+          account: account,
+          password: password
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("success");
+
+            const expiretime = moment().add(1, "days");
+            document.cookie =
+              "access_token=" +
+              res.data.access_token +
+              ";" +
+              expiretime +
+              ";path=/";
+            // return res.data;
+          }
+          console.log(res.data.access_token);
+        })
+        .catch((e) => {
+          throw e;
+        });
+    },
+    async getUserInfo(): Promise<any> {
+      const cookieObject = document.cookie
+        .split("; ")
+        .map((item) => {
+          type cookie = {
+            [key: string]: string;
+          };
+          const element: cookie = {};
+          const i = item.split("=");
+          element[i[0]] = i[1];
+          return element;
+        })
+        .reduce((acc, prev) => {
+          return { ...acc, ...prev };
+        });
+
+      console.log(cookieObject);
+
+      return axios
+        .get(url + "/proteced", {
+          headers: {
+            Authorization: `Bearer ${cookieObject.access_token}` // Bearer 跟 token 中間有一個空格
+          }
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            return res.data;
+          }
+        });
+    },
     async postCreateUserForm(user: userDTO): Promise<AxiosResponse<userDTO>> {
       return await axios
         .post(url + "/menu/user", user)
@@ -229,8 +302,8 @@ export const usepinia = defineStore("main", {
         (item) => item.shoppingProduct_uuid === queryuuid
       );
     },
-    setNewSingleProductTempData() {
-      this.singleProductTempData = {
+    setNewshoppingProduct() {
+      return {
         ...this.getClickedTempProductData,
         category_id: this.getClickedTempCategoryData.category_id,
         shoppingProduct_uuid: uuidv4(),
@@ -241,6 +314,61 @@ export const usepinia = defineStore("main", {
           this.getClickedTempProductData.product_price,
         shoppingProduct_adjustitems: []
       };
+    },
+    async getUserData(user_id: number): Promise<AxiosResponse<userDTO>> {
+      return await axios
+        .get(url + "/user/userorders/" + user_id)
+        .then((res) => {
+          return res;
+        })
+        .catch((e) => {
+          throw e;
+        });
+    },
+    displayLocalDateTime(date: string | undefined) {
+      return date
+        ? moment(date).format("y年 MMM Do (ddd) A hh:mm")
+        : "時間有誤";
+    },
+    getOrderTotalPrice(
+      order_products: Array<Iorderproduct> | undefined
+    ): number {
+      return order_products
+        ? order_products.reduce((acc, cur) => {
+            return acc + cur.order_product_finalprice;
+          }, 0)
+        : NaN;
+    },
+    getOrderSingleProductTotalPrice(
+      order_products: Iorderproduct[] | undefined
+    ) {
+      order_products
+        ? order_products.forEach((item) => {
+            item.order_product_finalprice =
+              item.order_product_quantity * item.product_price;
+          })
+        : null;
+    },
+    modifyshoppingProductadjustitems(val: Array<number>) {
+      val.forEach((selectedId) => {
+        this.getClickedTempCategoryData.adjusttypes.forEach((category) => {
+          category.adjustitems.forEach((adjustitems) => {
+            if (adjustitems.adjustitem_id === selectedId) {
+              this.shoppingProduct.shoppingProduct_adjustitems.push(
+                adjustitems
+              );
+              this.shoppingProduct.shoppingProduct_afterAdjustSinglePrice +=
+                adjustitems.adjustitem_priceadjust;
+              this.shoppingProduct.shoppingProduct_finalPrice =
+                this.shoppingProduct.shoppingProduct_afterAdjustSinglePrice;
+            }
+          });
+        });
+      });
+      // 將shoppingProduct_adjustitems進行排序
+      this.shoppingProduct.shoppingProduct_adjustitems.sort((a, b) => {
+        return a.adjustitem_id - b.adjustitem_id;
+      });
     }
   }
 });

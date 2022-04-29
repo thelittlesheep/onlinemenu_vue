@@ -55,13 +55,18 @@ export default defineComponent({
         name: "Home",
         routepath: "/"
       },
-      // {
-      //   name: "Createuser",
-      //   routepath: "/createuser"
-      // },
+      {
+        name: "Createuser",
+        routepath: "/createuser"
+      },
+      { name: "Login", routepath: "/login" },
       {
         name: "Menu",
         routepath: "/menu"
+      },
+      {
+        name: "Myorder",
+        routepath: "/myorder"
       }
       // {
       //   name: "Aboutme",
@@ -71,9 +76,9 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    const { drawer } = storeToRefs(usepinia());
+    const { drawerVis } = storeToRefs(usepinia());
     function openDrawer() {
-      drawer.value = true;
+      drawerVis.value = true;
     }
     return { activeIndex, tabItems, route, path, openDrawer };
   }

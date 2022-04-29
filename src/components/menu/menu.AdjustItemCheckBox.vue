@@ -41,7 +41,7 @@ const test = 123;
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, PropType, Ref, ref } from "vue";
-import { Iadjtypes } from "@/interface/menuDataInterface";
+import { Iadjtypes } from "@/interface/menuData.Interface";
 export default defineComponent({
   name: "Menuadjustitemcheckbox",
   props: {

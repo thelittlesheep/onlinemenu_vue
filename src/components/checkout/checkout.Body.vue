@@ -27,6 +27,7 @@ import { storeToRefs } from "pinia";
 import Checkoutcarttable from "./checkout.CartTable.vue";
 import Checkoutorderdetail from "./checkout.Orderdetail.vue";
 import moment from "moment";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "CheckoutBody",
@@ -37,6 +38,7 @@ export default defineComponent({
   setup() {
     const pinia = usepinia();
     const { order, cartData } = storeToRefs(pinia);
+    const router = useRouter();
 
     async function sentOrder() {
       order.value.user_id = 1;
@@ -47,13 +49,14 @@ export default defineComponent({
         const res = await pinia.postMenuCartData(order);
         if (res.status === 201) {
           alert("訂單已送出");
-          // cartData.value = [];
+          router.push("/menu");
+          cartData.value = [];
         }
       } catch (e) {
         console.log(e);
       }
     }
-    return { sentOrder };
+    return { sentOrder, pinia };
   }
 });
 </script>

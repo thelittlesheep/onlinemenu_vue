@@ -1,6 +1,6 @@
 <template>
   <el-drawer
-    v-model="drawer"
+    v-model="drawerVis"
     :direction="direction"
     size="450px"
     :custom-class="drawerClass"
@@ -59,7 +59,7 @@ export default defineComponent({
   components: { ShoppingCart, Menucartitem },
   setup() {
     const pinia = usepinia();
-    const { drawer, cartData } = storeToRefs(pinia);
+    const { drawerVis, cartData } = storeToRefs(pinia);
     const router = useRouter();
 
     // const isCartEmpty = ref(true);
@@ -83,17 +83,17 @@ export default defineComponent({
         });
     };
     function cancelClick() {
-      drawer.value = false;
+      drawerVis.value = false;
     }
     function confirmClick() {
-      drawer.value = false;
+      drawerVis.value = false;
       router.push("/checkout");
     }
     return {
       cancelClick,
       confirmClick,
       handleClose,
-      drawer,
+      drawerVis,
       direction,
       cartData,
       drawerClass

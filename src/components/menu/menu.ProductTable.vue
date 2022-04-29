@@ -77,30 +77,20 @@ export default defineComponent({
       clickedProductCategoryId,
       dialogVis,
       isModifyMode,
-      clickedCartItemId,
-      singleProductTempData
+      shoppingProduct
     } = storeToRefs(pinia);
 
     function cardClickHandler(productid: number, categoryid: number) {
+      // 將點擊之productId與PrdouctCategoryId存入
       clickedProductId.value = productid;
       clickedProductCategoryId.value = categoryid;
-
+      // 控制dialog的開啟與關閉與是否正在修改模式
       dialogVis.value = true;
       isModifyMode.value = false;
 
-      if (isModifyMode.value === false && pinia.getClickedTempCategoryData) {
-        singleProductTempData.value = {
-          ...pinia.getClickedTempProductData,
-          category_id: pinia.getClickedTempCategoryData.category_id,
-          shoppingProduct_uuid: uuidv4(),
-          shoppingProduct_qty: 1,
-          shoppingProduct_afterAdjustSinglePrice:
-            pinia.getClickedTempProductData.product_price,
-          shoppingProduct_finalPrice:
-            pinia.getClickedTempProductData.product_price,
-          shoppingProduct_adjustitems: []
-        };
-      }
+      !isModifyMode.value
+        ? (shoppingProduct.value = pinia.setNewshoppingProduct())
+        : null;
     }
 
     return {

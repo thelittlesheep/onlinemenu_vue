@@ -169,7 +169,7 @@ import { defineComponent, ref, Ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { userDTO } from "../interfaces/userDTO";
+import { userDTO } from "@/interface/userDTO";
 import { AxiosError } from "axios";
 import { isShowProps } from "./createuser.body.vue";
 import { responseError } from "../interfaces/responseError";
@@ -230,7 +230,6 @@ export default defineComponent({
       } catch (e: any) {
         // const errors = e as AxiosError<responseError>;
         // console.log(errors.response);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         payload.errorResponse.value = "NetWork Error Please try it later";
         payload.isPostSuccess.value = false;
       } finally {

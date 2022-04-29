@@ -53,7 +53,7 @@
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, Ref } from "vue";
-import { IshoppingProduct } from "@/interface/menuDataInterface";
+import { IshoppingProduct } from "@/interface/menuData.Interface";
 
 export default defineComponent({
   name: "Menucartitem",
@@ -64,7 +64,7 @@ export default defineComponent({
       dialogVis,
       isModifyMode,
       clickedCartItemId,
-      singleProductTempData,
+      shoppingProduct,
       checkbox,
       clickedProductId,
       clickedProductCategoryId
@@ -94,17 +94,11 @@ export default defineComponent({
 
     function clickItem(shoppingProduct_id: string) {
       clickedCartItemId.value = shoppingProduct_id;
-      singleProductTempData.value = pinia.getSingleCartItem(shoppingProduct_id);
-      singleProductTempData.value.shoppingProduct_adjustitems?.forEach(
-        (adjitem) => {
-          checkbox.value.push(adjitem.adjustitem_id);
-        }
-      );
-      clickedProductId.value = singleProductTempData.value.product_id;
-      clickedProductCategoryId.value = singleProductTempData.value
-        .category_id as number;
-      // console.log(pinia.getClickedTempCategoryData);
-      // console.log(shoppingProduct_id);
+      shoppingProduct.value = pinia.getSingleCartItem(shoppingProduct_id);
+      checkbox.value = pinia.adjustitemsTocheckbox;
+      clickedProductId.value = shoppingProduct.value.product_id;
+      clickedProductCategoryId.value = shoppingProduct.value.category_id;
+      // 控制dialog的開啟與關閉與是否正在修改模式
       isModifyMode.value = true;
       dialogVis.value = true;
     }

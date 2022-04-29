@@ -61,7 +61,7 @@ import Loading from "vue-loading-overlay";
 
 import { usepinia } from "@/store/pinia";
 import { storeToRefs } from "pinia";
-import { IshoppingProduct } from "@/interface/menuDataInterface";
+import { IshoppingProduct } from "@/interface/menuData.Interface";
 
 import Menutable from "./menu.ProductTable.vue";
 import Menuprodpop from "./menu.ProductPopout.vue";
@@ -73,16 +73,7 @@ export default defineComponent({
   setup() {
     // init pinia
     const pinia = usepinia();
-    const {
-      menudatas,
-      drawer,
-      singleProductTempData,
-      clickedCartItemId,
-      checkbox,
-      isModifyMode,
-      clickedProductId,
-      clickedProductCategoryId
-    } = storeToRefs(pinia);
+    const { menudatas } = storeToRefs(pinia);
     const isLoading = ref(true);
 
     function onCancel() {

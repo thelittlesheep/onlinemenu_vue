@@ -8,8 +8,10 @@ import Home from "@/views/Home.vue";
 import menu from "@/views/Menu.vue";
 import NotFound from "@/views/NotFound.vue";
 import Createuser from "@/views/Createuser.vue";
+import Login from "@/views/Login.vue";
 import Aboutme from "@/views/Aboutme.vue";
 import Checkout from "@/views/Checkout.vue";
+import Myorder from "@/views/Myorder.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,6 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   { path: "/createuser", name: "Createuser", component: Createuser },
+  { path: "/login", name: "Login", component: Login },
   {
     path: "/menu",
     name: "Menu",
@@ -32,6 +35,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/checkout",
     name: "Checkout",
     component: Checkout
+  },
+  {
+    path: "/myorder",
+    name: "Myorder",
+    component: Myorder
   },
   // catch all 404
   {

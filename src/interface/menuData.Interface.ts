@@ -24,7 +24,7 @@ interface Iproductdata {
   product_name: string;
   product_price: number;
   product_image: string;
-  category_id?: number;
+  category_id: number;
 }
 interface IorderItem extends Iproductdata {
   orderItemQty?: number;
