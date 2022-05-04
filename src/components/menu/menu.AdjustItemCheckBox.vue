@@ -38,7 +38,7 @@ const props = defineProps({
 const test = 123;
 </script> -->
 <script lang="ts">
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent, PropType, Ref, ref } from "vue";
 import { Iadjtypes } from "@/interface/menuData.Interface";
@@ -50,8 +50,8 @@ export default defineComponent({
   },
   //   props: ["propfCategoryData"],
   setup(props) {
-    const pinia = usepinia();
-    const { checkbox } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const { checkbox } = storeToRefs(mainstore);
 
     const fAdjustTypesData: Ref<Iadjtypes> = ref(
       props.propfAdjustTypesData as Iadjtypes

@@ -10,8 +10,16 @@ export default defineConfig({
     "process.env.BASE_URL": '"/"'
   },
   server: {
+    cors: true,
     host: "localhost",
-    port: 3001
+    port: 3001,
+    proxy: {
+      "/backend": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/backend/, "")
+      }
+    }
   },
   base: "./",
   resolve: {

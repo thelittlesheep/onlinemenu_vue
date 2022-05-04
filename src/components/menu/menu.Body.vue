@@ -1,5 +1,12 @@
 <template>
   <Menuproductpopout />
+  <el-button
+    class="opencartbutton"
+    type="primary"
+    @click="drawerVis = true"
+  >
+    Open Cart
+  </el-button>
   <div v-if="isLoading">
     <loading
       v-model:active="isLoading"
@@ -59,7 +66,7 @@ import { defineComponent, ref } from "vue";
 import "vue-loading-overlay/dist/vue-loading.css";
 import Loading from "vue-loading-overlay";
 
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { IshoppingProduct } from "@/interface/menuData.Interface";
 
@@ -72,8 +79,8 @@ export default defineComponent({
   components: { Loading, Menutable },
   setup() {
     // init pinia
-    const pinia = usepinia();
-    const { menudatas } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const { menudatas, drawerVis } = storeToRefs(mainstore);
     const isLoading = ref(true);
 
     function onCancel() {
@@ -83,7 +90,7 @@ export default defineComponent({
     async function getMenuDatas() {
       isLoading.value = true;
       try {
-        const res = await pinia.getMenuData();
+        const res = await mainstore.getMenuData();
         menudatas.value = res.data;
         isLoading.value = false;
 
@@ -108,6 +115,7 @@ export default defineComponent({
     return {
       isLoading,
       initLoadData,
+      drawerVis,
       menudatas,
       onCancel,
       getMenuDatas

@@ -6,16 +6,17 @@
     :destroy-on-close="true"
     :before-close="beforeDialogClose"
   >
-    <div v-if="pinia.getClickedTempCategoryData">
+    <div v-if="mainstore.getClickedTempCategoryData">
       <el-image
-        :src="pinia.getClickedTempProductData.product_image"
+        :src="mainstore.getClickedTempProductData.product_image"
         fit="contain"
       />
       <div style="padding-left: 3%; padding-right: 3%">
-        <h2>{{ pinia.getClickedTempProductData.product_name }}</h2>
+        <h2>{{ mainstore.getClickedTempProductData.product_name }}</h2>
       </div>
       <div
-        v-for="(types, index) in pinia.getClickedTempCategoryData.adjusttypes"
+        v-for="(types, index) in mainstore.getClickedTempCategoryData
+          .adjusttypes"
         :key="index"
       >
         <el-collapse
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, watch } from "vue";
 import Menucheckboxgroup from "./menu.AdjustItemCheckBox.vue";
@@ -54,7 +55,7 @@ export default defineComponent({
   name: "Menuproductpopout",
   components: { Menucheckboxgroup },
   setup() {
-    const pinia = usepinia();
+    const mainstore = mainStore();
     const {
       menudatas,
       dialogVis,
@@ -64,7 +65,7 @@ export default defineComponent({
       isModifyMode,
       clickedProductId,
       clickedProductCategoryId
-    } = storeToRefs(pinia);
+    } = storeToRefs(mainstore);
 
     // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
@@ -79,8 +80,8 @@ export default defineComponent({
         shoppingProduct.value.shoppingProduct_afterAdjustSinglePrice =
           shoppingProduct.value.product_price;
         shoppingProduct.value.shoppingProduct_finalPrice =
-          pinia.singleProductFinalPrice;
-        pinia.modifyshoppingProductadjustitems(afterVal);
+          mainstore.singleProductFinalPrice;
+        mainstore.modifyshoppingProductadjustitems(afterVal);
       }
     );
 
@@ -97,7 +98,7 @@ export default defineComponent({
       shoppingProduct,
       activateCollapseItem,
       menudatas,
-      pinia,
+      mainstore,
       dialogVis,
       beforeDialogClose
     };

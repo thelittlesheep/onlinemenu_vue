@@ -167,12 +167,13 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from "vue";
 import { useField, useForm } from "vee-validate";
-import { usepinia } from "@/store/pinia";
+import { userStore } from "@/store/user.store";
 import { storeToRefs } from "pinia";
 import { userDTO } from "@/interface/userDTO";
 import { AxiosError } from "axios";
 import { isShowProps } from "./createuser.body.vue";
 import { responseError } from "../interfaces/responseError";
+import { mainStore } from "@/store/main.store";
 
 export default defineComponent({
   name: "Createuserform",
@@ -207,8 +208,9 @@ export default defineComponent({
       errorResponse: ref("")
     };
     // pinia data 宣告
-    const pinia = usepinia();
-    const { user } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const userstore = userStore();
+    const { user } = storeToRefs(userstore);
 
     const clearForm = () => {
       user.value = {} as userDTO;
@@ -224,7 +226,7 @@ export default defineComponent({
     async function postform(user: Ref<userDTO>) {
       // user.value = {} as userDTO;
       try {
-        await pinia.postCreateUserForm(user.value);
+        await userstore.postCreateUserForm(user.value);
         // console.log(res.data);
         payload.isPostSuccess.value = true;
       } catch (e: any) {

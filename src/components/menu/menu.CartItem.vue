@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, Ref } from "vue";
 import { IshoppingProduct } from "@/interface/menuData.Interface";
@@ -58,7 +58,7 @@ import { IshoppingProduct } from "@/interface/menuData.Interface";
 export default defineComponent({
   name: "Menucartitem",
   setup() {
-    const pinia = usepinia();
+    const mainstore = mainStore();
     const {
       cartData,
       dialogVis,
@@ -68,7 +68,7 @@ export default defineComponent({
       checkbox,
       clickedProductId,
       clickedProductCategoryId
-    } = storeToRefs(pinia);
+    } = storeToRefs(mainstore);
     // const value = ref();
     const arr = [...Array(11).keys()];
     const options: any = [];
@@ -78,7 +78,7 @@ export default defineComponent({
 
     function selectchange(shoppingProduct_id: string) {
       const selectItem = ref(
-        pinia.getSingleCartItem(shoppingProduct_id)
+        mainstore.getSingleCartItem(shoppingProduct_id)
       ) as Ref<IshoppingProduct>;
       // console.log(value);
 
@@ -87,15 +87,16 @@ export default defineComponent({
           selectItem.value.shoppingProduct_afterAdjustSinglePrice *
           selectItem.value.shoppingProduct_qty;
       } else {
-        const itemIndex = pinia.getSingleCartItemArrayIndex(shoppingProduct_id);
+        const itemIndex =
+          mainstore.getSingleCartItemArrayIndex(shoppingProduct_id);
         cartData.value.splice(itemIndex, 1);
       }
     }
 
     function clickItem(shoppingProduct_id: string) {
       clickedCartItemId.value = shoppingProduct_id;
-      shoppingProduct.value = pinia.getSingleCartItem(shoppingProduct_id);
-      checkbox.value = pinia.adjustitemsTocheckbox;
+      shoppingProduct.value = mainstore.getSingleCartItem(shoppingProduct_id);
+      checkbox.value = mainstore.adjustitemsTocheckbox;
       clickedProductId.value = shoppingProduct.value.product_id;
       clickedProductCategoryId.value = shoppingProduct.value.category_id;
       // 控制dialog的開啟與關閉與是否正在修改模式

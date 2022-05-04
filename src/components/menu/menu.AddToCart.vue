@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref, watch } from "vue";
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { ShoppingCart } from "@element-plus/icons-vue";
 import { orderDTO } from "@/interface/orderDTO";
@@ -51,7 +51,7 @@ export default defineComponent({
   name: "Menuaddtocart",
   components: { ShoppingCart },
   setup() {
-    const pinia = usepinia();
+    const mainstore = mainStore();
     const {
       shoppingProduct,
       clickedProductId,
@@ -60,7 +60,7 @@ export default defineComponent({
       checkbox,
       dialogVis,
       isModifyMode
-    } = storeToRefs(pinia);
+    } = storeToRefs(mainstore);
     function addToCart() {
       cartData.value.push(shoppingProduct.value);
       shoppingProduct.value = {} as IshoppingProduct;
@@ -77,13 +77,13 @@ export default defineComponent({
       ],
       () => {
         shoppingProduct.value.shoppingProduct_finalPrice =
-          pinia.singleProductFinalPrice;
+          mainstore.singleProductFinalPrice;
       }
     );
 
     async function postCartData(payload: Ref<orderDTO>) {
       try {
-        await pinia.postMenuCartData(payload);
+        await mainstore.postMenuCartData(payload);
       } catch (e: unknown) {
         console.log(e);
       }

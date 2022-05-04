@@ -28,14 +28,14 @@
 import { defineComponent, Ref, ref, watch } from "vue";
 import moment from "moment";
 import "moment/dist/locale/zh-tw";
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 
 export default defineComponent({
   name: "Checkoutorderdetail",
   setup() {
-    const pinia = usepinia();
-    const { order } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const { order } = storeToRefs(mainstore);
 
     const bussinesshourStart = moment()
       .set("hour", 5)

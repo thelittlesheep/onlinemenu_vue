@@ -1,6 +1,6 @@
 // 必要
-import { defineStore } from "pinia";
-import { userDTO } from "@/interface/userDTO";
+import { defineStore, acceptHMRUpdate } from "pinia";
+import { userBasicDTO, userDTO } from "@/interface/userDTO";
 import axios, { AxiosResponse } from "axios";
 import { Ref } from "vue";
 import axiosRetry from "axios-retry";
@@ -20,13 +20,13 @@ const url = dev_url;
 
 axiosRetry(axios, { retries: 3 });
 
-export const usepinia = defineStore("main", {
+export const mainStore = defineStore("mainStore", {
   state: () => ({
-    user: {} as userDTO,
     menudatas: [] as Array<ImenuGroupByCategory>,
     dialogVis: false,
     drawerVis: false,
     isModifyMode: false,
+    isLogin: false,
     cartData: [
       {
         product_id: 1,
@@ -185,75 +185,35 @@ export const usepinia = defineStore("main", {
     }
   },
   actions: {
-    async login(account: string, password: string): Promise<void> {
-      const jsonpayload = JSON.stringify({
-        account: account,
-        password: password
-      });
-      console.log(jsonpayload);
-
-      return await axios
-        .post(url + "/login", {
-          account: account,
-          password: password
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            console.log("success");
-
-            const expiretime = moment().add(1, "days");
-            document.cookie =
-              "access_token=" +
-              res.data.access_token +
-              ";" +
-              expiretime +
-              ";path=/";
-            // return res.data;
-          }
-          console.log(res.data.access_token);
-        })
-        .catch((e) => {
-          throw e;
-        });
-    },
     async getUserInfo(): Promise<any> {
-      const cookieObject = document.cookie
-        .split("; ")
-        .map((item) => {
-          type cookie = {
-            [key: string]: string;
-          };
-          const element: cookie = {};
-          const i = item.split("=");
-          element[i[0]] = i[1];
-          return element;
-        })
-        .reduce((acc, prev) => {
-          return { ...acc, ...prev };
-        });
-
-      console.log(cookieObject);
+      // 讀取cookie並轉為Object
+      // const cookieObject = document.cookie
+      //   .split("; ")
+      //   .map((item) => {
+      //     type cookie = {
+      //       [key: string]: string;
+      //     };
+      //     const element: cookie = {};
+      //     const i = item.split("=");
+      //     element[i[0]] = i[1];
+      //     return element;
+      //   })
+      //   .reduce((acc, prev) => {
+      //     return { ...acc, ...prev };
+      //   });
 
       return axios
-        .get(url + "/proteced", {
-          headers: {
-            Authorization: `Bearer ${cookieObject.access_token}` // Bearer 跟 token 中間有一個空格
-          }
+        .get("/backend/user", {
+          withCredentials: true
+          // 使用JWT Auth時，需將JWT token放入header
+          // headers: {
+          //   Authorization: `Bearer ${cookieObject.access_token}` // Bearer 跟 token 中間有一個空格
+          // }
         })
         .then((res) => {
           if (res.status === 200) {
             return res.data;
           }
-        });
-    },
-    async postCreateUserForm(user: userDTO): Promise<AxiosResponse<userDTO>> {
-      return await axios
-        .post(url + "/menu/user", user)
-        .then((res) => {
-          return res;
-        })
-        .catch((e) => {
-          throw e;
         });
     },
     async getMenuData(): Promise<AxiosResponse<Array<ImenuGroupByCategory>>> {
@@ -315,20 +275,11 @@ export const usepinia = defineStore("main", {
         shoppingProduct_adjustitems: []
       };
     },
-    async getUserData(user_id: number): Promise<AxiosResponse<userDTO>> {
-      return await axios
-        .get(url + "/user/userorders/" + user_id)
-        .then((res) => {
-          return res;
-        })
-        .catch((e) => {
-          throw e;
-        });
-    },
+
     displayLocalDateTime(date: string | undefined) {
       return date
         ? moment(date).format("y年 MMM Do (ddd) A hh:mm")
-        : "時間有誤";
+        : "時間格式有誤";
     },
     getOrderTotalPrice(
       order_products: Array<Iorderproduct> | undefined
@@ -372,3 +323,7 @@ export const usepinia = defineStore("main", {
     }
   }
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(mainStore, import.meta.hot));
+}

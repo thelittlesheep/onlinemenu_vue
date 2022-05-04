@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 
 import Checkoutcarttable from "./checkout.CartTable.vue";
@@ -36,8 +36,8 @@ export default defineComponent({
     Checkoutorderdetail
   },
   setup() {
-    const pinia = usepinia();
-    const { order, cartData } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const { order, cartData } = storeToRefs(mainstore);
     const router = useRouter();
 
     async function sentOrder() {
@@ -46,7 +46,7 @@ export default defineComponent({
       order.value.order_quantity = order.value.order_products?.length;
       order.value.order_orderdate = moment().format("YYYY-MM-DD HH:mm:ss");
       try {
-        const res = await pinia.postMenuCartData(order);
+        const res = await mainstore.postMenuCartData(order);
         if (res.status === 201) {
           alert("訂單已送出");
           router.push("/menu");
@@ -56,7 +56,7 @@ export default defineComponent({
         console.log(e);
       }
     }
-    return { sentOrder, pinia };
+    return { sentOrder, mainstore };
   }
 });
 </script>

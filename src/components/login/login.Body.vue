@@ -1,25 +1,25 @@
 <template>
-  <el-form
-    v-model="loginpayload"
-    label-position="top"
-    label-width="100px"
-    style="max-width: 460px"
-  >
-    <el-form-item label="帳號">
-      <el-input v-model="loginpayload.account" />
-    </el-form-item>
-    <el-form-item label="密碼">
-      <el-input v-model="loginpayload.password" />
-    </el-form-item>
-    <el-form-item>
-      <el-button
-        type="primary"
-        @click="submitForm(loginpayload)"
-        >Submit</el-button
+  <div class="form">
+    <el-tabs
+      v-model="activeName"
+      type="card"
+      class="demo-tabs"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane
+        label="登入"
+        name="Login"
       >
-      <!-- <el-button @click="resetForm()">Reset</el-button> -->
-    </el-form-item>
-  </el-form>
+        <Loginform :islogin="isLogin" />
+      </el-tab-pane>
+      <el-tab-pane
+        label="註冊"
+        name="Register"
+      >
+        <Loginform :islogin="isLogin" />
+      </el-tab-pane>
+    </el-tabs>
+  </div>
   <el-button
     type="primary"
     @click="getUserInfo()"
@@ -28,40 +28,50 @@
 </template>
 
 <script lang="ts">
-import { usepinia } from "@/store/pinia";
-import { defineComponent, Ref, ref } from "vue";
+import { defineComponent, ref } from "vue";
+import type { TabsPaneContext } from "element-plus";
+import { mainStore } from "@/store/main.store";
+import Loginform from "./login.Form.vue";
 
 export default defineComponent({
   name: "Loginbody",
+  components: { Loginform },
   setup() {
-    const pinia = usepinia();
-    type payload = {
-      account: string;
-      password: string;
+    const activeName = ref("Login");
+    const isLogin = ref(true);
+
+    const handleClick = (tab: TabsPaneContext, event: Event) => {
+      tab.paneName === "Login"
+        ? (isLogin.value = true)
+        : (isLogin.value = false);
+      // console.log(tab.paneName, event);
     };
 
-    const loginpayload: Ref<payload> = ref({
-      account: "",
-      password: ""
-    });
-
-    async function submitForm(payload: payload) {
-      console.log(payload.account);
-      console.log(payload.password);
-      await pinia.login(payload.account, payload.password);
-    }
+    const mainstore = mainStore();
 
     async function getUserInfo() {
       try {
-        const UserInfo = await pinia.getUserInfo();
+        const UserInfo = await mainstore.getUserInfo();
         console.log(UserInfo);
       } catch (e) {
         console.log(e);
       }
     }
-    return { loginpayload, submitForm, getUserInfo };
+
+    return {
+      isLogin,
+      activeName,
+      handleClick,
+      getUserInfo
+    };
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.form {
+  max-width: 250px;
+  margin: 50px auto;
+  /* background: salmon; */
+}
+</style>

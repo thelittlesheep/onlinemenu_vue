@@ -7,7 +7,7 @@ import {
 import Home from "@/views/Home.vue";
 import menu from "@/views/Menu.vue";
 import NotFound from "@/views/NotFound.vue";
-import Createuser from "@/views/Createuser.vue";
+// import Createuser from "@/views/Createuser.vue";
 import Login from "@/views/Login.vue";
 import Aboutme from "@/views/Aboutme.vue";
 import Checkout from "@/views/Checkout.vue";
@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "Home",
     component: Home
   },
-  { path: "/createuser", name: "Createuser", component: Createuser },
+  // { path: "/createuser", name: "Createuser", component: Createuser },
   { path: "/login", name: "Login", component: Login },
   {
     path: "/menu",

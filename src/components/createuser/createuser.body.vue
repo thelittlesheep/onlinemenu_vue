@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from "vue";
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 // import custom interface
 import { responseError } from "../interfaces/responseError";
@@ -61,8 +61,8 @@ export default defineComponent({
   name: "Createuserbody",
   components: { createuser },
   setup() {
-    const pinia = usepinia();
-    const { user } = storeToRefs(pinia);
+    // const mainstore = mainStore();
+    // const { user } = storeToRefs(mainstore);
 
     const isPostSubmmit: Ref<boolean> = ref(false);
     const isPostSuccess: Ref<boolean> = ref(false);
@@ -81,7 +81,6 @@ export default defineComponent({
     };
 
     return {
-      user,
       isPostSuccess,
       isPostSubmmit,
       errorResponse,

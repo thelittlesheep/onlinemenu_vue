@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent } from "vue";
 import { v4 as uuidv4 } from "uuid";
@@ -70,7 +70,7 @@ export default defineComponent({
   //   },
   // },
   setup() {
-    const pinia = usepinia();
+    const mainstore = mainStore();
     const {
       menudatas,
       clickedProductId,
@@ -78,7 +78,7 @@ export default defineComponent({
       dialogVis,
       isModifyMode,
       shoppingProduct
-    } = storeToRefs(pinia);
+    } = storeToRefs(mainstore);
 
     function cardClickHandler(productid: number, categoryid: number) {
       // 將點擊之productId與PrdouctCategoryId存入
@@ -89,7 +89,7 @@ export default defineComponent({
       isModifyMode.value = false;
 
       !isModifyMode.value
-        ? (shoppingProduct.value = pinia.setNewshoppingProduct())
+        ? (shoppingProduct.value = mainstore.setNewshoppingProduct())
         : null;
     }
 

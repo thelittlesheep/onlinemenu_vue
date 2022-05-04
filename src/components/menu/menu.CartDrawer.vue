@@ -49,7 +49,7 @@ import { ElMessageBox } from "element-plus";
 import { ShoppingCart } from "@element-plus/icons-vue";
 import Menucartitem from "./menu.CartItem.vue";
 
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 // import { cartdata } from "../interfaces/cartDataDTO";
@@ -58,17 +58,17 @@ export default defineComponent({
   name: "Menucartdrawer",
   components: { ShoppingCart, Menucartitem },
   setup() {
-    const pinia = usepinia();
-    const { drawerVis, cartData } = storeToRefs(pinia);
+    const mainstore = mainStore();
+    const { drawerVis, cartData } = storeToRefs(mainstore);
     const router = useRouter();
 
     // const isCartEmpty = ref(true);
     const drawerClass =
-      pinia.isEmptyCart === true ? ref("emptyCart") : ref("normalCart");
+      mainstore.isEmptyCart === true ? ref("emptyCart") : ref("normalCart");
 
     watch(cartData.value, (val) => {
       drawerClass.value =
-        pinia.isEmptyCart === true ? "emptyCart" : "normalCart";
+        mainstore.isEmptyCart === true ? "emptyCart" : "normalCart";
     });
 
     // const drawer = ref(false);

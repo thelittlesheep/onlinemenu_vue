@@ -15,14 +15,6 @@
     >
       {{ item.name }}
     </el-menu-item>
-    <el-button
-      v-if="path === '/menu'"
-      class="opencartbutton"
-      type="primary"
-      @click="openDrawer()"
-    >
-      Open Cart
-    </el-button>
   </el-menu>
   <!-- <div class="h-6" /> -->
 </template>
@@ -30,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { usepinia } from "@/store/pinia";
+import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { log } from "console";
 import { computed } from "@vue/reactivity";
@@ -55,10 +47,10 @@ export default defineComponent({
         name: "Home",
         routepath: "/"
       },
-      {
-        name: "Createuser",
-        routepath: "/createuser"
-      },
+      // {
+      //   name: "Createuser",
+      //   routepath: "/createuser"
+      // },
       { name: "Login", routepath: "/login" },
       {
         name: "Menu",
@@ -76,11 +68,7 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    const { drawerVis } = storeToRefs(usepinia());
-    function openDrawer() {
-      drawerVis.value = true;
-    }
-    return { activeIndex, tabItems, route, path, openDrawer };
+    return { activeIndex, tabItems, route, path };
   }
 });
 </script>
