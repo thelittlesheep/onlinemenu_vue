@@ -28,6 +28,7 @@ import Checkoutcarttable from "./checkout.CartTable.vue";
 import Checkoutorderdetail from "./checkout.Orderdetail.vue";
 import moment from "moment";
 import { useRouter } from "vue-router";
+import { userStore } from "@/store/user.store";
 
 export default defineComponent({
   name: "CheckoutBody",
@@ -38,13 +39,17 @@ export default defineComponent({
   setup() {
     const mainstore = mainStore();
     const { order, cartData } = storeToRefs(mainstore);
+    const { userInfo } = storeToRefs(userStore());
     const router = useRouter();
 
     async function sentOrder() {
-      order.value.user_id = 1;
+      order.value.user_id = userInfo.value.user_id;
+      // 需要
       order.value.order_products = cartData.value;
       order.value.order_quantity = order.value.order_products?.length;
-      order.value.order_orderdate = moment().format("YYYY-MM-DD HH:mm:ss");
+      order.value.order_orderdate = moment
+        .utc(moment())
+        .format("YYYY-MM-DD HH:mm:ss");
       try {
         const res = await mainstore.postMenuCartData(order);
         if (res.status === 201) {

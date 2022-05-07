@@ -27,7 +27,7 @@ class Request {
     // 創建全局請求攔截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log("全局請求成功創建的攔截器");
+        // console.log("全局請求成功創建的攔截器");
         if (this.showLoading) {
           // 添加加載loading
           this.loadingInstance = ElLoading.service({
@@ -39,7 +39,7 @@ class Request {
         return config;
       },
       (err) => {
-        console.log("全局請求失敗創建的攔截器");
+        // console.log("全局請求失敗創建的攔截器");
         this.loadingInstance?.close();
         return err;
       }
@@ -47,14 +47,14 @@ class Request {
     // 創建全局響應攔截器
     this.instance.interceptors.response.use(
       (config) => {
-        console.log("全局響應成功創建的攔截器");
+        // console.log("全局響應成功創建的攔截器");
         setTimeout(() => {
           this.loadingInstance?.close();
         }, 1000);
         return config;
       },
       (err) => {
-        console.log("全局響應失敗創建的攔截器");
+        // console.log("全局響應失敗創建的攔截器");
         // console.log(err);
 
         this.loadingInstance?.close();

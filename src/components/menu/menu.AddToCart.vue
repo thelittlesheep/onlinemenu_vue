@@ -106,13 +106,15 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: limegreen;
+  /* background: limegreen; */
   width: 1re;
   /* padding-left: 10%;
   padding-right: 10%; */
 }
 .el-input-number {
-  background: sandybrown;
+  border: 0;
+  margin-right: 1rem;
+  /* background: sandybrown; */
 }
 .el-button {
   /* background: silver; */

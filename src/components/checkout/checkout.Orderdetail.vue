@@ -77,19 +77,26 @@ export default defineComponent({
         let selectday = Number(pickupdate.split("-")[1]);
         let selecthour = Number(pickuptime.split(":")[0]);
         let selectminute = Number(pickuptime.split(":")[1]);
-        order.value.order_pickupdate = moment()
-          .set("months", selectmonth)
-          .set("dates", selectday)
-          .set("hour", selecthour)
-          .set("minute", selectminute)
-          .set("second", 0)
+        order.value.order_pickupdate = moment
+          .utc(
+            moment()
+              .set("months", selectmonth)
+              .set("dates", selectday)
+              .set("hour", selecthour)
+              .set("minute", selectminute)
+              .set("second", 0)
+          )
           .format("YYYY-MM-DD HH:mm:ss");
-        pickupdatetime.value = moment()
-          .set("months", selectmonth)
-          .set("dates", selectday)
-          .set("hour", selecthour)
-          .set("minute", selectminute)
-          .set("second", 0)
+        pickupdatetime.value = moment
+          .utc(
+            moment()
+              .utc()
+              .set("months", selectmonth)
+              .set("dates", selectday)
+              .set("hour", selecthour)
+              .set("minute", selectminute)
+              .set("second", 0)
+          )
           .format("MMM DD (ddd) A hh:mm");
       }
     );

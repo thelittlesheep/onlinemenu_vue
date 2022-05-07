@@ -1,45 +1,48 @@
 <template>
-  <el-drawer
-    v-model="drawerVis"
-    :direction="direction"
-    size="450px"
-    :custom-class="drawerClass"
-  >
-    <template #title>
-      <h2>BurGers</h2>
-    </template>
-    <template #default>
-      <div
-        v-if="cartData.length === 0"
-        class="emptycart"
-      >
-        <el-icon size="96px">
-          <ShoppingCart />
-        </el-icon>
-        <div>
-          Your Cart is Empty
-          <br />
-          Try to add somthing
+  <div class="drawer">
+    <el-drawer
+      v-model="drawerVis"
+      :direction="direction"
+      size="450px"
+      :custom-class="drawerClass"
+    >
+      <template #title>
+        <h2>您的購物車</h2>
+      </template>
+      <template #default>
+        <div
+          v-if="mainstore.isEmptyCart"
+          class="emptycart"
+        >
+          <el-icon size="96px">
+            <ShoppingCart />
+          </el-icon>
+          <div v-if="isLogin">
+            您的購物車是空的，趕快去選購吧！
+            <br />
+            試著加入一些餐點吧！
+          </div>
+          <div v-else>請先登入，才能使用購物車！</div>
         </div>
-      </div>
-      <div
-        v-else
-        class="menucartitem"
+        <div
+          v-else
+          class="menucartitem"
+        >
+          <Menucartitem />
+        </div>
+      </template>
+      <template
+        v-if="!mainstore.isEmptyCart && isLogin"
+        #footer
       >
-        <Menucartitem />
-      </div>
-    </template>
-    <template #footer>
-      <div>
         <el-button
           color="black"
           @click="confirmClick"
           >CheckOut</el-button
         >
-      </div>
-      <!-- <button @click="confirmClick">confirm</button> -->
-    </template>
-  </el-drawer>
+      </template>
+    </el-drawer>
+  </div>
 </template>
 
 <script lang="ts">
@@ -59,7 +62,7 @@ export default defineComponent({
   components: { ShoppingCart, Menucartitem },
   setup() {
     const mainstore = mainStore();
-    const { drawerVis, cartData } = storeToRefs(mainstore);
+    const { drawerVis, cartData, isLogin } = storeToRefs(mainstore);
     const router = useRouter();
 
     // const isCartEmpty = ref(true);
@@ -96,57 +99,55 @@ export default defineComponent({
       drawerVis,
       direction,
       cartData,
-      drawerClass
+      drawerClass,
+      isLogin,
+      mainstore
     };
   }
 });
 </script>
 
-<style>
-.el-drawer__footer {
+<style scoped>
+.drawer /deep/ .el-drawer__footer {
   display: flex;
+  /* background: sandybrown; */
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 4px 1px black;
-  height: 10%;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
-.el-drawer__footer div {
-  width: 100%;
-  height: 80%;
-  margin-top: 2%;
-  margin-bottom: 1%;
-  display: inline-block;
-}
-.el-drawer__footer .el-button {
-  /* background: black; */
+.el-button {
+  flex-grow: 1;
   color: white;
   width: 100%;
   height: 100%;
   display: inline-block;
 }
-.el-drawer__footer .el-button:hover {
+.el-button:hover {
   color: pink;
 }
-.el-drawer.emptyCart .el-drawer__body {
-  /* background: yellowgreen; */
+.drawer /deep/ .el-drawer__body {
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 100%;
 }
 .emptycart {
-  /* background: violet; */
+  background: violet;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  /* padding-left: 10%;
-  padding-right: 10%; */
+}
+
+/* .el-drawer.emptyCart .el-drawer__body {
+  background: yellowgreen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .el-drawer.normalCart .el-drawer__body {
-  /* background: lightcyan; */
+  background: skyblue;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -159,5 +160,5 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-}
+} */
 </style>

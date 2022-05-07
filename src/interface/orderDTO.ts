@@ -1,8 +1,8 @@
 import { Iadjitem, IshoppingProduct } from "@/interface/menuData.Interface";
 
 export interface orderDTO {
-  user_id?: number;
-  order_id?: number;
+  user_id: number;
+  order_id: number;
   order_quantity?: number;
   order_orderdate?: string;
   order_pickupdate?: string;

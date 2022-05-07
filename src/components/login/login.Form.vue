@@ -7,24 +7,30 @@
     style="max-width: 460px"
     :rules="rules"
   >
-    <h1 v-if="props.islogin">使用者登入</h1>
+    <h1 v-if="props.islogintab">使用者登入</h1>
     <h1 v-else>使用者註冊</h1>
     <el-form-item prop="account">
       <el-input
+        id="username"
         v-model="formVal.account"
+        type="text"
+        name="username"
         placeholder="帳號"
         :clearable="true"
       />
     </el-form-item>
     <el-form-item prop="password">
       <el-input
+        id="password"
         v-model="formVal.password"
+        type="password"
+        name="password"
         placeholder="密碼"
         :clearable="true"
       />
     </el-form-item>
     <el-form-item
-      v-if="!props.islogin"
+      v-if="!props.islogintab"
       prop="passwordconfirm"
     >
       <el-input
@@ -51,79 +57,26 @@ import { defineComponent, reactive, Ref, ref, watch } from "vue";
 import type { FormRules } from "element-plus";
 import Schema from "async-validator";
 import { userBasicDTO } from "@/interface/userDTO";
-import {
-  // validateAccount,
-  // validatePassword,
-  // validatePasswordconfirm,
-  // formVal,
-  // formRef,
-  loginForm
-} from "./validator";
+import { loginForm } from "./validator";
 import { FormInstance } from "element-plus/lib/components";
 import { ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
+import { mainStore } from "@/store/main.store";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
   name: "Loginform",
-  props: { islogin: { type: Boolean } },
+  props: { islogintab: { type: Boolean } },
   setup(props) {
     Schema.warning = function () {
       return null;
     };
     const router = useRouter();
     const userstore = userStore();
+    const { user, userInfo } = storeToRefs(userstore);
+    const { isLogin } = storeToRefs(mainStore());
 
     let payload: userBasicDTO;
-
-    // const formRef = ref<FormInstance>();
-
-    // type formType = {
-    //   account: string;
-    //   password: string;
-    //   passwordconfirm: string;
-    // };
-
-    // let formVal: formType = reactive({
-    //   account: "",
-    //   password: "",
-    //   passwordconfirm: ""
-    // });
-
-    // const validateAccount = (rule: any, value: any, callback: any) => {
-    //   if (!value) {
-    //     callback(new Error("請輸入使用者名稱"));
-    //   } else {
-    //     if (!/^[a-zA-Z]\w{5,9}$/.test(value)) {
-    //       callback(new Error("開頭必需為英文字母，且需為6-9位元"));
-    //     }
-    //   }
-    //   callback();
-    // };
-
-    // const validatePassword = (rule: any, value: any, callback: any) => {
-    //   if (value === "") {
-    //     callback(new Error("請輸入密碼"));
-    //   } else {
-    //     if (!/^\w{6,24}$/.test(value)) {
-    //       callback(new Error("密碼是6-24個字符"));
-    //     }
-    //     if (formVal.passwordconfirm !== "") {
-    //       if (!formRef.value) return;
-    //       formRef.value.validateField("passwordconfirm", () => null);
-    //       callback();
-    //     }
-    //   }
-    // };
-
-    // const validatePasswordconfirm = (rule: any, value: any, callback: any) => {
-    //   if (value === "") {
-    //     callback(new Error("請再次輸入密碼"));
-    //   } else if (value !== formVal.password) {
-    //     callback(new Error("密碼不相符，請再次確認"));
-    //   } else {
-    //     callback();
-    //   }
-    // };
 
     const form = new loginForm();
 
@@ -160,6 +113,18 @@ export default defineComponent({
       formEl.resetFields();
     }
 
+    function sessionStorageSet(
+      key: string | number,
+      value: Record<string, unknown>
+    ) {
+      // var userEntity = {
+      //   name: "tom",
+      //   age: 22
+      // };
+      sessionStorage.setItem(String(key), JSON.stringify(value));
+      return undefined;
+    }
+
     async function submitForm(formEl: FormInstance | undefined) {
       if (!formEl) return;
       formEl.validate(async (valid) => {
@@ -168,15 +133,23 @@ export default defineComponent({
             user_account: formVal.account,
             user_password: formVal.password
           };
-          if (props.islogin) {
+
+          if (props.islogintab) {
             // Login User
             await userstore
               .login(payload)
-              .then(() => {
-                router.push("/menu");
+              .then(async () => {
+                isLogin.value = true;
+                const userdata = await userstore.getUserInfo();
+                const { orders, ...userinfo } = userdata;
+                user.value = userdata;
+                userInfo.value = userinfo;
+                // sessionStorageSet("userInfo", userInfo.value);
+                router.push({ name: "Menu" });
+                resetForm(formEl);
               })
               .catch((e) => {
-                ElMessageBox.alert(e.message, "錯誤", {
+                ElMessageBox.alert(e.message, {
                   type: "error",
                   showClose: false
                 }).then(() => {
@@ -188,14 +161,35 @@ export default defineComponent({
               });
           } else {
             // Register User
-            await userstore.register(payload).then((res) => {
-              ElMessageBox.alert(res.data.message, "成功", {
-                type: "success"
+            await userstore
+              .register(payload)
+              .then((res) => {
+                ElMessageBox.alert(res.data.message, {
+                  type: "success"
+                }).then(async () => {
+                  console.log("then");
+                  await userstore.login(payload);
+                  user.value = await userstore.getUserInfo();
+
+                  router.push({ name: "Menu" });
+                  resetForm(formEl);
+                });
+              })
+              .catch((e) => {
+                ElMessageBox.alert(e.message, {
+                  type: "error",
+                  showClose: false
+                }).then(() => {
+                  resetForm(formEl);
+                });
+              })
+              .finally(async () => {
+                console.log("final");
+                // resetForm(formEl);
               });
-            });
           }
         } else {
-          ElMessageBox.alert("請正確填寫帳號及密碼", "錯誤", {
+          ElMessageBox.alert("請正確填寫帳號及密碼", {
             confirmButtonText: "確認",
             type: "error"
           });

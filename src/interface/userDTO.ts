@@ -3,11 +3,13 @@ import { orderDTO } from "@/interface/orderDTO";
 export interface userDTO extends userBasicDTO {
   user_id: number;
 
-  user_name: string;
+  user_name?: string;
 
-  user_phone: string;
+  user_phone?: string;
 
-  user_age: number;
+  user_age?: number;
+
+  user_email?: string;
 
   orders?: orderDTO[];
 }

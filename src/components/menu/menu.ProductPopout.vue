@@ -146,11 +146,11 @@ div.el-collapse-item__header {
 }
 
 #item {
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 #price {
-  background-color: plum;
+  /* background-color: plum; */
   align-content: end;
 }
 </style>
