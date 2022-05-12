@@ -157,11 +157,15 @@ export default defineComponent({
       timeoptions = setnotbusinessdaytimeoptions();
       if (moment(datetime).isAfter(bussinesshourEnd)) {
         dateoptions.splice(0, 1);
+        dateoptions.push({
+          value: datetime.clone().add(3, "d").format("MM-DD"),
+          label: datetime.clone().add(3, "d").format("MMM DD (ddd)")
+        });
       }
     } else {
       timeoptions = setbusinessdaytimeoptions();
     }
-
+    // set default Select Option for date and time
     pickupdate.value = dateoptions[0].value;
     pickuptime.value = timeoptions[0].value;
     return {

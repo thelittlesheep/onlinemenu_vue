@@ -14,11 +14,16 @@ export default defineConfig({
     host: "localhost",
     port: 3001,
     proxy: {
-      "/backend": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/backend/, "")
-      }
+      // "/backend": {
+      //   target: "http://localhost:3000",
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/backend/, "")
+      // }
+      // "/api": {
+      //   target: "https://backend.lshuang.tw/",
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/backend/, "")
+      // }
     }
   },
   base: "./",

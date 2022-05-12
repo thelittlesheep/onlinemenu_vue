@@ -54,7 +54,7 @@ export default defineComponent({
         const res = await mainstore.postMenuCartData(order);
         if (res.status === 201) {
           alert("訂單已送出");
-          router.push("/menu");
+          router.push("/myorder");
           cartData.value = [];
         }
       } catch (e) {

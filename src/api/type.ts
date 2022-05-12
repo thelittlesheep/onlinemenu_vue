@@ -11,7 +11,7 @@ interface IRequestInterceptors<T = AxiosResponse> {
   // 響應成功時的攔截器
   responseSuccessInterceptor?: (res: T) => T;
   // 響應失敗時的攔截器
-  responseErrorInterceptor?: (err: any) => any;
+  responseErrorInterceptor?: (err: AxiosResponse) => any;
 }
 
 // 這個接口將要代替AxiosRequestConfig

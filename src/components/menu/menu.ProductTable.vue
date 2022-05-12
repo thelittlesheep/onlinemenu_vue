@@ -5,21 +5,26 @@
       :key="index"
       :gutter="20"
     >
-      <el-col>
+      <el-col :span="24">
         <h2>{{ data.category_name }}</h2>
       </el-col>
       <el-col
         v-for="(prod, index2) in data.products"
         :key="index2"
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :lg="8"
+        :xl="6"
         :span="8"
       >
         <el-card
           :id="prod.product_id"
           shadow="hover"
-          class=""
+          class="productcard"
           @click="cardClickHandler(prod.product_id, data.category_id)"
         >
-          <div class="productcard">
+          <div class="cardBlock">
             <div class="cardContent">
               <div
                 class="prodname"
@@ -36,10 +41,17 @@
                 <span>$ {{ prod.product_price }}</span>
               </div>
             </div>
-            <el-image
-              :src="prod.product_image"
-              fit="scale-down"
-            />
+            <div class="cardImg">
+              <el-image
+                :src="prod.product_image"
+                fit="scale-down"
+              >
+                <template #error>
+                  <div class="image-slot">
+                    <el-icon :size="80"><IconPicture /></el-icon>
+                  </div> </template
+              ></el-image>
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -51,10 +63,12 @@
 import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent } from "vue";
-import { v4 as uuidv4 } from "uuid";
+import { onBeforeRouteLeave } from "vue-router";
+import { Picture as IconPicture } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "Menutable",
+  components: { IconPicture },
   // watch: {
   //   dialogVisible(visible) {
   //     if (visible) {
@@ -92,6 +106,10 @@ export default defineComponent({
         ? (shoppingProduct.value = mainstore.setNewshoppingProduct())
         : null;
     }
+    // 當要離開此頁面時，將dialog關閉
+    onBeforeRouteLeave(() => {
+      dialogVis.value = false;
+    });
 
     return {
       menudatas,
@@ -101,26 +119,30 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-.el-image {
-  width: 30%;
-  padding: 1%;
+.productcard {
+  /* background-color: firebrick; */
+  height: 100%;
+  max-height: 200px;
+}
+.cardBlock {
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: space-around;
 }
 .cardContent {
-  /* background: aquamarine; */
-  display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  justify-content: space-between;
+  /* background-color: aqua; */
+  flex-basis: 100%;
 }
-.productcard {
-  /* background: saddlebrown; */
-  display: flex;
-  align-items: flex-start;
-  flex-direction: row;
-  justify-content: space-between;
+.cardImg {
+  max-width: 30%;
 }
+
 .container {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .el-row {
   margin-bottom: 1%;

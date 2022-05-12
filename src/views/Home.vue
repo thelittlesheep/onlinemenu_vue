@@ -3,14 +3,10 @@
     <!-- <tempview /> -->
     <my-RWDcontainer>
       <h1>Home Page</h1>
-
-      <el-image
+      <!-- <el-image
         src="https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg"
         fit="contain"
-      />
-      <!-- 
-      <el-button type="primary"> Hello </el-button>
-      <div style="background: red">內容</div> -->
+      /> -->
     </my-RWDcontainer>
   </div>
 </template>

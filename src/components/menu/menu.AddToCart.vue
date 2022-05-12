@@ -1,20 +1,18 @@
 <template>
-  <div
-    v-if="dialogVis === true"
-    class="addToCartFooter"
-  >
+  <div class="addToCartFooter">
     <el-input-number
       v-model="shoppingProduct.shoppingProduct_qty"
       :min="1"
       :max="10"
       name="selector"
+      size="small"
     />
     <el-button
-      size="large"
+      size="small"
       @click="addToCart"
     >
       <template #icon>
-        <el-icon size="24px">
+        <el-icon :size="24">
           <ShoppingCart />
         </el-icon>
       </template>
@@ -31,10 +29,6 @@
         </span>
         <span>NT$ {{ shoppingProduct.shoppingProduct_finalPrice }}</span>
       </div>
-      <!-- <el-row>
-                    <el-col :span="16">Add 1 to cart</el-col>
-                    <el-col :span="8">NT${{ shoppingProduct.product_price }}</el-col>
-                </el-row>-->
     </el-button>
   </div>
 </template>
@@ -104,16 +98,17 @@ export default defineComponent({
 <style scoped>
 .addToCartFooter {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  width: 100%;
   /* background: limegreen; */
-  width: 1re;
   /* padding-left: 10%;
   padding-right: 10%; */
 }
 .el-input-number {
   border: 0;
-  margin-right: 1rem;
+  max-width: 100%;
+  /* margin-right: 1rem; */
   /* background: sandybrown; */
 }
 .el-button {

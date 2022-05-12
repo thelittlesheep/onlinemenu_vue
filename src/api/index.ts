@@ -83,13 +83,10 @@ class Request {
           if (config.interceptors?.responseSuccessInterceptor) {
             res = config.interceptors.responseSuccessInterceptor(res);
           }
-
           resolve(res);
         })
         .catch((err) => {
           this.showLoading = DEFAULT_LOADING;
-          // console.log(err);
-
           reject(err);
         });
     });

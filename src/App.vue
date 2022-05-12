@@ -1,13 +1,9 @@
 <template>
-  <!-- <myheader /> -->
   <el-container>
     <el-header style="padding: 0px">
       <Navbar />
-
-      <!-- <el-affix> </el-affix> -->
     </el-header>
     <el-main>
-      <!-- <div>123</div> -->
       <router-view />
       <Menucartdrawer />
     </el-main>
@@ -18,14 +14,42 @@
 </template>
 
 <script lang="ts">
-import myheader from "@/components/share/header.bodt.vue";
 import Navbar from "@/views/Navbar.vue";
+import { ref, watch } from "vue";
 
 export default {
   name: "App",
   components: {
-    // myheader,
     Navbar
+  },
+  setup() {
+    // const body = ref(document.getElementsByTagName("body")[0].className);
+    // const msgBOX = document.getElementsByClassName("el-message-box");
+
+    // console.log(msgBOX);
+    // watch(
+    //   () => msgBOX,
+    //   (newVal) => {
+    //     console.log(newVal);
+    //   }
+    // );
+    // let dialogWidth = "350px";
+    // let windowSize = document.body.clientWidth;
+    // console.log(windowSize);
+
+    // const defaultWidth = 450; // 預設寬度
+    // if (windowSize < defaultWidth) {
+    //   console.log(123);
+    //   dialogWidth = "100%";
+    //   if (msgBOX.length > 0) {
+    //     console.log(456);
+    //     (msgBOX[0] as HTMLElement).style.width = dialogWidth;
+    //   }
+    // } else {
+    //   dialogWidth = defaultWidth + "px";
+    // }
+
+    return {};
   }
 };
 </script>
@@ -42,5 +66,15 @@ html,
 body,
 #app {
   height: 100%;
+}
+/* .el-popup-parent--hidden
+  .el-overlay.is-message-box
+  .el-overlay-message-box
+  .el-message-box {
+  width: auto;
+  background: sandybrown;
+} */
+.deleteUserOrder-confirm {
+  background-color: aquamarine;
 }
 </style>

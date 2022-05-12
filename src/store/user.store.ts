@@ -6,6 +6,9 @@ import axiosRetry from "axios-retry";
 import { IuserStoreState } from "@/interface/userStore.interface";
 import { request, IRequestData } from "@/api/request";
 import { mainStore } from "./main.store";
+import router from "@/router";
+
+const url = import.meta.env.VITE_BACKEND_HOST;
 
 axiosRetry(axios, { retries: 3 });
 
@@ -18,7 +21,7 @@ export const userStore = defineStore("userStore", {
   actions: {
     async register(payload: userBasicDTO): Promise<AxiosResponse<any>> {
       return await axios
-        .post("/backend/user", payload)
+        .post(`${url}/user`, payload)
         .then((res) => {
           return res;
         })
@@ -26,9 +29,39 @@ export const userStore = defineStore("userStore", {
           throw e;
         });
     },
-    async login(payload: userBasicDTO): Promise<any> {
-      return await axios.post("/backend/login", payload).catch((e) => {
-        throw e.response.data;
+    async login(payload: userBasicDTO) {
+      return request.post<AxiosResponse>({
+        url: "/login",
+        data: payload,
+        showLoading: false,
+        interceptors: {
+          requestSuccessInterceptor(config) {
+            console.log("login請求的攔截器");
+            return config;
+          }
+        },
+        withCredentials: true
+      });
+      // .then((res) => {
+      //   console.log("store res", res);
+      //   return res;
+      // })
+      // .catch((e) => {
+      //   console.log("store e", e);
+      //   throw e;
+      // });
+    },
+    async logout(): Promise<void> {
+      return request.post({
+        url: "/logout",
+        showLoading: false,
+        interceptors: {
+          requestSuccessInterceptor(config) {
+            console.log("logout請求的攔截器");
+            return config;
+          }
+        },
+        withCredentials: true
       });
     },
     async getuserInfoAndOrders() {
@@ -41,7 +74,8 @@ export const userStore = defineStore("userStore", {
               console.log("getuserInfoAndOrders請求的攔截器");
               return config;
             }
-          }
+          },
+          withCredentials: true
         })
         .then((res) => {
           return res;
@@ -57,7 +91,8 @@ export const userStore = defineStore("userStore", {
               console.log("getUserInfo請求的攔截器");
               return config;
             }
-          }
+          },
+          withCredentials: true
         })
         .then((res) => {
           return res.data as userDTO;
@@ -102,7 +137,8 @@ export const userStore = defineStore("userStore", {
               console.log("deleteUserSingleOrder請求的攔截器");
               return config;
             }
-          }
+          },
+          withCredentials: true
         })
         .then((res) => {
           return res;

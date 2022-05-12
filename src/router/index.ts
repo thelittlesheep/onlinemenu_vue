@@ -17,13 +17,14 @@ import { storeToRefs } from "pinia";
 import { ElMessageBox } from "element-plus";
 import { userStore } from "@/store/user.store";
 import { userDTO } from "@/interface/userDTO";
+import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: Home
+  // },
   // { path: "/createuser", name: "Createuser", component: Createuser },
   { path: "/login", name: "Login", component: Login },
   {
@@ -90,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
   cookieObject.user_session ? (isLogin.value = true) : (isLogin.value = false);
 
   if (to.name !== "Login" && isLogin.value === false) {
-    if (to.name === "Home" || (to.name === "Menu" && isLogin.value === false)) {
+    if (to.name === "Menu" && isLogin.value === false) {
       next();
       return;
     }
@@ -108,6 +109,7 @@ router.beforeEach(async (to, from, next) => {
       type: "info",
       showClose: false
     });
+    RWDElMessageBox();
     next({ name: "Menu" });
     return;
   }

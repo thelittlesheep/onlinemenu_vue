@@ -27,6 +27,7 @@
         name="password"
         placeholder="密碼"
         :clearable="true"
+        show-password
       />
     </el-form-item>
     <el-form-item
@@ -63,6 +64,9 @@ import { ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
 import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
+import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { ILoginResponseError } from "@/api/request";
 
 export default defineComponent({
   name: "Loginform",
@@ -138,23 +142,33 @@ export default defineComponent({
             // Login User
             await userstore
               .login(payload)
-              .then(async () => {
-                isLogin.value = true;
-                const userdata = await userstore.getUserInfo();
-                const { orders, ...userinfo } = userdata;
-                user.value = userdata;
-                userInfo.value = userinfo;
-                // sessionStorageSet("userInfo", userInfo.value);
-                router.push({ name: "Menu" });
-                resetForm(formEl);
+              .then(async (res) => {
+                if (res.status === 201) {
+                  isLogin.value = true;
+                  const userdata = await userstore.getUserInfo();
+                  const { orders, ...userinfo } = userdata;
+                  user.value = userdata;
+                  userInfo.value = userinfo;
+                  // sessionStorageSet("userInfo", userInfo.value);
+                  router.push({ name: "Menu" });
+                  resetForm(formEl);
+                } else if (axios.isAxiosError(res)) {
+                  throw res;
+                }
               })
-              .catch((e) => {
-                ElMessageBox.alert(e.message, {
+              .catch((e: AxiosError<ILoginResponseError>) => {
+                let errormsg;
+                e.response?.data
+                  ? (errormsg = e.response.data.message)
+                  : (errormsg = "登入失敗");
+
+                ElMessageBox.alert(errormsg, {
                   type: "error",
                   showClose: false
                 }).then(() => {
                   resetForm(formEl);
                 });
+                RWDElMessageBox();
               })
               .finally(() => {
                 resetForm(formEl);
@@ -174,6 +188,7 @@ export default defineComponent({
                   router.push({ name: "Menu" });
                   resetForm(formEl);
                 });
+                RWDElMessageBox();
               })
               .catch((e) => {
                 ElMessageBox.alert(e.message, {
@@ -182,6 +197,7 @@ export default defineComponent({
                 }).then(() => {
                   resetForm(formEl);
                 });
+                RWDElMessageBox();
               })
               .finally(async () => {
                 console.log("final");
@@ -191,8 +207,11 @@ export default defineComponent({
         } else {
           ElMessageBox.alert("請正確填寫帳號及密碼", {
             confirmButtonText: "確認",
+            // customStyle: { width: "80%" },
+            customClass: "inputError",
             type: "error"
           });
+          RWDElMessageBox();
           return false;
         }
       });

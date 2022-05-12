@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="dialogVis"
-    width="600px"
+    :width="dialogWidth"
     :lock-scroll="false"
     :destroy-on-close="true"
     :before-close="beforeDialogClose"
@@ -48,7 +48,6 @@ import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { defineComponent, ref, watch } from "vue";
 import Menucheckboxgroup from "./menu.AdjustItemCheckBox.vue";
-import { v4 as uuidv4 } from "uuid";
 import { IshoppingProduct } from "@/interface/menuData.Interface";
 
 export default defineComponent({
@@ -94,7 +93,32 @@ export default defineComponent({
       clickedProductId.value = NaN;
       clickedProductCategoryId.value = NaN;
     };
+
+    let dialogWidth = "600px";
+    function dialogResize() {
+      const dialog = document.getElementsByClassName(
+        "el-dialog"
+      )[0] as HTMLElement;
+
+      let windowSize = document.body.clientWidth;
+      const defaultWidth = 600; // 預設寬度
+      if (windowSize < defaultWidth) {
+        dialogWidth = "100%";
+        if (dialog) {
+          dialog.style.width = dialogWidth;
+        }
+      } else {
+        if (dialog) {
+          dialog.style.width = defaultWidth + "px";
+        }
+      }
+    }
+    dialogResize();
+    window.addEventListener("resize", dialogResize);
+    window.addEventListener("orientationchange", dialogResize);
+
     return {
+      dialogWidth,
       shoppingProduct,
       activateCollapseItem,
       menudatas,

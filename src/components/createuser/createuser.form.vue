@@ -170,9 +170,7 @@ import { useField, useForm } from "vee-validate";
 import { userStore } from "@/store/user.store";
 import { storeToRefs } from "pinia";
 import { userDTO } from "@/interface/userDTO";
-import { AxiosError } from "axios";
 import { isShowProps } from "./createuser.body.vue";
-import { responseError } from "../interfaces/responseError";
 import { mainStore } from "@/store/main.store";
 
 export default defineComponent({
@@ -226,7 +224,7 @@ export default defineComponent({
     async function postform(user: Ref<userDTO>) {
       // user.value = {} as userDTO;
       try {
-        await userstore.postCreateUserForm(user.value);
+        await userstore.register(user.value);
         // console.log(res.data);
         payload.isPostSuccess.value = true;
       } catch (e: any) {

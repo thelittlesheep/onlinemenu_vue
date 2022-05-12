@@ -3,7 +3,7 @@
     <el-drawer
       v-model="drawerVis"
       :direction="direction"
-      size="450px"
+      :size="drawerWidth"
       :custom-class="drawerClass"
     >
       <template #title>
@@ -14,7 +14,7 @@
           v-if="mainstore.isEmptyCart"
           class="emptycart"
         >
-          <el-icon size="96px">
+          <el-icon :size="96">
             <ShoppingCart />
           </el-icon>
           <div v-if="isLogin">
@@ -55,6 +55,7 @@ import Menucartitem from "./menu.CartItem.vue";
 import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 // import { cartdata } from "../interfaces/cartDataDTO";
 
 export default defineComponent({
@@ -84,6 +85,7 @@ export default defineComponent({
         .catch(() => {
           // catch error
         });
+      RWDElMessageBox();
     };
     function cancelClick() {
       drawerVis.value = false;
@@ -92,6 +94,27 @@ export default defineComponent({
       drawerVis.value = false;
       router.push("/checkout");
     }
+    let drawerWidth = "450px";
+    function drawerResize() {
+      const drawer = document.getElementsByClassName(
+        "el-drawer"
+      )[0] as HTMLElement;
+      let windowSize = document.body.clientWidth;
+      const defaultWidth = 450; // 預設寬度
+      if (windowSize < defaultWidth) {
+        drawerWidth = "100%";
+        if (drawer) {
+          drawer.style.width = drawerWidth;
+        }
+      } else {
+        if (drawer) {
+          drawer.style.width = defaultWidth + "px";
+        }
+      }
+    }
+    drawerResize();
+    window.addEventListener("resize", drawerResize);
+    window.addEventListener("orientationchange", drawerResize);
     return {
       cancelClick,
       confirmClick,
@@ -101,14 +124,15 @@ export default defineComponent({
       cartData,
       drawerClass,
       isLogin,
-      mainstore
+      mainstore,
+      drawerWidth
     };
   }
 });
 </script>
 
 <style scoped>
-.drawer /deep/ .el-drawer__footer {
+.drawer :deep() .el-drawer__footer {
   display: flex;
   /* background: sandybrown; */
   align-items: center;
@@ -127,12 +151,12 @@ export default defineComponent({
 .el-button:hover {
   color: pink;
 }
-.drawer /deep/ .el-drawer__body {
+.drawer :deep() .el-drawer__body {
   display: flex;
   justify-content: center;
 }
 .emptycart {
-  background: violet;
+  /* background: violet; */
   display: flex;
   flex-direction: column;
   align-items: center;

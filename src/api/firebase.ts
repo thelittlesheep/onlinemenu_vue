@@ -7,7 +7,7 @@ import {
   getFirestore,
   collection,
   getDocs,
-  Firestore,
+  Firestore
 } from "firebase/firestore/lite";
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -24,7 +24,7 @@ const firebaseConfig = {
   storageBucket: "orderbot-abfac.appspot.com",
   messagingSenderId: "402230736485",
   appId: "1:402230736485:web:13b0caa555d8c9df50388c",
-  measurementId: "G-V7RV67FJXR",
+  measurementId: "G-V7RV67FJXR"
 };
 
 // Initialize Firebase

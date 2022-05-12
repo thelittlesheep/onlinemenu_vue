@@ -14,11 +14,12 @@ import {
 import { Iorderproduct, orderDTO } from "@/interface/orderDTO";
 import moment from "moment";
 import { userStore } from "./user.store";
+import { IRequestData, request } from "@/api/request";
 // 環境變數
-const dev_remote_url = import.meta.env.VITE_BACKEND_DEV_REMOTE_HOST;
-const dev_url = import.meta.env.VITE_BACKEND_DEV_HOST;
-const url = dev_url;
-console.log("Mainstore");
+console.log(import.meta.env.MODE);
+console.log(import.meta.env.PROD);
+
+const url = import.meta.env.VITE_BACKEND_HOST;
 
 axiosRetry(axios, { retries: 3 });
 export const mainStore = defineStore("mainStore", {
@@ -186,45 +187,49 @@ export const mainStore = defineStore("mainStore", {
     }
   },
   actions: {
-    async getMenuData(): Promise<AxiosResponse<Array<ImenuGroupByCategory>>> {
-      return await axios
-        .get(url + "/menu/product")
-        .then((res) => {
-          return res;
-        })
-        .catch((e) => {
-          if (!e.status) {
-            throw "Network Error Axios Can't reach server";
-          } else {
-            //   console.log(e.response?.status);
-            throw e;
-          }
-        });
-    },
-    async postMenuCartData(
-      payload: Ref<orderDTO>
-    ): Promise<AxiosResponse<orderDTO>> {
-      // console.log(payload);
-
-      return await axios
-        .post(
-          "/backend/menu/order",
-          {
-            user_id: payload.value.user_id,
-            order_quantity: payload.value.order_products?.length,
-            order_orderdate: payload.value.order_orderdate,
-            order_pickupdate: payload.value.order_pickupdate,
-            order_products: payload.value.order_products
+    async getMenuData(): Promise<IRequestData> {
+      return request
+        .get<IRequestData>({
+          url: "/menu/product",
+          showLoading: false,
+          interceptors: {
+            requestSuccessInterceptor(config) {
+              console.log("getuserInfoAndOrders請求的攔截器");
+              return config;
+            }
           },
-          { withCredentials: true }
-        )
+          withCredentials: true
+        })
         .then((res) => {
           return res;
-        })
-        .catch((e) => {
-          //   console.log(e.response?.status);
-          throw e;
         });
+      // return await axios
+      //   .get(url + "/menu/product")
+      //   .then((res) => {
+      //     return res;
+      //   })
+      //   .catch((e) => {
+      //     if (!e.status) {
+      //       throw "Network Error Axios Can't reach server";
+      //     } else {
+      //       //   console.log(e.response?.status);
+      //       throw e;
+      //     }
+      //   });
+    },
+    async postMenuCartData(payload: Ref<orderDTO>) {
+      return request.post({
+        url: "/menu/order",
+        data: payload.value,
+        showLoading: false,
+        interceptors: {
+          requestSuccessInterceptor(config) {
+            console.log("postMenuCartData請求的攔截器");
+            return config;
+          }
+        },
+        withCredentials: true
+      });
     },
     getSingleCartItem(queryuuid: string) {
       return this.cartData.find(

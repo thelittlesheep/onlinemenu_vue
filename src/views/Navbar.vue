@@ -28,11 +28,19 @@
         type="text"
         @click="router.push('/login')"
         ><span>登入/註冊</span></el-button
-      ><span
+      >
+      <div
         v-else
         class="hello-user"
-        >您好! {{ userInfo.user_name }}</span
       >
+        <span>您好! {{ userInfo.user_name }}&ensp;</span>
+        <el-button
+          class="hello-user"
+          type="text"
+          @click="logout"
+          ><span>登出</span></el-button
+        >
+      </div>
       <!-- <el-button @click="getUser">hihih</el-button> -->
     </div>
   </div>
@@ -63,27 +71,28 @@ export default defineComponent({
     //   activeIndex.value = val.fullPath;
     // });
 
-    // watch(isLogin, async (val) => {
-    //   user.value = await userstore.getUserInfo();
-    // });
-    async function getUser() {
+    async function logout() {
+      await userstore.logout();
+      // 根據環境切換cookieDomain
+      const cookieDomain =
+        process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
+      // 刪除 cookie，Domain=localhost 時，會刪除所有 localhost 的 cookie，反之則為刪除lshuang.tw之cookie。
+      // 刪除 cookie之方法為將 cookie 的值設為空字串，並設置過期日期為過去的時間。
+      document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      router.push("/menu");
+    }
+    // 監視isLogin，如果變成已登入，就更新userInfo
+    watch(isLogin, async (val) => {
       if (isLogin.value === true) {
-        console.log("NAVBAR");
         userInfo.value = await userstore.getUserInfo();
       }
-    }
-
-    watch(isLogin, async (val) => {
-      userInfo.value = await userstore.getUserInfo();
     });
 
-    const initData = getUser();
-
     const tabItems = [
-      {
-        name: "Home",
-        path: "/"
-      },
+      // {
+      //   name: "Home",
+      //   path: "/"
+      // },
       {
         name: "Menu",
         path: "/menu"
@@ -97,7 +106,7 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { tabItems, route, router, isLogin, userInfo, initData };
+    return { tabItems, route, router, isLogin, userInfo, logout };
   }
 });
 </script>
