@@ -12,11 +12,12 @@ import Login from "@/views/Login.vue";
 import Aboutme from "@/views/Aboutme.vue";
 import Checkout from "@/views/Checkout.vue";
 import Myorder from "@/views/Myorder.vue";
+import MyorderSingleOrderDetail from "@/components/myorder/myorder.SingleOrderDetail.vue";
 import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { ElMessageBox } from "element-plus";
 import { userStore } from "@/store/user.store";
-import { userDTO } from "@/interface/userDTO";
+
 import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 
 const routes: Array<RouteRecordRaw> = [
@@ -26,6 +27,7 @@ const routes: Array<RouteRecordRaw> = [
   //   component: Home
   // },
   // { path: "/createuser", name: "Createuser", component: Createuser },
+  { path: "/myorder/:orderid(\\d+)", component: MyorderSingleOrderDetail },
   { path: "/login", name: "Login", component: Login },
   {
     path: "/menu",
@@ -64,7 +66,8 @@ router.beforeEach(async (to, from, next) => {
   const mainstore = mainStore();
   const { isLogin } = storeToRefs(mainstore);
   const userstore = userStore();
-  const { userInfo } = storeToRefs(userstore);
+  const { userInfo, user } = storeToRefs(userstore);
+
   // if (isLogin.value === true) {
   //   let userJsonStr: string = sessionStorage.getItem("userInfo")
   //     ? (sessionStorage.getItem("userInfo") as string)
@@ -89,6 +92,33 @@ router.beforeEach(async (to, from, next) => {
       return { ...acc, ...prev };
     });
   cookieObject.user_session ? (isLogin.value = true) : (isLogin.value = false);
+  if (isLogin.value) {
+    user.value = (await userstore.getuserInfoAndOrders()).data;
+  }
+  let isInUserOrders = false;
+  if (user.value.orders) {
+    user.value.orders.forEach((order) => {
+      order.order_id === Number(to.params.orderid)
+        ? (isInUserOrders = true)
+        : null;
+    });
+  }
+
+  // const re = /^\/myorder\/\d+$/;
+  // console.log(to.params);
+  // console.log(re.test(to.path));
+  // console.log(isInUserOrders);
+  // console.log(`/myorder/${to.params.orderid}`);
+
+  if (to.path === `/myorder/${to.params.orderid}` && !isInUserOrders) {
+    ElMessageBox.alert("錯誤的訂單編號", {
+      type: "info",
+      showClose: false
+    });
+    RWDElMessageBox();
+    next({ name: "Myorder" });
+    return;
+  }
 
   if (to.name !== "Login" && isLogin.value === false) {
     if (to.name === "Menu" && isLogin.value === false) {

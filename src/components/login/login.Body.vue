@@ -20,11 +20,11 @@
       </el-tab-pane>
     </el-tabs>
   </div>
-  <el-button
+  <!-- <el-button
     type="primary"
     @click="getUserInfo()"
     >getUserInfo</el-button
-  >
+  > -->
 </template>
 
 <script lang="ts">

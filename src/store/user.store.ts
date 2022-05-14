@@ -7,6 +7,7 @@ import { IuserStoreState } from "@/interface/userStore.interface";
 import { request, IRequestData } from "@/api/request";
 import { mainStore } from "./main.store";
 import router from "@/router";
+import { orderDTO } from "@/interface/orderDTO";
 
 const url = import.meta.env.VITE_BACKEND_HOST;
 
@@ -15,9 +16,18 @@ axiosRetry(axios, { retries: 3 });
 export const userStore = defineStore("userStore", {
   state: () => ({
     userInfo: {} as userDTO,
-    user: {} as userDTO
+    user: {} as userDTO,
+    onClickOrderId: NaN
   }),
-  getters: {},
+  getters: {
+    // getOnClickOrder(state) {
+    //   return state.user.orders
+    //     ? state.user.orders.find(
+    //         (order) => order.order_id === state.onClickOrderId
+    //       )
+    //     : null;
+    // }
+  },
   actions: {
     async register(payload: userBasicDTO): Promise<AxiosResponse<any>> {
       return await axios
@@ -36,7 +46,7 @@ export const userStore = defineStore("userStore", {
         showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
-            console.log("login請求的攔截器");
+            // console.log("login請求的攔截器");
             return config;
           }
         },
@@ -57,7 +67,7 @@ export const userStore = defineStore("userStore", {
         showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
-            console.log("logout請求的攔截器");
+            // console.log("logout請求的攔截器");
             return config;
           }
         },
@@ -71,7 +81,7 @@ export const userStore = defineStore("userStore", {
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
-              console.log("getuserInfoAndOrders請求的攔截器");
+              // console.log("getuserInfoAndOrders請求的攔截器");
               return config;
             }
           },
@@ -88,7 +98,7 @@ export const userStore = defineStore("userStore", {
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
-              console.log("getUserInfo請求的攔截器");
+              // console.log("getUserInfo請求的攔截器");
               return config;
             }
           },
@@ -127,6 +137,23 @@ export const userStore = defineStore("userStore", {
       //     }
       //   });
     },
+    async getUserSingleOrder(order_id: number) {
+      return request
+        .get<IRequestData>({
+          url: `/menu/order/${order_id}`,
+          showLoading: false,
+          interceptors: {
+            requestSuccessInterceptor(config) {
+              // console.log("getUserSingleOrder請求的攔截器");
+              return config;
+            }
+          },
+          withCredentials: true
+        })
+        .then((res) => {
+          return res;
+        });
+    },
     async deleteUserSingleOrder(order_id: number) {
       return request
         .delete<IRequestData>({
@@ -134,7 +161,7 @@ export const userStore = defineStore("userStore", {
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
-              console.log("deleteUserSingleOrder請求的攔截器");
+              // console.log("deleteUserSingleOrder請求的攔截器");
               return config;
             }
           },

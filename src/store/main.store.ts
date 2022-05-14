@@ -16,8 +16,8 @@ import moment from "moment";
 import { userStore } from "./user.store";
 import { IRequestData, request } from "@/api/request";
 // 環境變數
-console.log(import.meta.env.MODE);
-console.log(import.meta.env.PROD);
+// console.log(import.meta.env.MODE);
+// console.log(import.meta.env.PROD);
 
 const url = import.meta.env.VITE_BACKEND_HOST;
 
@@ -194,7 +194,7 @@ export const mainStore = defineStore("mainStore", {
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
-              console.log("getuserInfoAndOrders請求的攔截器");
+              // console.log("getuserInfoAndOrders請求的攔截器");
               return config;
             }
           },
@@ -224,7 +224,7 @@ export const mainStore = defineStore("mainStore", {
         showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
-            console.log("postMenuCartData請求的攔截器");
+            // console.log("postMenuCartData請求的攔截器");
             return config;
           }
         },

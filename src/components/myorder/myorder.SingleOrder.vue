@@ -1,33 +1,44 @@
 <template>
+  <div>
+    <h4>
+      <span v-if="props.ordersType === 'PresentOrder'">尚未取餐的訂單</span>
+      <span v-else>已取餐的訂單</span>
+    </h4>
+  </div>
   <div
     v-for="(data, index) in props.orders"
     :key="index"
     class="userordersdata"
   >
-    <el-card>
-      <span class="order_order_id"
-        >訂單編號：{{ data.order_id }}
-        <el-button
-          v-if="props.ordersType === 'PresentOrder'"
-          type="text"
-          @click="deleteUserOrder(data.order_id)"
-          >取消訂單</el-button
-        ></span
-      ><br />
-      <span class="order_orderrdate"
-        >訂購時間：
-        {{ mainstore.displayLocalDateTime(data.order_orderdate) }}</span
-      ><br />
-      <span class="order_orderrdate"
-        >取餐時間：
-        {{ mainstore.displayLocalDateTime(data.order_pickupdate) }}</span
-      ><br />
-      <span class="order_order_productlen">
-        {{ data.order_products?.length }} 份餐點 </span
-      ><br />
-      <span class="order_order_totalprice">
-        總金額：{{ mainstore.getOrderTotalPrice(data.order_products) }} 元
-      </span>
+    <el-card
+      class="order_card"
+      @click="openOrderDetail(data.order_id)"
+    >
+      <div>
+        <span class="order_order_id">
+          訂單編號：{{ data.order_id }}
+          <el-button
+            v-if="props.ordersType === 'PresentOrder'"
+            type="text"
+            @click.stop="deleteUserOrder(data.order_id)"
+            >取消訂單</el-button
+          >
+        </span>
+        <span class="order_orderdate"
+          >訂購時間：
+          {{ mainstore.displayLocalDateTime(data.order_orderdate) }}</span
+        >
+        <span class="order_pickupdate"
+          >取餐時間：
+          {{ mainstore.displayLocalDateTime(data.order_pickupdate) }}</span
+        ><br />
+        <span class="order_order_productlen">
+          {{ data.order_products?.length }} 份餐點
+        </span>
+        <span class="order_order_totalprice">
+          總金額：{{ mainstore.getOrderTotalPrice(data.order_products) }} 元
+        </span>
+      </div>
     </el-card>
   </div>
 </template>
@@ -37,8 +48,10 @@ import { defineComponent, h, PropType, watch } from "vue";
 import { orderDTO } from "@/interface/orderDTO";
 import { mainStore } from "@/store/main.store";
 import { userStore } from "@/store/user.store";
+import { storeToRefs } from "pinia";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   /* eslint-disable vue/require-default-prop */
@@ -51,6 +64,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const mainstore = mainStore();
     const userstore = userStore();
+    const router = useRouter();
     // const msgBOX = document.getElementsByClassName(
     //   "el-message-box"
     // )[0] as HTMLElement;
@@ -104,20 +118,26 @@ export default defineComponent({
       //   dialogWidth = defaultWidth + "px";
       // }
     }
-
+    function openOrderDetail(order_id: number) {
+      router.push("/myorder/" + order_id);
+    }
     // watch(
     //   () => msgBOX,
     //   (newVal, oldVal) => {
     //     console.log(newVal, oldVal);
     //   }
     // );
-    return { props, mainstore, deleteUserOrder };
+    return { props, mainstore, deleteUserOrder, openOrderDetail };
   }
 });
 </script>
 
 <style scoped>
-::deep() .deleteUserOrder-confirm {
+:deep() .deleteUserOrder-confirm {
   background-color: aquamarine;
+}
+
+:deep() span {
+  display: block;
 }
 </style>

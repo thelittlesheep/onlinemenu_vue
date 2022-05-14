@@ -1,12 +1,6 @@
 <template>
   <Menuproductpopout />
-  <el-button
-    class="opencartbutton"
-    type="primary"
-    @click="drawerVis = true"
-  >
-    Open Cart
-  </el-button>
+
   <div v-if="isLoading">
     <loading
       v-model:active="isLoading"
@@ -35,8 +29,17 @@
     </loading>
   </div>
   <div v-else>
+    <div class="menuHeader">
+      <el-button
+        class="opencartbutton"
+        type="primary"
+        @click="drawerVis = true"
+      >
+        購物車
+      </el-button>
+    </div>
     <Menutable />
-    <div
+    <!-- <div
       name="fetch button"
       class="m-3"
     >
@@ -56,7 +59,7 @@
           Fetching Data
         </el-button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -68,11 +71,8 @@ import Loading from "vue-loading-overlay";
 
 import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
-import { IshoppingProduct } from "@/interface/menuData.Interface";
 
 import Menutable from "./menu.ProductTable.vue";
-import Menuprodpop from "./menu.ProductPopout.vue";
-import Addtocart from "./menu.AddToCart.vue";
 
 export default defineComponent({
   name: "MenuBody",
@@ -101,7 +101,6 @@ export default defineComponent({
         //   isLoadingData.value = false;
         // }, 3000);
       } catch (e: unknown) {
-        // const errors = e as AxiosError<responseError>;
         console.log(e);
       }
     }
@@ -125,6 +124,10 @@ export default defineComponent({
 </script>
 
 <style>
+.menuHeader {
+  display: flex;
+  flex-direction: row-reverse;
+}
 @keyframes ldio-0jwyk1jbj2ug {
   0% {
     opacity: 1;

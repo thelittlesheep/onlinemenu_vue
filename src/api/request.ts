@@ -12,17 +12,17 @@ export const request = new Request({
   interceptors: {
     requestSuccessInterceptor(config) {
       // console.log(config);
-      console.log("requestSuccessInterceptor實例請求成功的攔截器");
+      // console.log("requestSuccessInterceptor實例請求成功的攔截器");
       return config;
     },
     requestErrorInterceptor(err) {
       // console.log(err);
-      console.log("requestErrorInterceptor實例請求失敗的攔截器");
+      // console.log("requestErrorInterceptor實例請求失敗的攔截器");
       return err;
     },
     responseSuccessInterceptor(res) {
       // console.log(res);
-      console.log("responseSuccessInterceptor實例響應成功的攔截器");
+      // console.log("responseSuccessInterceptor實例響應成功的攔截器");
       return res;
     },
     responseErrorInterceptor(err) {
@@ -41,7 +41,7 @@ export const request = new Request({
       //     });
       // }
       // console.log(err);
-      console.log("responseErrorInterceptor實例響應失敗的攔截器");
+      // console.log("responseErrorInterceptor實例響應失敗的攔截器");
       throw err;
     }
   }

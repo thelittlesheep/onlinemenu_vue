@@ -10,25 +10,71 @@
       </el-button>
     </h1>
   </div>
-  <div v-if="isPresentOrder">
-    <h4>尚未取餐的訂單</h4>
-    <MyorderSingleOrder
-      :orders="presentOrder"
-      :orders-type="'PresentOrder'"
-      @ondeleteuserorder="getUserOrders()"
-    />
+  <div
+    class="skeleton"
+    :style="skeletonWidthStyle"
+  >
+    <el-skeleton
+      :loading="isLoading"
+      animated
+    >
+      <template #template>
+        <el-skeleton-item
+          variant="h1"
+          style="width: 200px; height: 28px"
+        />
+        <el-card>
+          <div
+            style="
+              display: flex;
+              align-items: flex-start;
+              flex-wrap: wrap;
+              justify-content: space-between;
+              flex-direction: column;
+            "
+          >
+            <el-skeleton-item
+              variant="h1"
+              style="width: 60%; margin-bottom: 3%"
+            />
+            <el-skeleton-item
+              variant="h1"
+              style="width: 300px; margin-bottom: 3%"
+            />
+            <el-skeleton-item
+              variant="h1"
+              style="width: 300px; margin-bottom: 60px"
+            />
+            <el-skeleton-item
+              variant="h1"
+              style="width: 120px; margin-bottom: 3%"
+            />
+            <el-skeleton-item
+              variant="h1"
+              style="width: 200px"
+            />
+          </div>
+        </el-card>
+      </template>
+      <template #default>
+        <div v-if="isPresentOrder">
+          <MyorderSingleOrder
+            :orders="presentOrder"
+            :orders-type="'PresentOrder'"
+            @ondeleteuserorder="getUserOrders()"
+          />
+        </div>
+        <br />
+        <div v-if="isHistoryOrder">
+          <MyorderSingleOrder
+            :orders="historyOrder"
+            :orders-type="'HistoryOrder'"
+          />
+        </div>
+      </template>
+    </el-skeleton>
   </div>
-  <br />
-  <div v-if="isHistoryOrder">
-    <h4>過去的訂單</h4>
-    <MyorderSingleOrder
-      :orders="historyOrder"
-      :orders-type="'HistoryOrder'"
-    />
-  </div>
-  <div v-if="!isHistoryOrder && !isPresentOrder">
-    <h2>目前尚無任何訂單</h2>
-  </div>
+  <!-- <div v-if="!isHistoryOrder && !isPresentOrder"><h2>目前尚無任何訂單</h2></div> -->
 </template>
 
 <script lang="ts">
@@ -55,8 +101,10 @@ export default defineComponent({
     const isPresentOrder = ref(false);
     const historyOrder = ref([]) as Ref<Array<orderDTO>>;
     const presentOrder = ref([]) as Ref<Array<orderDTO>>;
+    const isLoading = ref(true);
 
     async function getUserOrders() {
+      isLoading.value = true;
       try {
         user.value = (await userstore.getuserInfoAndOrders()).data;
         if (user.value) {
@@ -78,6 +126,7 @@ export default defineComponent({
             presentOrder.value.length > 0
               ? (isPresentOrder.value = true)
               : (isPresentOrder.value = false);
+            isLoading.value = false;
           }
         }
       } catch (err: any) {
@@ -85,15 +134,34 @@ export default defineComponent({
       }
     }
     // Load userinfo and orders
-    const initLoadData = getUserOrders();
+    getUserOrders();
 
-    async function test() {
-      console.log("test");
-      await getUserOrders();
+    const defaultWidth = 500;
+    let skeletonWidth = defaultWidth + "px";
+    let skeletonWidthStyle = "width:" + skeletonWidth;
+    function drawerResize() {
+      const skeleton = document.getElementsByClassName(
+        "skeleton"
+      )[0] as HTMLElement;
+      let windowSize = document.body.clientWidth;
+      // 預設寬度
+      if (windowSize < defaultWidth) {
+        skeletonWidth = "100%";
+        skeletonWidthStyle = "width:" + skeletonWidth;
+        if (skeleton) {
+          skeleton.style.width = skeletonWidth;
+        }
+      } else {
+        if (skeleton) {
+          skeleton.style.width = defaultWidth + "px";
+        }
+      }
     }
+    drawerResize();
+    window.addEventListener("resize", drawerResize);
+    window.addEventListener("orientationchange", drawerResize);
 
     return {
-      initLoadData,
       userWithoutOrders,
       user,
       mainstore,
@@ -102,10 +170,15 @@ export default defineComponent({
       presentOrder,
       isHistoryOrder,
       isPresentOrder,
-      test
+      isLoading,
+      skeletonWidthStyle
     };
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .skeleton {
+  width: 300px;
+} */
+</style>
