@@ -5,29 +5,22 @@
       :min="1"
       :max="10"
       name="selector"
-      size="small"
     />
     <el-button
-      size="small"
+      size="large"
       @click="addToCart"
     >
-      <template #icon>
+      <div class="addToCartButtonContent">
         <el-icon :size="24">
           <ShoppingCart />
         </el-icon>
-      </template>
-      <div>
         <span v-if="!isModifyMode">
-          <span>Add {{ shoppingProduct.shoppingProduct_qty }} to cart</span>
+          <span>加入至購物車</span>
         </span>
         <span v-else>
-          <span
-            >Update {{ shoppingProduct.shoppingProduct_qty }}
-            <span v-if="shoppingProduct.shoppingProduct_qty <= 1">item</span>
-            <span v-else> items </span>
-          </span>
+          <span>更新至購物車</span>
         </span>
-        <span>NT$ {{ shoppingProduct.shoppingProduct_finalPrice }}</span>
+        <!-- <span>NT$ {{ shoppingProduct.shoppingProduct_finalPrice }}</span> -->
       </div>
     </el-button>
   </div>
@@ -56,7 +49,16 @@ export default defineComponent({
       isModifyMode
     } = storeToRefs(mainstore);
     function addToCart() {
-      cartData.value.push(shoppingProduct.value);
+      const isInCart =
+        cartData.value.findIndex((item) => {
+          return (
+            item.shoppingProduct_uuid ===
+            shoppingProduct.value.shoppingProduct_uuid
+          );
+        }) !== -1
+          ? true
+          : false;
+      isInCart ? null : cartData.value.push(shoppingProduct.value);
       shoppingProduct.value = {} as IshoppingProduct;
       checkbox.value = [];
       clickedProductId.value = NaN;
@@ -98,7 +100,7 @@ export default defineComponent({
 <style scoped>
 .addToCartFooter {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
   /* background: limegreen; */
@@ -106,12 +108,14 @@ export default defineComponent({
   padding-right: 10%; */
 }
 .el-input-number {
-  border: 0;
-  max-width: 100%;
+  /* border: 1;
+  max-width: 100%; */
   /* margin-right: 1rem; */
   /* background: sandybrown; */
 }
-.el-button {
-  /* background: silver; */
+.addToCartButtonContent {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 </style>

@@ -2,6 +2,7 @@
   <el-dialog
     v-model="dialogVis"
     :width="dialogWidth"
+    :fullscreen="isDialogFullScreen"
     :lock-scroll="false"
     :destroy-on-close="true"
     :before-close="beforeDialogClose"
@@ -65,6 +66,7 @@ export default defineComponent({
       clickedProductId,
       clickedProductCategoryId
     } = storeToRefs(mainstore);
+    const isDialogFullScreen = ref(false);
 
     // 用於控制 el-collapse 之預設開啟選項，此為預設全開
     const activateCollapseItem = ref([0, 1, 2]);
@@ -103,11 +105,13 @@ export default defineComponent({
       let windowSize = document.body.clientWidth;
       const defaultWidth = 600; // 預設寬度
       if (windowSize < defaultWidth) {
+        isDialogFullScreen.value = true;
         dialogWidth = "100%";
         if (dialog) {
           dialog.style.width = dialogWidth;
         }
       } else {
+        isDialogFullScreen.value = false;
         if (dialog) {
           dialog.style.width = defaultWidth + "px";
         }
@@ -118,6 +122,7 @@ export default defineComponent({
     window.addEventListener("orientationchange", dialogResize);
 
     return {
+      isDialogFullScreen,
       dialogWidth,
       shoppingProduct,
       activateCollapseItem,

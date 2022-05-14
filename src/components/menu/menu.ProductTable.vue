@@ -3,7 +3,7 @@
     <el-row
       v-for="(data, index) in menudatas"
       :key="index"
-      :gutter="20"
+      :gutter="60"
     >
       <el-col :span="24">
         <h2>{{ data.category_name }}</h2>
@@ -31,7 +31,7 @@
                 style="padding: 3px"
               >
                 <span
-                  ><h4>{{ prod.product_name }}</h4></span
+                  ><h6>{{ prod.product_name }}</h6></span
                 >
               </div>
               <div
@@ -142,7 +142,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 .el-row {
   margin-bottom: 1%;

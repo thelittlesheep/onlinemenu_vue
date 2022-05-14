@@ -89,6 +89,8 @@ export default defineComponent({
       } else {
         const itemIndex =
           mainstore.getSingleCartItemArrayIndex(shoppingProduct_id);
+        console.log(itemIndex);
+
         cartData.value.splice(itemIndex, 1);
       }
     }

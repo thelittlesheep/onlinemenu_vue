@@ -1,8 +1,6 @@
 <template>
   <div class="checkout">
-    <my-RWDcontainer>
-      <CheckoutBody />
-    </my-RWDcontainer>
+    <CheckoutBody />
   </div>
 </template>
 

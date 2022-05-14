@@ -1,65 +1,66 @@
 <template>
   <Menuproductpopout />
-
-  <div v-if="isLoading">
-    <loading
-      v-model:active="isLoading"
-      :can-cancel="true"
-      :on-cancel="onCancel"
-      :is-full-page="true"
-    >
-      <div>
-        <div class="loadingio-spinner-spinner-2uqnsxvpidy">
-          <div class="ldio-0jwyk1jbj2ug">
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
-            <div />
+  <div class="menuBody">
+    <div v-if="isLoading">
+      <loading
+        v-model:active="isLoading"
+        :can-cancel="true"
+        :on-cancel="onCancel"
+        :is-full-page="true"
+      >
+        <div>
+          <div class="loadingio-spinner-spinner-2uqnsxvpidy">
+            <div class="ldio-0jwyk1jbj2ug">
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+            </div>
           </div>
         </div>
-      </div>
-    </loading>
-  </div>
-  <div v-else>
-    <div class="menuHeader">
-      <el-button
-        class="opencartbutton"
-        type="primary"
-        @click="drawerVis = true"
-      >
-        購物車
-      </el-button>
+      </loading>
     </div>
-    <Menutable />
-    <!-- <div
-      name="fetch button"
-      class="m-3"
-    >
-      <div v-if="!isLoading">
-        <el-button
+    <div v-else>
+      <div class="menuHeader">
+        <!-- <el-button
+          class="opencartbutton"
           type="primary"
-          @click="getMenuDatas()"
+          @click="drawerVis = true"
         >
-          Fetch Data
-        </el-button>
+          購物車
+        </el-button> -->
       </div>
-      <div v-else>
-        <el-button
-          type="primary"
-          loading
-        >
-          Fetching Data
-        </el-button>
-      </div>
-    </div> -->
+      <Menutable />
+      <!-- <div
+        name="fetch button"
+        class="m-3"
+      >
+        <div v-if="!isLoading">
+          <el-button
+            type="primary"
+            @click="getMenuDatas()"
+          >
+            Fetch Data
+          </el-button>
+        </div>
+        <div v-else>
+          <el-button
+            type="primary"
+            loading
+          >
+            Fetching Data
+          </el-button>
+        </div>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -124,6 +125,12 @@ export default defineComponent({
 </script>
 
 <style>
+.menuBody {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
 .menuHeader {
   display: flex;
   flex-direction: row-reverse;

@@ -1,13 +1,7 @@
 <template>
   <div class="home">
     <!-- <tempview /> -->
-    <my-RWDcontainer>
-      <h1>Home Page</h1>
-      <!-- <el-image
-        src="https://i.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg"
-        fit="contain"
-      /> -->
-    </my-RWDcontainer>
+    <h1>Home Page</h1>
   </div>
 </template>
 

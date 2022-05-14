@@ -30,119 +30,18 @@ export const mainStore = defineStore("mainStore", {
     isModifyMode: false,
     isLogin: false,
     cartData: [
-      // {
-      //   product_id: 1,
-      //   product_name: "嫩汁雞排美式堡",
-      //   product_price: 60,
-      //   product_image: "https://thumbs.dreamstime.com/z/hamburger-7831093.jpg",
-      //   category_id: 1,
-      //   shoppingProduct_uuid: "eccf2ddd-f257-4e4d-97e4-3a0bf6e6e042",
-      //   shoppingProduct_qty: 3,
-      //   shoppingProduct_afterAdjustSinglePrice: 60,
-      //   shoppingProduct_finalPrice: 180,
-      //   shoppingProduct_adjustitems: []
-      // },
-      // {
-      //   product_id: 4,
-      //   product_name: "卡拉脆雞美式堡",
-      //   product_price: 60,
-      //   product_image: "https://thumbs.dreamstime.com/z/hamburger-11198171.jpg",
-      //   category_id: 1,
-      //   shoppingProduct_uuid: "40e72d70-3670-4b81-bc35-0c5b881be591",
-      //   shoppingProduct_qty: 1,
-      //   shoppingProduct_afterAdjustSinglePrice: 90,
-      //   shoppingProduct_finalPrice: 90,
-      //   shoppingProduct_adjustitems: [
-      //     {
-      //       adjustitem_id: 2,
-      //       adjustitem_name: "荷包蛋",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 4,
-      //       adjustitem_name: "生菜",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 5,
-      //       adjustitem_name: "花生醬",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     }
-      //   ]
-      // },
-      // {
-      //   product_id: 2,
-      //   product_name: "嫩汁雞排輕捲餅",
-      //   product_price: 60,
-      //   product_image:
-      //     "https://thumbs.dreamstime.com/z/sausage-burger-cheese-sandwich-english-muffin-isolated-white-background-sausage-burger-cheese-sandwich-187211969.jpg",
-      //   category_id: 2,
-      //   shoppingProduct_uuid: "15c15ffc-c784-440f-8b6e-4b543649ab91",
-      //   shoppingProduct_qty: 1,
-      //   shoppingProduct_afterAdjustSinglePrice: 115,
-      //   shoppingProduct_finalPrice: 115,
-      //   shoppingProduct_adjustitems: [
-      //     {
-      //       adjustitem_id: 3,
-      //       adjustitem_name: "起司",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 4,
-      //       adjustitem_name: "生菜",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 5,
-      //       adjustitem_name: "花生醬",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 6,
-      //       adjustitem_name: "肉鬆",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 8,
-      //       adjustitem_name: "培根",
-      //       adjustitem_priceadjust: 15,
-      //       adjusttype_id: 1
-      //     }
-      //   ]
-      // },
-      // {
-      //   product_id: 3,
-      //   product_name: "嫩汁雞排瑪芬堡",
-      //   product_price: 60,
-      //   product_image:
-      //     "https://thumbs.dreamstime.com/z/taco-filling-cherry-tomatoes-chicken-cucumbers-onions-63100029.jpg",
-      //   category_id: 3,
-      //   shoppingProduct_uuid: "7b8febf3-ae64-49e9-919c-cc0af87a30f9",
-      //   shoppingProduct_qty: 1,
-      //   shoppingProduct_afterAdjustSinglePrice: 80,
-      //   shoppingProduct_finalPrice: 80,
-      //   shoppingProduct_adjustitems: [
-      //     {
-      //       adjustitem_id: 2,
-      //       adjustitem_name: "荷包蛋",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     },
-      //     {
-      //       adjustitem_id: 4,
-      //       adjustitem_name: "生菜",
-      //       adjustitem_priceadjust: 10,
-      //       adjusttype_id: 1
-      //     }
-      //   ]
-      // }
+      {
+        product_id: 1,
+        product_name: "嫩汁雞排美式堡",
+        product_price: 60,
+        product_image: "https://thumbs.dreamstime.com/z/hamburger-7831093.jpg",
+        category_id: 1,
+        shoppingProduct_uuid: "eccf2ddd-f257-4e4d-97e4-3a0bf6e6e042",
+        shoppingProduct_qty: 3,
+        shoppingProduct_afterAdjustSinglePrice: 60,
+        shoppingProduct_finalPrice: 180,
+        shoppingProduct_adjustitems: []
+      }
     ] as IshoppingProduct[],
     order: {} as orderDTO,
     shoppingProduct: {} as IshoppingProduct,

@@ -1,8 +1,6 @@
 <template>
   <div class="myorder">
-    <my-RWDcontainer>
-      <MyorderBody />
-    </my-RWDcontainer>
+    <MyorderBody />
   </div>
 </template>
 

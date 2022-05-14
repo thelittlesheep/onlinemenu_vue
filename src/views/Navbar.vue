@@ -22,7 +22,7 @@
         <!-- <el-menu-item> test </el-menu-item> -->
       </el-menu>
     </div>
-    <div class="login-regiser">
+    <div class="login-regiser-cart">
       <el-button
         v-if="!isLogin"
         type="text"
@@ -40,8 +40,14 @@
           @click="logout"
           ><span>登出</span></el-button
         >
+        <el-button
+          class="opencartbutton"
+          type="primary"
+          @click="drawerVis = true"
+        >
+          購物車
+        </el-button>
       </div>
-      <!-- <el-button @click="getUser">hihih</el-button> -->
     </div>
   </div>
 </template>
@@ -60,7 +66,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     // const path = computed(() => route.path);
-    const { isLogin } = storeToRefs(mainStore());
+    const { isLogin, drawerVis } = storeToRefs(mainStore());
     const userstore = userStore();
     const { userInfo } = storeToRefs(userstore);
     // 直接在 :default-active 加上 route.fullPath 即可完成重新載入頁面後，
@@ -94,11 +100,11 @@ export default defineComponent({
       //   path: "/"
       // },
       {
-        name: "Menu",
+        name: "菜單",
         path: "/menu"
       },
       {
-        name: "Myorder",
+        name: "我的訂單",
         path: "/myorder"
       }
     ];
@@ -106,7 +112,7 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { tabItems, route, router, isLogin, userInfo, logout };
+    return { tabItems, route, router, isLogin, userInfo, logout, drawerVis };
   }
 });
 </script>
@@ -114,30 +120,33 @@ export default defineComponent({
 <style scoped>
 /* .opencartbutton {
   align-self: center;
-  margin-left: auto;
-  margin-right: 1rem;
 } */
 .NavBar {
   display: flex;
-  justify-content: center;
-  /* align-content: center; */
   align-items: center;
   background-color: #545c64;
-  height: 60px;
+  height: 70px;
 }
 .el-menu {
   /* width: 100%; */
   border-right: 0;
-  height: 60px;
+  height: inherit;
   flex-grow: 1;
   /* background: seagreen; */
 }
-.login-regiser {
+.login-regiser-cart {
   /* background: yellow; */
-  flex-grow: 1;
+  /* flex-grow: 1; */
   display: flex;
   justify-content: end;
   padding-right: 3%;
+}
+.hello-user {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .hello-user {
