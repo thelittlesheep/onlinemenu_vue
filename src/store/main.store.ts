@@ -30,18 +30,18 @@ export const mainStore = defineStore("mainStore", {
     isModifyMode: false,
     isLogin: false,
     cartData: [
-      {
-        product_id: 1,
-        product_name: "嫩汁雞排美式堡",
-        product_price: 60,
-        product_image: "https://thumbs.dreamstime.com/z/hamburger-7831093.jpg",
-        category_id: 1,
-        shoppingProduct_uuid: "eccf2ddd-f257-4e4d-97e4-3a0bf6e6e042",
-        shoppingProduct_qty: 3,
-        shoppingProduct_afterAdjustSinglePrice: 60,
-        shoppingProduct_finalPrice: 180,
-        shoppingProduct_adjustitems: []
-      }
+      // {
+      //   product_id: 1,
+      //   product_name: "嫩汁雞排美式堡",
+      //   product_price: 60,
+      //   product_image: "https://thumbs.dreamstime.com/z/hamburger-7831093.jpg",
+      //   category_id: 1,
+      //   shoppingProduct_uuid: "eccf2ddd-f257-4e4d-97e4-3a0bf6e6e042",
+      //   shoppingProduct_qty: 3,
+      //   shoppingProduct_afterAdjustSinglePrice: 60,
+      //   shoppingProduct_finalPrice: 180,
+      //   shoppingProduct_adjustitems: []
+      // }
     ] as IshoppingProduct[],
     order: {} as orderDTO,
     shoppingProduct: {} as IshoppingProduct,
@@ -117,7 +117,7 @@ export const mainStore = defineStore("mainStore", {
       //   });
     },
     async postMenuCartData(payload: Ref<orderDTO>) {
-      return request.post({
+      return request.post<AxiosResponse>({
         url: "/menu/order",
         data: payload.value,
         showLoading: false,

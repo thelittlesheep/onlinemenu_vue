@@ -1,5 +1,4 @@
 <template>
-  <Menuproductpopout />
   <div class="Checkoutbody">
     <div class="Checkoutcartdiv">
       <h1>商品明細</h1>
@@ -29,6 +28,9 @@ import Checkoutorderdetail from "./checkout.Orderdetail.vue";
 import moment from "moment";
 import { useRouter } from "vue-router";
 import { userStore } from "@/store/user.store";
+import { ElMessageBox } from "element-plus";
+import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
+import { Iorderproduct } from "@/interface/orderDTO";
 
 export default defineComponent({
   name: "CheckoutBody",
@@ -44,8 +46,8 @@ export default defineComponent({
 
     async function sentOrder() {
       order.value.user_id = userInfo.value.user_id;
-      // 需要
-      order.value.order_products = cartData.value;
+      // 需要修正購物車與訂單的資料型態
+      order.value.order_products = cartData.value as unknown as Iorderproduct[];
       order.value.order_quantity = order.value.order_products?.length;
       order.value.order_orderdate = moment
         .utc(moment())
@@ -53,9 +55,15 @@ export default defineComponent({
       try {
         const res = await mainstore.postMenuCartData(order);
         if (res.status === 201) {
-          alert("訂單已送出");
-          router.push("/myorder");
-          cartData.value = [];
+          // alert("訂單已送出");
+          ElMessageBox.alert("訂單已送出", {
+            confirmButtonText: "確認",
+            type: "success"
+          }).then(() => {
+            router.push("/myorder");
+            cartData.value = [];
+          });
+          RWDElMessageBox();
         }
       } catch (e) {
         console.log(e);
@@ -68,14 +76,11 @@ export default defineComponent({
 
 <style scoped>
 .Checkoutbody {
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* height: 80vh; */
-  /* background: lightblue; */
 }
 .Checkoutdetail {
   margin-top: 3vh;
-  /* background: antiquewhite; */
 }
 </style>

@@ -1,61 +1,66 @@
 <template>
-  <div class="container">
-    <el-row
-      v-for="(data, index) in menudatas"
-      :key="index"
-      :gutter="60"
-    >
-      <el-col :span="24">
-        <h2>{{ data.category_name }}</h2>
-      </el-col>
-      <el-col
-        v-for="(prod, index2) in data.products"
-        :key="index2"
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="8"
-        :xl="6"
-        :span="8"
+  <div class="productTableBody">
+    <div calss="productTableItem">
+      <el-row
+        v-for="(data, index) in menudatas"
+        :key="index"
+        :gutter="20"
       >
-        <el-card
-          :id="prod.product_id"
-          shadow="hover"
-          class="productcard"
-          @click="cardClickHandler(prod.product_id, data.category_id)"
+        <el-col
+          :span="24"
+          class="productCategoryTitle"
         >
-          <div class="cardBlock">
-            <div class="cardContent">
-              <div
-                class="prodname"
-                style="padding: 3px"
-              >
-                <span
-                  ><h6>{{ prod.product_name }}</h6></span
+          <h2>{{ data.category_name }}</h2>
+        </el-col>
+        <el-col
+          v-for="(prod, index2) in data.products"
+          :key="index2"
+          :xs="24"
+          :sm="12"
+          :md="8"
+          :lg="8"
+          :xl="6"
+          :span="8"
+        >
+          <el-card
+            :id="prod.product_id"
+            shadow="hover"
+            class="productcard"
+            @click="cardClickHandler(prod.product_id, data.category_id)"
+          >
+            <div class="cardBlock">
+              <div class="cardContent">
+                <div
+                  class="prodname"
+                  style="padding: 3px"
                 >
+                  <span
+                    ><h6>{{ prod.product_name }}</h6></span
+                  >
+                </div>
+                <div
+                  class="prodprice"
+                  style="padding: 3px"
+                >
+                  <span>$ {{ prod.product_price }}</span>
+                </div>
               </div>
-              <div
-                class="prodprice"
-                style="padding: 3px"
-              >
-                <span>$ {{ prod.product_price }}</span>
+              <div class="cardImg">
+                <el-image
+                  :src="prod.product_image"
+                  fit="scale-down"
+                >
+                  <template #error>
+                    <div class="image-slot">
+                      <el-icon :size="80"><IconPicture /></el-icon>
+                    </div> </template
+                ></el-image>
               </div>
             </div>
-            <div class="cardImg">
-              <el-image
-                :src="prod.product_image"
-                fit="scale-down"
-              >
-                <template #error>
-                  <div class="image-slot">
-                    <el-icon :size="80"><IconPicture /></el-icon>
-                  </div> </template
-              ></el-image>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -120,39 +125,35 @@ export default defineComponent({
 </script>
 <style scoped>
 .productcard {
-  /* background-color: firebrick; */
   height: 100%;
-  max-height: 200px;
+  max-height: 150px;
 }
 .cardBlock {
-  /* background-color: yellow; */
   display: flex;
-  justify-content: space-around;
 }
 .cardContent {
-  /* background-color: aqua; */
   flex-basis: 100%;
 }
-.cardImg {
-  max-width: 30%;
+:deep() .el-image__inner {
+  max-height: 150px;
 }
-
-.container {
-  margin: 0;
+.productTableBody {
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* align-items: center; */
-  /* justify-content: center; */
+}
+/* .el-row:last-child {
+  padding-bottom: 0%;
 }
 .el-row {
-  margin-bottom: 1%;
-}
+  padding-bottom: 1%;
+} */
 .el-col {
-  margin-top: 1%;
+  margin-bottom: 20px;
 }
-.el-card {
-  border: 0px;
+.el-col.productCategoryTitle {
+  margin-bottom: 10px;
 }
 /* .el-row:last-child {
     background-color: antiquewhite;

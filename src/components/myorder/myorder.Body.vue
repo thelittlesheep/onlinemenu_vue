@@ -6,7 +6,7 @@
         type="text"
         @click="getUserOrders()"
       >
-        <el-icon :size="22">
+        <el-icon :size="24">
           <Refresh />
         </el-icon>
       </el-button>
@@ -20,10 +20,12 @@
         animated
       >
         <template #template>
-          <el-skeleton-item
-            variant="h1"
-            style="width: 200px; height: 28px"
-          />
+          <div style="width: 370px">
+            <el-skeleton-item
+              variant="h1"
+              style="width: 200px; height: 28px"
+            />
+          </div>
           <el-card>
             <div
               style="
@@ -44,7 +46,7 @@
               />
               <el-skeleton-item
                 variant="h1"
-                style="width: 300px; margin-bottom: 60px"
+                style="width: 300px; margin-bottom: 30px"
               />
               <el-skeleton-item
                 variant="h1"
@@ -190,6 +192,15 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* .skeleton {
+  display: flex;
+} */
+:deep() .el-skeleton {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+}
 .myorderBody {
   display: flex;
   flex-wrap: wrap;

@@ -207,7 +207,6 @@ export default defineComponent({
         } else {
           ElMessageBox.alert("請正確填寫帳號及密碼", {
             confirmButtonText: "確認",
-            // customStyle: { width: "80%" },
             customClass: "inputError",
             type: "error"
           });

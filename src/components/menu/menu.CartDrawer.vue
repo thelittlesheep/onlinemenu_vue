@@ -36,9 +36,17 @@
         #footer
       >
         <el-button
+          v-if="isLogin"
           color="black"
           @click="confirmClick"
           >CheckOut</el-button
+        >
+        <el-button
+          v-else
+          class="hello-user"
+          type="text"
+          @click="$router.push('/login')"
+          ><span>請先登入，才能使用購物車！</span></el-button
         >
       </template>
     </el-drawer>

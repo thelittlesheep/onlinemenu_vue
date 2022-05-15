@@ -26,28 +26,27 @@
       <el-button
         v-if="!isLogin"
         type="text"
-        @click="router.push('/login')"
+        @click="$router.push('/login')"
         ><span>登入/註冊</span></el-button
       >
       <div
         v-else
         class="hello-user"
       >
-        <span>您好! {{ userInfo.user_name }}&ensp;</span>
+        <span>您好! {{ userInfo.user_name }} &ensp;</span>
         <el-button
-          class="hello-user"
           type="text"
           @click="logout"
           ><span>登出</span></el-button
         >
-        <el-button
-          class="opencartbutton"
-          type="primary"
-          @click="drawerVis = true"
-        >
-          購物車
-        </el-button>
       </div>
+      <el-button
+        class="opencartbutton"
+        type="primary"
+        @click="drawerVis = true"
+      >
+        購物車
+      </el-button>
     </div>
   </div>
 </template>
@@ -85,7 +84,7 @@ export default defineComponent({
       // 刪除 cookie，Domain=localhost 時，會刪除所有 localhost 的 cookie，反之則為刪除lshuang.tw之cookie。
       // 刪除 cookie之方法為將 cookie 的值設為空字串，並設置過期日期為過去的時間。
       document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      router.push("/menu");
+      router.go(0);
     }
     // 監視isLogin，如果變成已登入，就更新userInfo
     watch(isLogin, async (val) => {
@@ -112,7 +111,7 @@ export default defineComponent({
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { tabItems, route, router, isLogin, userInfo, logout, drawerVis };
+    return { tabItems, route, isLogin, userInfo, logout, drawerVis };
   }
 });
 </script>
@@ -136,21 +135,22 @@ export default defineComponent({
 }
 .login-regiser-cart {
   /* background: yellow; */
-  /* flex-grow: 1; */
+  flex-grow: 1;
   display: flex;
   justify-content: end;
-  padding-right: 3%;
-}
-.hello-user {
-  display: flex;
-  justify-content: center;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
+  margin-right: 3%;
 }
-
 .hello-user {
   color: aliceblue;
   font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  margin-right: 1%;
 }
 </style>

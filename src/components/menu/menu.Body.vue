@@ -29,37 +29,7 @@
       </loading>
     </div>
     <div v-else>
-      <div class="menuHeader">
-        <!-- <el-button
-          class="opencartbutton"
-          type="primary"
-          @click="drawerVis = true"
-        >
-          購物車
-        </el-button> -->
-      </div>
       <Menutable />
-      <!-- <div
-        name="fetch button"
-        class="m-3"
-      >
-        <div v-if="!isLoading">
-          <el-button
-            type="primary"
-            @click="getMenuDatas()"
-          >
-            Fetch Data
-          </el-button>
-        </div>
-        <div v-else>
-          <el-button
-            type="primary"
-            loading
-          >
-            Fetching Data
-          </el-button>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -130,10 +100,6 @@ export default defineComponent({
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
-}
-.menuHeader {
-  display: flex;
-  flex-direction: row-reverse;
 }
 @keyframes ldio-0jwyk1jbj2ug {
   0% {
