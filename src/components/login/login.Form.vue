@@ -59,7 +59,7 @@ import type { FormRules } from "element-plus";
 import Schema from "async-validator";
 import { userBasicDTO } from "@/interface/userDTO";
 import { loginForm } from "./validator";
-import { FormInstance } from "element-plus/lib/components";
+import type { FormInstance } from "element-plus";
 import { ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
 import { mainStore } from "@/store/main.store";

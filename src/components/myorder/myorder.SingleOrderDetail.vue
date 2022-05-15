@@ -97,7 +97,6 @@
 import { Iorderproduct, orderDTO } from "@/interface/orderDTO";
 import { mainStore } from "@/store/main.store";
 import { userStore } from "@/store/user.store";
-import { fa } from "element-plus/lib/locale";
 import { storeToRefs } from "pinia";
 import { defineComponent, PropType, Ref, ref } from "vue";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";

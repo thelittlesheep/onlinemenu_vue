@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  onlinemenu_vite_vue:
+    container_name: onlinemenu_vite_vue
+    image: thelittlesheep/vue-vite:dev
+    ports:
+      - "3001:3001"
+    volumes:
+        - .:/usr/src/app
+    restart: unless-stopped
+
+networks:
+  default:
+    name: web_service

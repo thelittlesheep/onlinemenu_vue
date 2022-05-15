@@ -14,4 +14,6 @@ RUN npm install
 
 COPY . .
 
-CMD ["yarn","dev"]
+EXPOSE 3001
+
+CMD ["npm","run","dev"]
