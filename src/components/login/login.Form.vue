@@ -44,7 +44,8 @@
       <el-button
         type="primary"
         @click="submitForm(formRef)"
-        >登入</el-button
+        ><span v-if="props.islogintab">登入</span
+        ><span v-else>註冊</span></el-button
       >
       <!-- <el-button @click="resetForm()">Reset</el-button> -->
     </el-form-item>

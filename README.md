@@ -12,6 +12,14 @@
 
 ## 網站截圖
 
+### 會員登入
+
+[![會員登入](https://i.imgur.com/UvHaCrs.png "會員登入")](https://i.imgur.com/UvHaCrs.png)
+
+### 會員註冊
+
+[![會員註冊](https://i.imgur.com/1uQaPY8.png "會員註冊")](https://i.imgur.com/1uQaPY8.png)
+
 ### 商品列表
 
 [![商品列表](https://i.imgur.com/BzDiwLL.png "商品列表")](https://i.imgur.com/BzDiwLL.png)
