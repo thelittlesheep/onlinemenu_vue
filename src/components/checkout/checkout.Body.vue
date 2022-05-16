@@ -48,7 +48,13 @@ export default defineComponent({
       order.value.user_id = userInfo.value.user_id;
       // 需要修正購物車與訂單的資料型態
       order.value.order_products = cartData.value as unknown as Iorderproduct[];
-      order.value.order_quantity = order.value.order_products?.length;
+      order.value.order_quantity = order.value.order_products?.reduce(
+        (acc, cur) => {
+          // need to adjust type error
+          return acc + cur.shoppingProduct_qty;
+        },
+        0
+      );
       order.value.order_orderdate = moment
         .utc(moment())
         .format("YYYY-MM-DD HH:mm:ss");

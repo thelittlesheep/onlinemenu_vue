@@ -33,7 +33,7 @@
           {{ mainstore.displayLocalDateTime(data.order_pickupdate) }}</span
         ><br />
         <span class="order_order_productlen">
-          {{ data.order_products?.length }} 份餐點
+          {{ data.order_quantity }} 份餐點
         </span>
         <span class="order_order_totalprice">
           總金額：{{ mainstore.getOrderTotalPrice(data.order_products) }} 元
