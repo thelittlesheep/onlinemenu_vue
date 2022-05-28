@@ -47,11 +47,22 @@ export default defineComponent({
     async function sentOrder() {
       order.value.user_id = userInfo.value.user_id;
       // 需要修正購物車與訂單的資料型態
-      order.value.order_products = cartData.value as unknown as Iorderproduct[];
+      // order.value.order_products = cartData.value as unknown as Iorderproduct[];
+      order.value.order_products = [];
+      cartData.value.forEach((product) => {
+        order.value.order_products?.push({
+          order_product_id: product.product_id,
+          product_name: product.product_name,
+          product_price: product.product_price,
+          order_product_quantity: product.shoppingProduct_qty,
+          order_product_adjustitem: product.shoppingProduct_adjustitems,
+          order_product_finalprice: product.shoppingProduct_finalPrice
+        });
+      });
       order.value.order_quantity = order.value.order_products?.reduce(
         (acc, cur) => {
           // need to adjust type error
-          return acc + cur.shoppingProduct_qty;
+          return acc + cur.order_product_quantity;
         },
         0
       );

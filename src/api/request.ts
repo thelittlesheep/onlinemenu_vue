@@ -40,9 +40,7 @@ export const request = new Request({
       //       router.push("/login");
       //     });
       // }
-      // console.log(err);
-      // console.log("responseErrorInterceptor實例響應失敗的攔截器");
-      throw err;
+      // throw err;
     }
   }
 });

@@ -20,7 +20,7 @@
           <el-button
             v-if="props.ordersType === 'PresentOrder'"
             type="text"
-            @click.stop="deleteUserOrder(data.order_id)"
+            @click.stop="deleteUserOrder(userInfo.user_id, data.order_id)"
             >取消訂單</el-button
           >
         </span>
@@ -65,11 +65,12 @@ export default defineComponent({
     const mainstore = mainStore();
     const userstore = userStore();
     const router = useRouter();
+    const { userInfo } = storeToRefs(userstore);
     // const msgBOX = document.getElementsByClassName(
     //   "el-message-box"
     // )[0] as HTMLElement;
 
-    async function deleteUserOrder(order_id: number) {
+    async function deleteUserOrder(user_id: number, order_id: number) {
       ElMessageBox.confirm("確定要取消此訂單?", {
         type: "info",
         cancelButtonText: "讓我再想想",
@@ -78,14 +79,19 @@ export default defineComponent({
       })
         .then(async () => {
           try {
-            const res = await userstore.deleteUserSingleOrder(order_id);
-            if (res.data.status === 200) {
-              ElMessage({
-                type: "success",
-                message: `訂單:${order_id} 成功刪除`
-              });
-              emit("ondeleteuserorder");
-            } else {
+            const res = await userstore.deleteUserSingleOrder(
+              user_id,
+              order_id
+            );
+            try {
+              if (res.data.status === 200) {
+                ElMessage({
+                  type: "success",
+                  message: `訂單:${order_id} 成功刪除`
+                });
+                emit("ondeleteuserorder");
+              }
+            } catch {
               ElMessage({
                 type: "error",
                 message: h("div", null, [
@@ -127,7 +133,7 @@ export default defineComponent({
     //     console.log(newVal, oldVal);
     //   }
     // );
-    return { props, mainstore, deleteUserOrder, openOrderDetail };
+    return { props, mainstore, userInfo, deleteUserOrder, openOrderDetail };
   }
 });
 </script>

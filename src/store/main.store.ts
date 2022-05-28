@@ -118,7 +118,7 @@ export const mainStore = defineStore("mainStore", {
     },
     async postMenuCartData(payload: Ref<orderDTO>) {
       return request.post<AxiosResponse>({
-        url: "/menu/order",
+        url: `/users/${payload.value.user_id}/orders`,
         data: payload.value,
         showLoading: false,
         interceptors: {
