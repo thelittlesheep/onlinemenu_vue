@@ -47,6 +47,7 @@ export default defineComponent({
     async function sentOrder() {
       order.value.user_id = userInfo.value.user_id;
       // 需要修正購物車與訂單的資料型態
+<<<<<<< HEAD
       // order.value.order_products = cartData.value as unknown as Iorderproduct[];
       order.value.order_products = [];
       cartData.value.forEach((product) => {
@@ -58,6 +59,19 @@ export default defineComponent({
           order_product_adjustitem: product.shoppingProduct_adjustitems,
           order_product_finalprice: product.shoppingProduct_finalPrice
         });
+=======
+      order.value.order_products = [] as Iorderproduct[];
+      cartData.value.forEach((product) => {
+        const orderProduct = {
+          order_product_id: product.product_id,
+          order_product_quantity: product.shoppingProduct_qty,
+          order_product_adjustitem: product.shoppingProduct_adjustitems,
+          product_name: product.product_name,
+          product_price: product.product_price,
+          order_product_finalprice: product.product_price
+        } as Iorderproduct;
+        order.value.order_products?.push(orderProduct);
+>>>>>>> origin/FixCartItemDateStructure
       });
       order.value.order_quantity = order.value.order_products?.reduce(
         (acc, cur) => {

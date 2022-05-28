@@ -16,8 +16,7 @@ axiosRetry(axios, { retries: 3 });
 export const userStore = defineStore("userStore", {
   state: () => ({
     userInfo: {} as userDTO,
-    user: {} as userDTO,
-    onClickOrderId: NaN
+    user: {} as userDTO
   }),
   getters: {},
   actions: {
@@ -33,7 +32,11 @@ export const userStore = defineStore("userStore", {
     },
     async login(payload: userBasicDTO) {
       return request.post<AxiosResponse>({
+<<<<<<< HEAD
         url: "/users/login",
+=======
+        url: "/user/login",
+>>>>>>> origin/FixCartItemDateStructure
         data: payload,
         showLoading: false,
         interceptors: {
@@ -46,7 +49,7 @@ export const userStore = defineStore("userStore", {
     },
     async logout(): Promise<void> {
       return request.post({
-        url: "/logout",
+        url: "/user/logout",
         showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
@@ -107,7 +110,11 @@ export const userStore = defineStore("userStore", {
     async deleteUserSingleOrder(user_id: number, order_id: number) {
       return request
         .delete<IRequestData>({
+<<<<<<< HEAD
           url: `/users/${user_id}/orders/${order_id}`,
+=======
+          url: `/menu/order?order_id=${order_id}`,
+>>>>>>> origin/FixCartItemDateStructure
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {

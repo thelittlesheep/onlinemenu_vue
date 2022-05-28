@@ -20,7 +20,7 @@ export class loginForm {
   }
 
   validateAccount = (rule: any, value: any, callback: any) => {
-    if (!value) {
+    if (value === "") {
       callback(new Error("請輸入使用者名稱"));
     } else {
       if (!/^[a-zA-Z]\w{5,9}$/.test(value)) {
