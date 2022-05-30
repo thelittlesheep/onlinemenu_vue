@@ -70,7 +70,10 @@ export default defineComponent({
         .utc(moment())
         .format("YYYY-MM-DD HH:mm:ss");
       try {
-        const res = await mainstore.postMenuCartData(order);
+        const res = await mainstore.postMenuCartData(
+          userInfo.value.user_id,
+          order
+        );
         if (res.status === 201) {
           // alert("訂單已送出");
           ElMessageBox.alert("訂單已送出", {

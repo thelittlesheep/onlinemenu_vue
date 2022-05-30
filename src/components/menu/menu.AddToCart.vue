@@ -77,21 +77,12 @@ export default defineComponent({
       }
     );
 
-    async function postCartData(payload: Ref<orderDTO>) {
-      try {
-        await mainstore.postMenuCartData(payload);
-      } catch (e: unknown) {
-        console.log(e);
-      }
-    }
-
     return {
       dialogVis,
       ShoppingCart,
       shoppingProduct,
       isModifyMode,
-      addToCart,
-      postCartData
+      addToCart
     };
   }
 });

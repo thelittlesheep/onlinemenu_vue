@@ -156,6 +156,7 @@ div.el-collapse-item__header {
   width: 100%;
   justify-content: center;
   display: flex;
+
   /* border: 5px solid #ffff00; */
   /* background-color: #99a9bf; */
 }

@@ -93,7 +93,6 @@ export const mainStore = defineStore("mainStore", {
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
-              // console.log("getuserInfoAndOrders請求的攔截器");
               return config;
             }
           },
@@ -116,14 +115,13 @@ export const mainStore = defineStore("mainStore", {
       //     }
       //   });
     },
-    async postMenuCartData(payload: Ref<orderDTO>) {
+    async postMenuCartData(user_id: number, payload: Ref<orderDTO>) {
       return request.post<AxiosResponse>({
-        url: "/menu/order",
+        url: `/users/${user_id}/orders`,
         data: payload.value,
         showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
-            // console.log("postMenuCartData請求的攔截器");
             return config;
           }
         },

@@ -52,6 +52,8 @@ import { storeToRefs } from "pinia";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 import { useRouter } from "vue-router";
+import { AxiosError } from "axios";
+import { IResponseError } from "@/api/type";
 
 export default defineComponent({
   /* eslint-disable vue/require-default-prop */
@@ -65,6 +67,11 @@ export default defineComponent({
     const mainstore = mainStore();
     const userstore = userStore();
     const router = useRouter();
+    const { userInfo } = storeToRefs(userstore);
+    // const cookieDomain =
+    //   process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
+    // document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
     // const msgBOX = document.getElementsByClassName(
     //   "el-message-box"
     // )[0] as HTMLElement;
@@ -78,25 +85,30 @@ export default defineComponent({
       })
         .then(async () => {
           try {
-            const res = await userstore.deleteUserSingleOrder(order_id);
-            if (res.data.status === 200) {
+            const res = await userstore.deleteUserSingleOrder(
+              userInfo.value.user_id,
+              order_id
+            );
+            if (res.status === 200) {
               ElMessage({
                 type: "success",
                 message: `訂單:${order_id} 成功刪除`
               });
-              emit("ondeleteuserorder");
+              // emit("ondeleteuserorder");
             } else {
-              ElMessage({
-                type: "error",
-                message: h("div", null, [
-                  h("span", null, `訂單：${order_id} 刪除失敗`),
-                  h("br"),
-                  h("span", null, `原因：${res.data.message}`)
-                ])
-              });
+              throw res;
             }
           } catch (e) {
-            console.log(e);
+            const err = e as AxiosError<IResponseError>;
+            console.log(err);
+            // ElMessage({
+            //   type: "error",
+            //   message: h("div", null, [
+            //     h("span", null, `訂單：${order_id} 刪除失敗`),
+            //     h("br"),
+            //     h("span", null, `原因：${err.response?.data.message}`)
+            //   ])
+            // });
           }
         })
         .catch(() => {

@@ -122,12 +122,14 @@ export default defineComponent({
 .cartItem .itemContent {
   /* background-color: aqua; */
   display: flex;
+
   align-items: flex-start;
   justify-content: space-between;
 }
 .cartItem .itemText {
   /* background: aquamarine; */
   display: flex;
+
   align-items: flex-start;
   flex-direction: column;
   align-self: stretch;
@@ -136,6 +138,7 @@ export default defineComponent({
 .cartItem .itemImg {
   width: 30%;
   display: flex;
+
   align-self: center;
   /* margin-left: auto; */
 }

@@ -137,6 +137,7 @@ export default defineComponent({
   /* background: yellow; */
   flex-grow: 1;
   display: flex;
+
   justify-content: end;
   flex-direction: row;
   flex-wrap: nowrap;

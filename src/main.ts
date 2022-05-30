@@ -4,7 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
-import "./validators";
+import "@/util/validators";
 
 import RWDcontainer from "@/components/share/RWD.vue";
 import Menucartdrawer from "@/components/menu/menu.CartDrawer.vue";

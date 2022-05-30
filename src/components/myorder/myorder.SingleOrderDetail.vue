@@ -17,6 +17,7 @@
             <div
               style="
                 display: flex;
+
                 align-items: flex-start;
                 flex-wrap: wrap;
                 justify-content: space-between;
@@ -166,6 +167,7 @@ export default defineComponent({
 <style scoped>
 .myorderSingleOrderDetail {
   display: flex;
+
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
@@ -175,6 +177,7 @@ span {
 }
 .skeleton {
   display: flex;
+
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
@@ -182,6 +185,7 @@ span {
 
 .userOrderProduct {
   display: flex;
+
   flex-direction: row;
   justify-content: center;
 }

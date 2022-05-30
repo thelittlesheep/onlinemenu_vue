@@ -140,6 +140,7 @@ export default defineComponent({
 .productTableBody {
   max-width: 1200px;
   display: flex;
+
   flex-direction: column;
   flex-wrap: wrap;
 }
