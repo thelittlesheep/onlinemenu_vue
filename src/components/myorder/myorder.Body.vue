@@ -150,7 +150,7 @@ export default defineComponent({
     // Load userinfo and orders
     getUserOrders();
 
-    const defaultWidth = 500;
+    const defaultWidth = 400;
     let skeletonWidth = defaultWidth + "px";
     let skeletonWidthStyle = "width:" + skeletonWidth;
     function drawerResize() {
@@ -167,7 +167,7 @@ export default defineComponent({
         }
       } else {
         if (skeleton) {
-          skeleton.style.width = defaultWidth + "px";
+          skeleton.style.width = "inherit";
         }
       }
     }

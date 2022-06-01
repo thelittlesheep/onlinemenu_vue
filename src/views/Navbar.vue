@@ -16,10 +16,8 @@
           :key="item.path"
           :index="item.path"
         >
-          <!-- {{ item }} -->
           {{ item.name }}
         </el-menu-item>
-        <!-- <el-menu-item> test </el-menu-item> -->
       </el-menu>
     </div>
     <div class="login-regiser-cart">
@@ -33,7 +31,7 @@
         v-else
         class="hello-user"
       >
-        <span>您好! {{ userInfo.user_name }} &ensp;</span>
+        <!-- <span>{{ userInfo.user_name }} &ensp;</span> -->
         <el-button
           type="text"
           @click="logout"
@@ -45,7 +43,7 @@
         type="primary"
         @click="drawerVis = true"
       >
-        購物車
+        <el-icon :size="18"><ShoppingBag /></el-icon>
       </el-button>
     </div>
   </div>
@@ -58,9 +56,11 @@ import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { computed } from "@vue/reactivity";
 import { userStore } from "@/store/user.store";
+import { ShoppingBag } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "Navbar",
+  components: { ShoppingBag },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -105,39 +105,47 @@ export default defineComponent({
       {
         name: "我的訂單",
         path: "/myorder"
+      },
+      {
+        name: "我的資料",
+        path: "/myprofile"
       }
     ];
 
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { tabItems, route, isLogin, userInfo, logout, drawerVis };
+    return {
+      tabItems,
+      route,
+      isLogin,
+      userInfo,
+      logout,
+      drawerVis
+    };
   }
 });
 </script>
 
 <style scoped>
+@import "./NavBar.css";
 /* .opencartbutton {
   align-self: center;
 } */
-.NavBar {
+/* .NavBar {
   display: flex;
   align-items: center;
   background-color: #545c64;
   height: 70px;
 }
 .el-menu {
-  /* width: 100%; */
   border-right: 0;
   height: inherit;
   flex-grow: 1;
-  /* background: seagreen; */
 }
 .login-regiser-cart {
-  /* background: yellow; */
   flex-grow: 1;
   display: flex;
-
   justify-content: end;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -153,5 +161,5 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   margin-right: 1%;
-}
+} */
 </style>

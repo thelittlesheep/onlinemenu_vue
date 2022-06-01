@@ -9,7 +9,7 @@ import menu from "@/views/Menu.vue";
 import NotFound from "@/views/NotFound.vue";
 // import Createuser from "@/views/Createuser.vue";
 import Login from "@/views/Login.vue";
-import Aboutme from "@/views/Aboutme.vue";
+import Myprofile from "@/views/Myprofile.vue";
 import Checkout from "@/views/Checkout.vue";
 import Myorder from "@/views/Myorder.vue";
 import MyorderSingleOrderDetail from "@/components/myorder/myorder.SingleOrderDetail.vue";
@@ -21,11 +21,11 @@ import { userStore } from "@/store/user.store";
 import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home
-  // },
+  {
+    path: "/",
+    name: "Home",
+    component: Home
+  },
   // { path: "/createuser", name: "Createuser", component: Createuser },
   { path: "/myorder/:orderid(\\d+)", component: MyorderSingleOrderDetail },
   { path: "/login", name: "Login", component: Login },
@@ -34,11 +34,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Menu",
     component: menu
   },
-  // {
-  //   path: "/aboutme",
-  //   name: "Aboutme",
-  //   component: Aboutme
-  // },
+  {
+    path: "/myprofile",
+    name: "Myprofile",
+    component: Myprofile
+  },
   {
     path: "/checkout",
     name: "Checkout",
@@ -76,7 +76,7 @@ router.beforeEach(async (to, from, next) => {
   // } else {
   //   sessionStorage.removeItem("userInfo");
   // }
-
+  // 在每次router導向新頁面之時，檢查使用者之cookie是否為正確且有效，則重新導向至LoginPage
   const cookieObject = document.cookie
     .split("; ")
     .map((item) => {
@@ -110,6 +110,7 @@ router.beforeEach(async (to, from, next) => {
   // console.log(isInUserOrders);
   // console.log(`/myorder/${to.params.orderid}`);
 
+  // 若使用者試圖在url中鍵入不屬於該使用者之訂單編號，則顯示錯誤視窗並重新導向至MyorderPage。
   if (to.path === `/myorder/${to.params.orderid}` && !isInUserOrders) {
     ElMessageBox.alert("錯誤的訂單編號", {
       type: "info",

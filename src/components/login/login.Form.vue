@@ -67,7 +67,7 @@ import { mainStore } from "@/store/main.store";
 import { storeToRefs } from "pinia";
 import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ILoginResponseError } from "@/api/request";
+// import { ILoginResponseError } from "@/api/request";
 
 export default defineComponent({
   name: "Loginform",
@@ -138,13 +138,14 @@ export default defineComponent({
             user_account: formVal.account,
             user_password: formVal.password
           };
-
           if (props.islogintab) {
+            resetForm(formEl);
             // Login User
             await userstore
               .login(payload)
               .then(async (res) => {
-                if (res.status === 201) {
+                if (res.data !== undefined) {
+                  console.log(typeof res.data);
                   isLogin.value = true;
                   const userdata = await userstore.getUserInfo();
                   const { orders, ...userinfo } = userdata;
@@ -154,27 +155,18 @@ export default defineComponent({
                   router.push({ name: "Menu" });
                   resetForm(formEl);
                 } else if (axios.isAxiosError(res)) {
+                  resetForm(formEl);
                   throw res;
                 }
               })
-              .catch((e: AxiosError<ILoginResponseError>) => {
-                let errormsg;
-                e.response?.data
-                  ? (errormsg = e.response.data.message)
-                  : (errormsg = "登入失敗");
-
-                ElMessageBox.alert(errormsg, {
-                  type: "error",
-                  showClose: false
-                }).then(() => {
-                  resetForm(formEl);
-                });
-                RWDElMessageBox();
+              .catch((e) => {
+                console.log(e);
               })
               .finally(() => {
                 resetForm(formEl);
               });
           } else {
+            resetForm(formEl);
             // Register User
             await userstore
               .register(payload)
