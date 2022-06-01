@@ -13,7 +13,6 @@ import { responseErrorAction } from "./utils";
 export const request = new Request({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
-  showLoading: true,
   interceptors: {
     requestSuccessInterceptor(config) {
       return config;

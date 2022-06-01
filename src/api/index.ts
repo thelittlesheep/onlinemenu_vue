@@ -73,6 +73,10 @@ class Request {
   patch<T>(config: IRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" });
   }
+
+  put<T>(config: IRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: "PUT" });
+  }
 }
 
 export default Request;

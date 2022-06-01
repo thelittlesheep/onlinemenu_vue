@@ -30,7 +30,6 @@ export const userStore = defineStore("userStore", {
       return request.post<AxiosResponse>({
         url: "/users/login",
         data: payload,
-        showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
             return config;
@@ -42,7 +41,6 @@ export const userStore = defineStore("userStore", {
     async logout(): Promise<void> {
       return request.post({
         url: "/users/logout",
-        showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
             return config;
@@ -55,7 +53,6 @@ export const userStore = defineStore("userStore", {
       return request
         .get<IRequestData>({
           url: "/users/userInfoAndOrders",
-          showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
               return config;
@@ -71,7 +68,6 @@ export const userStore = defineStore("userStore", {
       return request
         .get<IRequestData>({
           url: "/users",
-          showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
               return config;
@@ -87,7 +83,6 @@ export const userStore = defineStore("userStore", {
     //   return request
     //     .get<IRequestData>({
     //       url: `/menu/order/${order_id}`,
-    //       showLoading: false,
     //       interceptors: {
     //         requestSuccessInterceptor(config) {
     //           return config;
@@ -103,7 +98,6 @@ export const userStore = defineStore("userStore", {
       return request
         .delete<AxiosResponse<IRequestData>>({
           url: `/users/${user_id}/orders/${order_id}`,
-          showLoading: false,
           withCredentials: true
         })
         .then((res) => {

@@ -90,7 +90,6 @@ export const mainStore = defineStore("mainStore", {
       return request
         .get<IRequestData>({
           url: "/menu/product",
-          showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
               return config;
@@ -119,7 +118,6 @@ export const mainStore = defineStore("mainStore", {
       return request.post<AxiosResponse>({
         url: `/users/${user_id}/orders`,
         data: payload.value,
-        showLoading: false,
         interceptors: {
           requestSuccessInterceptor(config) {
             return config;

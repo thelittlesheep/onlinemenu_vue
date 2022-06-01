@@ -228,8 +228,6 @@ export default defineComponent({
         // console.log(res.data);
         payload.isPostSuccess.value = true;
       } catch (e: any) {
-        // const errors = e as AxiosError<responseError>;
-        // console.log(errors.response);
         payload.errorResponse.value = "NetWork Error Please try it later";
         payload.isPostSuccess.value = false;
       } finally {

@@ -24,6 +24,4 @@ interface IRequestInterceptors<T = AxiosResponse, D = any> {
 export interface IRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   // 每個request實例可以不傳入攔截器
   interceptors?: IRequestInterceptors<T>;
-  // 是否顯示loading
-  showLoading?: boolean;
 }
