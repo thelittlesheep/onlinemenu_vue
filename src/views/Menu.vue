@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Menubody from "@/components/menu/menu.Body.vue";
+import Menubody from '@/components/menu/menu.Body.vue';
 
 export default {
-  name: "Menu",
+  name: 'Menu',
   components: { Menubody }
 };
 </script>

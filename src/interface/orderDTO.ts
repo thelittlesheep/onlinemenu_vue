@@ -1,4 +1,4 @@
-import { Iadjitem } from "@/interface/menuData.Interface";
+import { Iadjitem } from '@/interface/menuData.Interface';
 
 export interface orderDTO {
   user_id: number;

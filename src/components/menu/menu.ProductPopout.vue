@@ -45,14 +45,14 @@
 </template>
 
 <script lang="ts">
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { defineComponent, ref, watch } from "vue";
-import Menucheckboxgroup from "./menu.AdjustItemCheckBox.vue";
-import { IshoppingProduct } from "@/interface/menuData.Interface";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent, ref, watch } from 'vue';
+import Menucheckboxgroup from './menu.AdjustItemCheckBox.vue';
+import { IshoppingProduct } from '@/interface/menuData.Interface';
 
 export default defineComponent({
-  name: "Menuproductpopout",
+  name: 'Menuproductpopout',
   components: { Menucheckboxgroup },
   setup() {
     const mainstore = mainStore();
@@ -89,37 +89,37 @@ export default defineComponent({
     const beforeDialogClose = (done: () => void) => {
       done();
       shoppingProduct.value = {} as IshoppingProduct;
-      clickedCartItemId.value = "";
+      clickedCartItemId.value = '';
       checkbox.value = [];
       isModifyMode.value = false;
       clickedProductId.value = NaN;
       clickedProductCategoryId.value = NaN;
     };
 
-    let dialogWidth = "600px";
+    let dialogWidth = '600px';
     function dialogResize() {
       const dialog = document.getElementsByClassName(
-        "el-dialog"
+        'el-dialog'
       )[0] as HTMLElement;
 
       let windowSize = document.body.clientWidth;
       const defaultWidth = 600; // 預設寬度
       if (windowSize < defaultWidth) {
         isDialogFullScreen.value = true;
-        dialogWidth = "100%";
+        dialogWidth = '100%';
         if (dialog) {
           dialog.style.width = dialogWidth;
         }
       } else {
         isDialogFullScreen.value = false;
         if (dialog) {
-          dialog.style.width = defaultWidth + "px";
+          dialog.style.width = defaultWidth + 'px';
         }
       }
     }
     dialogResize();
-    window.addEventListener("resize", dialogResize);
-    window.addEventListener("orientationchange", dialogResize);
+    window.addEventListener('resize', dialogResize);
+    window.addEventListener('orientationchange', dialogResize);
 
     return {
       isDialogFullScreen,

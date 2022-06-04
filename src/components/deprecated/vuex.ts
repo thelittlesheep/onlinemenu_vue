@@ -1,6 +1,6 @@
-import axios from "axios";
-import { InjectionKey } from "vue";
-import { createStore, useStore as baseUseStore, Store } from "vuex";
+import axios from 'axios';
+import { InjectionKey } from 'vue';
+import { createStore, useStore as baseUseStore, Store } from 'vuex';
 export interface State {
   data: any;
 }
@@ -18,9 +18,9 @@ export const store = createStore<State>({
   },
   actions: {
     async getWeatherData(context, payload) {
-      console.log("getWeatherData");
+      console.log('getWeatherData');
       const cwbapiurl =
-        "https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-507541B9-F919-4B2C-9A48-21D9859B4EAA&limit=2&locationName=%E5%AE%89%E5%8D%97";
+        'https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0001-001?Authorization=CWB-507541B9-F919-4B2C-9A48-21D9859B4EAA&limit=2&locationName=%E5%AE%89%E5%8D%97';
       axios(cwbapiurl).then((res) => console.log(res.data));
     }
   }

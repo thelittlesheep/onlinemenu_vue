@@ -10,6 +10,7 @@
         text-color="#fff"
         active-text-color="#ffd04b"
         router
+        :ellipsis="true"
       >
         <el-menu-item
           v-for="item in tabItems"
@@ -50,16 +51,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { computed } from "@vue/reactivity";
-import { userStore } from "@/store/user.store";
-import { ShoppingBag } from "@element-plus/icons-vue";
+import { defineComponent, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { computed } from '@vue/reactivity';
+import { userStore } from '@/store/user.store';
+import { ShoppingBag } from '@element-plus/icons-vue';
 
 export default defineComponent({
-  name: "Navbar",
+  name: 'Navbar',
   components: { ShoppingBag },
   setup() {
     const route = useRoute();
@@ -80,7 +81,9 @@ export default defineComponent({
       await userstore.logout();
       // 根據環境切換cookieDomain
       const cookieDomain =
-        process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
+        process.env.NODE_ENV === 'development'
+          ? '192.168.0.197'
+          : '.lshuang.tw';
       // 刪除 cookie，Domain=localhost 時，會刪除所有 localhost 的 cookie，反之則為刪除lshuang.tw之cookie。
       // 刪除 cookie之方法為將 cookie 的值設為空字串，並設置過期日期為過去的時間。
       document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
@@ -90,25 +93,22 @@ export default defineComponent({
     watch(isLogin, async (val) => {
       if (isLogin.value === true) {
         userInfo.value = await userstore.getUserInfo();
+        console.log('NavBar');
       }
     });
 
     const tabItems = [
-      // {
-      //   name: "Home",
-      //   path: "/"
-      // },
       {
-        name: "菜單",
-        path: "/menu"
+        name: '菜單',
+        path: '/menu'
       },
       {
-        name: "我的訂單",
-        path: "/myorder"
+        name: '我的訂單',
+        path: '/myorder'
       },
       {
-        name: "我的資料",
-        path: "/myprofile"
+        name: '我的資料',
+        path: '/myprofile'
       }
     ];
 
@@ -128,7 +128,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@import "./NavBar.css";
+@import './NavBar.css';
 /* .opencartbutton {
   align-self: center;
 } */

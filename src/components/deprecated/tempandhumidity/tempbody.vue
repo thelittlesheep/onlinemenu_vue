@@ -54,11 +54,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { tempdataDTO } from "./tempdatadto";
-import { AxiosResponse } from "axios";
-import { asyncget } from "@/api/http";
-import { format } from "date-fns";
+import { defineComponent, ref } from 'vue';
+import { tempdataDTO } from './tempdatadto';
+import { AxiosResponse } from 'axios';
+import { asyncget } from '@/api/http';
+import { format } from 'date-fns';
 export default defineComponent({
   setup() {
     type tempdatasDTO = Array<tempdataDTO>;
@@ -73,12 +73,12 @@ export default defineComponent({
     const errormsg = ref(null);
     const isStop = ref(true);
     const isShowError = ref(false);
-    const msg = ref("Start auto update tempdata");
+    const msg = ref('Start auto update tempdata');
 
     const load = async () => {
       try {
         const res: AxiosResponse<tempdatasDTO> = (await asyncget(
-          "https://apiprod.thelittlesheep.tk/rpi_temp"
+          'https://apiprod.thelittlesheep.tk/rpi_temp'
         )) as AxiosResponse;
         // if (res.status != 200) {
         //   isShowError.value = true;
@@ -91,7 +91,7 @@ export default defineComponent({
         tempdatas.value.forEach((element) => {
           // console.log(element.logtime);
           const date = Date.parse(element.logtime);
-          element.logtime = format(date, "yyyy/MM/dd HH:mm:ss");
+          element.logtime = format(date, 'yyyy/MM/dd HH:mm:ss');
         });
       } catch (error: any) {
         errormsg.value = error;
@@ -100,10 +100,10 @@ export default defineComponent({
     const autoupdate = async () => {
       if (isStop.value != true) {
         isStop.value = !isStop.value;
-        msg.value = "Start auto update tempdata ";
+        msg.value = 'Start auto update tempdata ';
       } else {
         isStop.value = !isStop.value;
-        msg.value = "Stop auto update tempdata ";
+        msg.value = 'Stop auto update tempdata ';
       }
       await load();
       // async function sleep(ms = 0) {
@@ -165,8 +165,8 @@ td:last-child {
   border-top: 3px solid chocolate;
 }
 button {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-weight: bolder;
   transition-duration: 0.2s;
   background: thistle;

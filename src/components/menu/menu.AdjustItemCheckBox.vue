@@ -38,12 +38,12 @@ const props = defineProps({
 const test = 123;
 </script> -->
 <script lang="ts">
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { defineComponent, PropType, Ref, ref } from "vue";
-import { Iadjtypes } from "@/interface/menuData.Interface";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent, PropType, Ref, ref } from 'vue';
+import { Iadjtypes } from '@/interface/menuData.Interface';
 export default defineComponent({
-  name: "Menuadjustitemcheckbox",
+  name: 'Menuadjustitemcheckbox',
   props: {
     // eslint-disable-next-line vue/require-default-prop
     propfAdjustTypesData: { type: Object as PropType<Iadjtypes> }

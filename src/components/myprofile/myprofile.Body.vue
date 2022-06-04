@@ -1,56 +1,83 @@
 <template>
-  <div class="title">
-    <span class="title-text">使用者個人資料</span>
-    <el-button @click="editmode">
-      <el-icon v-if="isEditMode === false"><Edit /></el-icon>
-      <el-icon v-else
-        ><svg
-          style="width: 24px; height: 24px"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="currentColor"
-            d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"
-          /></svg
-      ></el-icon>
-    </el-button>
-  </div>
-  <Myprofilepreview
-    v-if="isEditMode === false"
-    :user-info="userInfo"
-  />
-  <Myprofileedit
-    v-else
-    :user-info="userInfo"
-  />
+  <el-row>
+    <el-col :span="24">
+      <div class="myprofileBody">
+        <div class="title">
+          <span class="title-text">使用者個人資料</span>
+          <el-button
+            v-if="!isEditMode"
+            @click="editmode"
+          >
+            <el-icon :size="20"><Edit /></el-icon>
+          </el-button>
+        </div>
+        <!-- <Myprofilepreview
+        v-if="isEditMode === false"
+        :user-info="userInfo"
+      /> -->
+        <Myprofileedit
+          :userinfo="userInfo"
+          :iseditmode="isEditMode"
+          @canceledit="cancelEdit"
+        />
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { Edit } from "@element-plus/icons-vue";
-import Myprofilepreview from "./myprofile.preview.vue";
-import Myprofileedit from "./myprofile.edit.vue";
-import { userStore } from "@/store/user.store";
-import { storeToRefs } from "pinia";
+import { defineComponent, ref } from 'vue';
+import { Edit } from '@element-plus/icons-vue';
+import Myprofileedit from './myprofile.edit.vue';
+import { userStore } from '@/store/user.store';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
-  name: "MyProfileBody",
-  components: { Myprofilepreview, Myprofileedit, Edit },
+  name: 'MyProfileBody',
+  components: { Myprofileedit, Edit },
   setup() {
     const userstore = userStore();
     const { userInfo } = storeToRefs(userstore);
+    function getuserInfoFromSessionStorage() {
+      const sessionStoragedata: string | null =
+        sessionStorage.getItem('userInfo');
+      sessionStoragedata !== null
+        ? (userInfo.value = JSON.parse(sessionStoragedata))
+        : null;
+    }
+    getuserInfoFromSessionStorage();
     const isEditMode = ref(false);
     function editmode() {
       isEditMode.value = !isEditMode.value;
     }
-    return { userInfo, isEditMode, editmode };
+    function cancelEdit(isCancel: boolean) {
+      if (isCancel === true) isEditMode.value = false;
+    }
+
+    return {
+      userInfo,
+      isEditMode,
+      editmode,
+      cancelEdit
+    };
   }
 });
 </script>
 
 <style scoped>
+.myprofileBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .title {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  /* align-content: center; */
+  align-items: center;
+  height: 30px;
+  width: 180px;
   margin-bottom: 2%;
 }
 .title-text {

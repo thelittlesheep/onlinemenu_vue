@@ -19,21 +19,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
+import { defineComponent } from 'vue';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
 
-import Checkoutcarttable from "./checkout.CartTable.vue";
-import Checkoutorderdetail from "./checkout.Orderdetail.vue";
-import moment from "moment";
-import { useRouter } from "vue-router";
-import { userStore } from "@/store/user.store";
-import { ElMessageBox } from "element-plus";
-import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
-import { Iorderproduct } from "@/interface/orderDTO";
+import Checkoutcarttable from './checkout.CartTable.vue';
+import Checkoutorderdetail from './checkout.Orderdetail.vue';
+import moment from 'moment';
+import { useRouter } from 'vue-router';
+import { userStore } from '@/store/user.store';
+import { ElMessageBox } from 'element-plus';
+import { RWDElMessageBox } from '@/util/ElMessageBox.RWD';
+import { Iorderproduct } from '@/interface/orderDTO';
+import { postMenuCartData } from '@/api/menu';
 
 export default defineComponent({
-  name: "CheckoutBody",
+  name: 'CheckoutBody',
   components: {
     Checkoutcarttable,
     Checkoutorderdetail
@@ -68,19 +69,16 @@ export default defineComponent({
       );
       order.value.order_orderdate = moment
         .utc(moment())
-        .format("YYYY-MM-DD HH:mm:ss");
+        .format('YYYY-MM-DD HH:mm:ss');
       try {
-        const res = await mainstore.postMenuCartData(
-          userInfo.value.user_id,
-          order
-        );
+        const res = await postMenuCartData(userInfo.value.user_id, order);
         if (res.status === 201) {
           // alert("訂單已送出");
-          ElMessageBox.alert("訂單已送出", {
-            confirmButtonText: "確認",
-            type: "success"
+          ElMessageBox.alert('訂單已送出', {
+            confirmButtonText: '確認',
+            type: 'success'
           }).then(() => {
-            router.push("/myorder");
+            router.push('/myorder');
             cartData.value = [];
           });
           RWDElMessageBox();

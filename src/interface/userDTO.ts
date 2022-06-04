@@ -1,4 +1,4 @@
-import { orderDTO } from "@/interface/orderDTO";
+import { orderDTO } from '@/interface/orderDTO';
 
 export interface userDTO extends userBasicDTO {
   user_id: number;

@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface IResponseError {
   statusCode?: number;
@@ -24,4 +24,6 @@ interface IRequestInterceptors<T = AxiosResponse, D = any> {
 export interface IRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   // 每個request實例可以不傳入攔截器
   interceptors?: IRequestInterceptors<T>;
+
+  showLoading?: boolean;
 }

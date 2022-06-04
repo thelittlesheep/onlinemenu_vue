@@ -1,7 +1,7 @@
 // 配置請求超時時間，
 // 根據不同環境來改變baseUrl
 
-let BASE_URL = "";
+let BASE_URL = '';
 const TIME_OUT = 5000;
 
 BASE_URL = `${import.meta.env.VITE_BACKEND_HOST}`;

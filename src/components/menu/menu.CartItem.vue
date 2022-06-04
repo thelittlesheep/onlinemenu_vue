@@ -50,13 +50,13 @@
 </template>
 
 <script lang="ts">
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { defineComponent, ref, Ref } from "vue";
-import { IshoppingProduct } from "@/interface/menuData.Interface";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent, ref, Ref } from 'vue';
+import { IshoppingProduct } from '@/interface/menuData.Interface';
 
 export default defineComponent({
-  name: "Menucartitem",
+  name: 'Menucartitem',
   setup() {
     const mainstore = mainStore();
     const {

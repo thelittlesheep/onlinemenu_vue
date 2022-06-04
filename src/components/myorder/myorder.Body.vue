@@ -20,44 +20,47 @@
         animated
       >
         <template #template>
-          <div style="width: 370px">
+          <div
+            class="skeleton-loading"
+            :style="skeletonWidthStyle"
+          >
             <el-skeleton-item
               variant="h1"
-              style="width: 200px; height: 28px"
+              style="width: 150px; height: 28px"
             />
+            <el-card>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  flex-wrap: wrap;
+                  justify-content: space-between;
+                  flex-direction: column;
+                "
+              >
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 60%; margin-bottom: 3%"
+                />
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 80%; margin-bottom: 3%"
+                />
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 80%; margin-bottom: 30px"
+                />
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 60%; margin-bottom: 3%"
+                />
+                <el-skeleton-item
+                  variant="h1"
+                  style="width: 200px"
+                />
+              </div>
+            </el-card>
           </div>
-          <el-card>
-            <div
-              style="
-                display: flex;
-                align-items: flex-start;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                flex-direction: column;
-              "
-            >
-              <el-skeleton-item
-                variant="h1"
-                style="width: 60%; margin-bottom: 3%"
-              />
-              <el-skeleton-item
-                variant="h1"
-                style="width: 300px; margin-bottom: 3%"
-              />
-              <el-skeleton-item
-                variant="h1"
-                style="width: 300px; margin-bottom: 30px"
-              />
-              <el-skeleton-item
-                variant="h1"
-                style="width: 120px; margin-bottom: 3%"
-              />
-              <el-skeleton-item
-                variant="h1"
-                style="width: 200px"
-              />
-            </div>
-          </el-card>
         </template>
         <template #default>
           <div class="orderList">
@@ -91,20 +94,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from "vue";
-import MyorderSingleOrder from "./myorder.SingleOrder.vue";
-import { Refresh } from "@element-plus/icons-vue";
-
-import { userStore } from "@/store/user.store";
-import { storeToRefs } from "pinia";
-import { userDTO } from "@/interface/userDTO";
-import { mainStore } from "@/store/main.store";
-import { orderDTO } from "@/interface/orderDTO";
-import moment from "moment";
-import "moment/dist/locale/zh-tw";
+import { defineComponent, Ref, ref } from 'vue';
+import MyorderSingleOrder from './myorder.SingleOrder.vue';
+import { Refresh } from '@element-plus/icons-vue';
+import { userStore } from '@/store/user.store';
+import { storeToRefs } from 'pinia';
+import { userDTO } from '@/interface/userDTO';
+import { mainStore } from '@/store/main.store';
+import { orderDTO } from '@/interface/orderDTO';
+import moment from 'moment';
+import 'moment/dist/locale/zh-tw';
 
 export default defineComponent({
-  name: "MyorderBody",
+  name: 'MyorderBody',
   components: { MyorderSingleOrder, Refresh },
   setup() {
     const mainstore = mainStore();
@@ -127,7 +129,7 @@ export default defineComponent({
           orders?.forEach((order) => {
             mainstore.getOrderSingleProductTotalPrice(order.order_products);
           });
-          if (orders) {
+          if (orders !== undefined) {
             historyOrder.value = orders.filter(
               (order) => moment(order.order_pickupdate) <= moment()
             );
@@ -149,31 +151,35 @@ export default defineComponent({
     }
     // Load userinfo and orders
     getUserOrders();
+    // 配合小尺寸之iPhone，預設寬度要先設為低於螢幕寬度，
+    // 若螢幕寬度超過寬度，則寬度設為更大
+    let defaultWidth = 330;
+    let windowSize = document.body.clientWidth;
+    windowSize < defaultWidth ? (defaultWidth = 370) : null;
 
-    const defaultWidth = 400;
-    let skeletonWidth = defaultWidth + "px";
-    let skeletonWidthStyle = "width:" + skeletonWidth;
+    let skeletonWidth = defaultWidth + 'px';
+    let skeletonWidthStyle = 'width:' + skeletonWidth;
     function drawerResize() {
       const skeleton = document.getElementsByClassName(
-        "skeleton"
+        'el-skeleton is-animated'
       )[0] as HTMLElement;
-      let windowSize = document.body.clientWidth;
       // 預設寬度
       if (windowSize < defaultWidth) {
-        skeletonWidth = "100%";
-        skeletonWidthStyle = "width:" + skeletonWidth;
+        skeletonWidth = '100%';
+        skeletonWidthStyle = 'width:' + skeletonWidth;
         if (skeleton) {
-          skeleton.style.width = skeletonWidth;
+          // skeleton.style.width = skeletonWidth;
+          skeleton.setAttribute('style', 'width:' + skeletonWidth);
         }
       } else {
         if (skeleton) {
-          skeleton.style.width = "inherit";
+          skeleton.style.width = 'inherit';
         }
       }
     }
     drawerResize();
-    window.addEventListener("resize", drawerResize);
-    window.addEventListener("orientationchange", drawerResize);
+    window.addEventListener('resize', drawerResize);
+    window.addEventListener('orientationchange', drawerResize);
 
     return {
       userWithoutOrders,
@@ -197,12 +203,15 @@ export default defineComponent({
 } */
 :deep() .el-skeleton {
   display: flex;
+  display: -webkit-flex;
+
   flex-wrap: wrap;
   flex-direction: column;
   align-content: center;
 }
 .myorderBody {
   display: flex;
+  display: -webkit-flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
@@ -210,7 +219,12 @@ export default defineComponent({
 .myorderBodyHeader {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.myorderBodyHeader h2 {
+  margin-bottom: 0;
+  margin-right: 5px;
 }
 .orderList {
   display: flex;

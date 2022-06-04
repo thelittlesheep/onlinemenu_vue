@@ -1,14 +1,10 @@
-import Request from "@/api";
-import { BASE_URL, TIME_OUT } from "@/api/config";
-import { ElMessageBox } from "element-plus";
-import router from "@/router";
-import { userDTO } from "@/interface/userDTO";
-import { ImenuGroupByCategory } from "@/interface/menuData.Interface";
-import { AxiosError } from "axios";
-import { IResponseError } from "./type";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { responseErrorAction } from "./utils";
+import Request from '@/api';
+import { BASE_URL, TIME_OUT } from '@/api/config';
+import { userDTO } from '@/interface/userDTO';
+import { ImenuGroupByCategory } from '@/interface/menuData.Interface';
+import { AxiosError } from 'axios';
+import { IResponseError } from './type';
+import { responseErrorAction } from './utils';
 
 export const request = new Request({
   baseURL: BASE_URL,

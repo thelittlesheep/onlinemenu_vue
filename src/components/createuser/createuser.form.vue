@@ -165,17 +165,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from "vue";
-import { useField, useForm } from "vee-validate";
-import { userStore } from "@/store/user.store";
-import { storeToRefs } from "pinia";
-import { userDTO } from "@/interface/userDTO";
-import { isShowProps } from "./createuser.body.vue";
-import { mainStore } from "@/store/main.store";
+import { defineComponent, ref, Ref } from 'vue';
+import { useField, useForm } from 'vee-validate';
+import { userStore } from '@/store/user.store';
+import { storeToRefs } from 'pinia';
+import { userDTO } from '@/interface/userDTO';
+import { isShowProps } from './createuser.body.vue';
+import { mainStore } from '@/store/main.store';
 
 export default defineComponent({
-  name: "Createuserform",
-  emits: ["showafterpost"],
+  name: 'Createuserform',
+  emits: ['showafterpost'],
   setup(props, { emit }) {
     // 定義 form validating 相關變數
     const { isSubmitting, handleSubmit, resetForm } = useForm<{
@@ -184,16 +184,16 @@ export default defineComponent({
     }>();
 
     const { errorMessage: accountError, value: account } = useField(
-      "account",
-      "useraccount"
+      'account',
+      'useraccount'
     );
     const { errorMessage: passwordError, value: password } = useField(
-      "password",
-      "userpassword"
+      'password',
+      'userpassword'
     );
     const { errorMessage: confirmError, value: confirm } = useField(
-      "confirm",
-      "pwdconfirm:password"
+      'confirm',
+      'pwdconfirm:password'
     );
 
     // let isPostSubmmit: Ref<boolean> = ref(false);
@@ -203,7 +203,7 @@ export default defineComponent({
     const payload: isShowProps = {
       isPostSubmmit: ref(false),
       isPostSuccess: ref(false),
-      errorResponse: ref("")
+      errorResponse: ref('')
     };
     // pinia data 宣告
     const mainstore = mainStore();
@@ -217,7 +217,7 @@ export default defineComponent({
 
     async function emitShowAfterPost(): Promise<void> {
       return new Promise((resolve) => {
-        resolve(emit("showafterpost", payload));
+        resolve(emit('showafterpost', payload));
       });
     }
 
@@ -228,7 +228,7 @@ export default defineComponent({
         // console.log(res.data);
         payload.isPostSuccess.value = true;
       } catch (e: any) {
-        payload.errorResponse.value = "NetWork Error Please try it later";
+        payload.errorResponse.value = 'NetWork Error Please try it later';
         payload.isPostSuccess.value = false;
       } finally {
         payload.isPostSubmmit.value = true;
@@ -264,7 +264,7 @@ export default defineComponent({
         if (user.value.user_account && user.value.user_password) {
           resolve(postform(user));
         }
-        reject("error FROM onSubmit");
+        reject('error FROM onSubmit');
       }).catch((e) => {
         console.log(e);
       });

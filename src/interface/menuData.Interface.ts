@@ -1,4 +1,4 @@
-import { Ref } from "vue";
+import { Ref } from 'vue';
 
 interface Iadjtypes {
   adjusttype_id: number;

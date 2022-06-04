@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import MyorderBody from "@/components/myorder/myorder.Body.vue";
+import MyorderBody from '@/components/myorder/myorder.Body.vue';
 
 export default {
-  name: "Myorder",
+  name: 'Myorder',
   components: { MyorderBody }
 };
 </script>

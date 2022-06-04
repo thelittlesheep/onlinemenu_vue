@@ -27,15 +27,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from "vue";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { ShoppingCart } from "@element-plus/icons-vue";
-import { orderDTO } from "@/interface/orderDTO";
-import { Iadjitem, IshoppingProduct } from "@/interface/menuData.Interface";
+import { defineComponent, Ref, ref, watch } from 'vue';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { ShoppingCart } from '@element-plus/icons-vue';
+import { orderDTO } from '@/interface/orderDTO';
+import { Iadjitem, IshoppingProduct } from '@/interface/menuData.Interface';
 
 export default defineComponent({
-  name: "Menuaddtocart",
+  name: 'Menuaddtocart',
   components: { ShoppingCart },
   setup() {
     const mainstore = mainStore();

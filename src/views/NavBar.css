@@ -4,7 +4,7 @@
   align-items: center;
   background-color: #545c64;
   height: 70px;
-  max-width: 100%;  
+  min-width: 100%;
 }
 .el-menu {
   border-right: 0;
@@ -12,21 +12,18 @@
   flex-grow: 1;
 }
 .login-regiser-cart {
-  flex-grow: 1;
+  width: auto;
+  /* overflow: hidden; */
+  /* flex-grow: 1; */
   display: flex;
   justify-content: end;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
-  margin-right: 3%;
+  margin-right: 20px;
 }
 .hello-user {
   color: aliceblue;
   font-weight: bold;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
   margin-right: 10px;
 }
