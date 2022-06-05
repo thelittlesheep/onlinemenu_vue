@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios';
 import { request } from '../request';
 
 async function updateUserProfile(userInfo: userDTO) {
-  console.log('updateUserProfile');
   return request.put<AxiosResponse>({
     url: `/users/${userInfo.user_id}`,
     data: userInfo,

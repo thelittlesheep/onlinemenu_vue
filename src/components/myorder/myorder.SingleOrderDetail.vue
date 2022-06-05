@@ -108,7 +108,7 @@ export default defineComponent({
   setup() {
     const mainstore = mainStore();
     const userstore = userStore();
-    const { user, userInfo } = storeToRefs(userstore);
+    const { userInfoandOrders, userInfo } = storeToRefs(userstore);
 
     const route = useRoute();
     const onClickOrderProducts = ref([]) as Ref<Array<Iorderproduct>>;
@@ -116,15 +116,15 @@ export default defineComponent({
     const isLoading = ref(true);
     async function getUserSingleOrder() {
       isLoading.value = true;
-      if (user.value) {
+      if (userInfoandOrders.value) {
         const { order_products, ...restoforder } =
-          (user.value.orders?.find((order) => {
+          (userInfoandOrders.value.orders?.find((order) => {
             return order.order_id === Number(route.params.orderid);
           }) as orderDTO) ?? {};
         onClickOrderRestof.value = restoforder;
         onClickOrderProducts.value = order_products ?? [];
       }
-      mainstore.getOrderSingleProductTotalPrice(onClickOrderProducts.value);
+      // mainstore.getOrderSingleProductTotalPrice(onClickOrderProducts.value);
       isLoading.value = false;
     }
     getUserSingleOrder();

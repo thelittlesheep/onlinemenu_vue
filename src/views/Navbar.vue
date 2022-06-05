@@ -93,7 +93,7 @@ export default defineComponent({
     watch(isLogin, async (val) => {
       if (isLogin.value === true) {
         userInfo.value = await userstore.getUserInfo();
-        console.log('NavBar');
+        // console.log('NavBar');
       }
     });
 

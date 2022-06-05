@@ -9,7 +9,7 @@ export function RWDElMessageBox() {
     msgBOXWidth = '80%';
     if (msgBOX) {
       // msgBOX.style.width = msgBOXWidth;
-      console.log(msgBOX);
+      // console.log(msgBOX);
 
       msgBOX.setAttribute('style', 'width:' + msgBOXWidth + ';');
     }

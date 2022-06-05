@@ -45,17 +45,10 @@ const errorAction = (
       // console.log(isLogin.value);
 
       if (isBackendDown === false) {
-        console.log('notBackendDown');
-
-        console.log(router.currentRoute.value.path);
-        console.log(redirectRoute);
         if (router.currentRoute.value.path === '/login') return;
         router.push(redirectRoute);
         // router.go(0);
       } else {
-        console.log('BackendDown');
-        console.log(router.currentRoute.value.path);
-        console.log(redirectRoute);
         router.push(routePath.home);
       }
     });
@@ -66,13 +59,9 @@ export const responseErrorAction = (err: AxiosError<IResponseError>) => {
   const statusCode = err.response?.status;
   switch (statusCode) {
     case 401:
-      console.log(401);
-
       errorAction(err, routePath.login);
       break;
     case 404:
-      console.log(404);
-
       errorAction(err, routePath.menu);
       break;
     default:

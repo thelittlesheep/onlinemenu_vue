@@ -134,7 +134,7 @@ export default defineComponent({
               .login(payload)
               .then(async (res) => {
                 if (res.data !== undefined) {
-                  console.log(typeof res.data);
+                  // console.log(typeof res.data);
                   isLogin.value = true;
                   userInfo.value = await userstore.getUserInfo(
                     userInfo.value.user_id
@@ -166,7 +166,7 @@ export default defineComponent({
                 ElMessageBox.alert(res.data.message, {
                   type: 'success'
                 }).then(async () => {
-                  console.log('then');
+                  // console.log('then');
                   const res = await userstore.login(payload);
                   userInfo.value.user_id = res.data.user_id;
                   userInfo.value = await userstore.getUserInfo(
@@ -188,7 +188,7 @@ export default defineComponent({
                 RWDElMessageBox();
               })
               .finally(async () => {
-                console.log('final');
+                // console.log('final');
                 // resetForm(formEl);
               });
           }

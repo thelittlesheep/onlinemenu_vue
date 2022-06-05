@@ -67,7 +67,7 @@ router.beforeEach(async (to, from, next) => {
   const mainstore = mainStore();
   const { isLogin } = storeToRefs(mainstore);
   const userstore = userStore();
-  const { userInfo, user } = storeToRefs(userstore);
+  const { userInfo } = storeToRefs(userstore);
 
   // if (isLogin.value === true) {
   //   let userJsonStr: string = sessionStorage.getItem("userInfo")
@@ -125,7 +125,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.path === `/myorder/${to.params.orderid}`) {
     const isInUserOrders = await checkIsInOrder(Number(to.params.orderid));
-    console.log(to.params.orderid);
+    // console.log(to.params.orderid);
 
     if (isInUserOrders === false) {
       // ElMessageBox.alert('錯誤的訂單編號', {

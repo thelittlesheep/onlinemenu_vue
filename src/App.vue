@@ -29,7 +29,7 @@ export default {
     watch(
       () => msgBOX,
       (newVal) => {
-        console.log(newVal);
+        // console.log(newVal);
       }
     );
     let dialogWidth = '350px';
@@ -39,7 +39,6 @@ export default {
     if (windowSize < defaultWidth) {
       dialogWidth = '100%';
       if (msgBOX.length > 0) {
-        console.log(456);
         (msgBOX[0] as HTMLElement).style.width = dialogWidth;
       }
     } else {
