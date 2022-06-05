@@ -1,149 +1,10 @@
-<<<<<<< HEAD
-// 必要
-import { defineStore, acceptHMRUpdate, storeToRefs } from "pinia";
-import { userDTO, userBasicDTO } from "@/interface/userDTO";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import axiosRetry from "axios-retry";
-import { IuserStoreState } from "@/interface/userStore.interface";
-import { request, IRequestData } from "@/api/request";
-import { mainStore } from "./main.store";
-import router from "@/router";
-import { orderDTO } from "@/interface/orderDTO";
-
-const url = import.meta.env.VITE_BACKEND_HOST;
-
-axiosRetry(axios, { retries: 3 });
-
-export const userStore = defineStore("userStore", {
-  state: () => ({
-    userInfo: {} as userDTO,
-    user: {} as userDTO
-  }),
-  getters: {},
-  actions: {
-    async register(payload: userBasicDTO): Promise<AxiosResponse<any>> {
-      return await axios
-        .post(`${url}/users`, payload)
-        .then((res) => {
-          return res;
-        })
-        .catch((e: AxiosError) => {
-          throw e;
-        });
-    },
-    async login(payload: userBasicDTO) {
-      return request.post<AxiosResponse>({
-<<<<<<< HEAD
-        url: "/users/login",
-=======
-        url: "/user/login",
->>>>>>> origin/FixCartItemDateStructure
-        data: payload,
-        showLoading: false,
-        interceptors: {
-          requestSuccessInterceptor(config) {
-            return config;
-          }
-        },
-        withCredentials: true
-      });
-    },
-    async logout(): Promise<void> {
-      return request.post({
-        url: "/user/logout",
-        showLoading: false,
-        interceptors: {
-          requestSuccessInterceptor(config) {
-            return config;
-          }
-        },
-        withCredentials: true
-      });
-    },
-    async getuserInfoAndOrders() {
-      return request
-        .get<IRequestData>({
-          url: "/users/userInfoAndOrders",
-          showLoading: false,
-          interceptors: {
-            requestSuccessInterceptor(config) {
-              return config;
-            }
-          },
-          withCredentials: true
-        })
-        .then((res) => {
-          return res;
-        });
-    },
-    async getUserInfo() {
-      return request
-        .get<IRequestData>({
-          url: "/users",
-          showLoading: false,
-          interceptors: {
-            requestSuccessInterceptor(config) {
-              return config;
-            }
-          },
-          withCredentials: true
-        })
-        .then((res) => {
-          return res.data as userDTO;
-        });
-    },
-    // async getUserSingleOrder(order_id: number) {
-    //   return request
-    //     .get<IRequestData>({
-    //       url: `/menu/order/${order_id}`,
-    //       showLoading: false,
-    //       interceptors: {
-    //         requestSuccessInterceptor(config) {
-    //           return config;
-    //         }
-    //       },
-    //       withCredentials: true
-    //     })
-    //     .then((res) => {
-    //       return res;
-    //     });
-    // },
-    async deleteUserSingleOrder(user_id: number, order_id: number) {
-      return request
-        .delete<IRequestData>({
-<<<<<<< HEAD
-          url: `/users/${user_id}/orders/${order_id}`,
-=======
-          url: `/menu/order?order_id=${order_id}`,
->>>>>>> origin/FixCartItemDateStructure
-          showLoading: false,
-          interceptors: {
-            requestSuccessInterceptor(config) {
-              return config;
-            }
-          },
-          withCredentials: true
-        })
-        .then((res) => {
-          return res;
-        })
-        .catch((e) => {
-          throw e;
-        });
-    }
-  }
-});
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(userStore, import.meta.hot));
-}
-=======
 // 必要
 import { defineStore, acceptHMRUpdate, storeToRefs } from 'pinia';
 import { userDTO, userBasicDTO } from '@/interface/userDTO';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import axiosRetry from 'axios-retry';
 import { request, IRequestData } from '@/api/request';
+import { orderDTO } from '@/interface/orderDTO';
 
 const url = import.meta.env.VITE_BACKEND_HOST;
 
@@ -152,7 +13,7 @@ axiosRetry(axios, { retries: 3 });
 export const userStore = defineStore('userStore', {
   state: () => ({
     userInfo: {} as userDTO,
-    user: {} as userDTO
+    userInfoandOrders: {} as userDTO
   }),
   getters: {},
   actions: {
@@ -190,10 +51,10 @@ export const userStore = defineStore('userStore', {
         withCredentials: true
       });
     },
-    async getuserInfoAndOrders() {
+    async getUserInfoandOrders(user_id: number) {
       return request
         .get<IRequestData>({
-          url: '/users/userInfoAndOrders',
+          url: `/users/UserInfoandOrders`,
           showLoading: false,
           interceptors: {
             requestSuccessInterceptor(config) {
@@ -206,10 +67,10 @@ export const userStore = defineStore('userStore', {
           return res;
         });
     },
-    async getUserInfo() {
+    async getUserInfo(user_id: number) {
       return request
         .get<IRequestData>({
-          url: '/users',
+          url: `/users/${user_id}`,
           interceptors: {
             requestSuccessInterceptor(config) {
               return config;
@@ -264,4 +125,3 @@ export const userStore = defineStore('userStore', {
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(userStore, import.meta.hot));
 }
->>>>>>> FixCartItemDateStructure

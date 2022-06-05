@@ -20,7 +20,7 @@
           <el-button
             v-if="props.ordersType === 'PresentOrder'"
             type="text"
-            @click.stop="deleteUserOrder(userInfo.user_id, data.order_id)"
+            @click.stop="deleteUserOrder(data.order_id)"
             >取消訂單</el-button
           >
         </span>
@@ -68,57 +68,24 @@ export default defineComponent({
     const userstore = userStore();
     const router = useRouter();
     const { userInfo } = storeToRefs(userstore);
-<<<<<<< HEAD
-=======
     // const cookieDomain =
     //   process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
     // document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
->>>>>>> FixCartItemDateStructure
     // const msgBOX = document.getElementsByClassName(
     //   "el-message-box"
     // )[0] as HTMLElement;
 
-<<<<<<< HEAD
-    async function deleteUserOrder(user_id: number, order_id: number) {
-      ElMessageBox.confirm("確定要取消此訂單?", {
-        type: "info",
-        cancelButtonText: "讓我再想想",
-        customClass: "deleteUserOrder-confirm",
-=======
     async function deleteUserOrder(order_id: number) {
       ElMessageBox.confirm('確定要取消此訂單?', {
         type: 'info',
         cancelButtonText: '讓我再想想',
         customClass: 'deleteUserOrder-confirm',
->>>>>>> FixCartItemDateStructure
         showClose: false
       })
         .then(async () => {
           try {
             const res = await userstore.deleteUserSingleOrder(
-<<<<<<< HEAD
-              user_id,
-              order_id
-            );
-            try {
-              if (res.data.status === 200) {
-                ElMessage({
-                  type: "success",
-                  message: `訂單:${order_id} 成功刪除`
-                });
-                emit("ondeleteuserorder");
-              }
-            } catch {
-              ElMessage({
-                type: "error",
-                message: h("div", null, [
-                  h("span", null, `訂單：${order_id} 刪除失敗`),
-                  h("br"),
-                  h("span", null, `原因：${res.data.message}`)
-                ])
-              });
-=======
               userInfo.value.user_id,
               order_id
             );
@@ -130,7 +97,6 @@ export default defineComponent({
               // emit("ondeleteuserorder");
             } else {
               throw res;
->>>>>>> FixCartItemDateStructure
             }
           } catch (e) {
             const err = e as AxiosError<IResponseError>;

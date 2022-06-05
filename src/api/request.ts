@@ -19,30 +19,11 @@ export const request = new Request({
     responseSuccessInterceptor(res) {
       return res;
     },
-<<<<<<< HEAD
-    responseErrorInterceptor(err) {
-      // if (err.data.statusCode === 401) {
-      //   ElMessageBox.alert("您尚未登入系統。無法存取該資源。", "錯誤", {
-      //     showClose: false,
-      //     beforeClose: (action: string, instance, done) => {
-      //       done();
-      //     }
-      //   })
-      //     .then(() => {
-      //       ElMessageBox.close();
-      //     })
-      //     .finally(() => {
-      //       router.push("/login");
-      //     });
-      // }
-      // throw err;
-=======
     responseErrorInterceptor(err: AxiosError<IResponseError>) {
       // 預期後端回傳之錯誤訊息格式為 IResponseError
       // 且err為一個AxiosError type
       responseErrorAction(err);
       return err;
->>>>>>> FixCartItemDateStructure
     }
   }
 });

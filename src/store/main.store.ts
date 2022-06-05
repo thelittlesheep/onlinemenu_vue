@@ -86,52 +86,6 @@ export const mainStore = defineStore('mainStore', {
     }
   },
   actions: {
-<<<<<<< HEAD
-    async getMenuData(): Promise<IRequestData> {
-      return request
-        .get<IRequestData>({
-          url: "/menu/product",
-          showLoading: false,
-          interceptors: {
-            requestSuccessInterceptor(config) {
-              // console.log("getuserInfoAndOrders請求的攔截器");
-              return config;
-            }
-          },
-          withCredentials: true
-        })
-        .then((res) => {
-          return res;
-        });
-      // return await axios
-      //   .get(url + "/menu/product")
-      //   .then((res) => {
-      //     return res;
-      //   })
-      //   .catch((e) => {
-      //     if (!e.status) {
-      //       throw "Network Error Axios Can't reach server";
-      //     } else {
-      //       //   console.log(e.response?.status);
-      //       throw e;
-      //     }
-      //   });
-    },
-    async postMenuCartData(payload: Ref<orderDTO>) {
-      return request.post<AxiosResponse>({
-        url: `/users/${payload.value.user_id}/orders`,
-        data: payload.value,
-        showLoading: false,
-        interceptors: {
-          requestSuccessInterceptor(config) {
-            // console.log("postMenuCartData請求的攔截器");
-            return config;
-          }
-        },
-        withCredentials: true
-      });
-    },
-=======
     // async getMenuData(): Promise<IRequestData> {
     //   return request
     //     .get<IRequestData>({
@@ -160,7 +114,6 @@ export const mainStore = defineStore('mainStore', {
     //     withCredentials: true
     //   });
     // },
->>>>>>> FixCartItemDateStructure
     getSingleCartItem(queryuuid: string) {
       return this.cartData.find(
         (item) => item.shoppingProduct_uuid === queryuuid

@@ -111,8 +111,7 @@ export default defineComponent({
   setup() {
     const mainstore = mainStore();
     const userstore = userStore();
-    const { user } = storeToRefs(userstore);
-    const userWithoutOrders = ref({}) as Ref<userDTO>;
+    const { userInfoandOrders, userInfo } = storeToRefs(userstore);
     const isHistoryOrder = ref(false);
     const isPresentOrder = ref(false);
     const historyOrder = ref([]) as Ref<Array<orderDTO>>;
@@ -122,10 +121,11 @@ export default defineComponent({
     async function getUserOrders() {
       isLoading.value = true;
       try {
-        user.value = (await userstore.getuserInfoAndOrders()).data;
-        if (user.value) {
-          const { orders, ...restOfuser } = user.value as userDTO;
-          userWithoutOrders.value = restOfuser;
+        userInfoandOrders.value = (
+          await userstore.getUserInfoandOrders(userInfo.value.user_id)
+        ).data;
+        if (userInfoandOrders.value !== undefined) {
+          const { orders, ...rest } = userInfoandOrders.value;
           orders?.forEach((order) => {
             mainstore.getOrderSingleProductTotalPrice(order.order_products);
           });
@@ -182,8 +182,6 @@ export default defineComponent({
     window.addEventListener('orientationchange', drawerResize);
 
     return {
-      userWithoutOrders,
-      user,
       mainstore,
       getUserOrders,
       historyOrder,

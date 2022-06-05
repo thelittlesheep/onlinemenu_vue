@@ -79,7 +79,7 @@ export default defineComponent({
     };
     const router = useRouter();
     const userstore = userStore();
-    const { user, userInfo } = storeToRefs(userstore);
+    const { userOrders, userInfo } = storeToRefs(userstore);
     const { isLogin } = storeToRefs(mainStore());
 
     let payload: userBasicDTO;
@@ -136,7 +136,9 @@ export default defineComponent({
                 if (res.data !== undefined) {
                   console.log(typeof res.data);
                   isLogin.value = true;
-                  userInfo.value = await userstore.getUserInfo();
+                  userInfo.value = await userstore.getUserInfo(
+                    userInfo.value.user_id
+                  );
                   // const { orders, ...userinfo } = userdata;
                   // user.value = userdata;
                   // userInfo.value = userinfo;
@@ -165,8 +167,11 @@ export default defineComponent({
                   type: 'success'
                 }).then(async () => {
                   console.log('then');
-                  await userstore.login(payload);
-                  user.value = await userstore.getUserInfo();
+                  const res = await userstore.login(payload);
+                  userInfo.value.user_id = res.data.user_id;
+                  userInfo.value = await userstore.getUserInfo(
+                    userInfo.value.user_id
+                  );
 
                   router.push({ name: 'Menu' });
                   resetForm(formEl);

@@ -50,20 +50,10 @@ export default defineComponent({
 
     const userstore = userStore();
 
-    async function getUserInfo() {
-      try {
-        const UserInfo = await userstore.getUserInfo();
-        console.log(UserInfo);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
     return {
       isLoginTab,
       activeName,
-      handleClick,
-      getUserInfo
+      handleClick
     };
   }
 });
