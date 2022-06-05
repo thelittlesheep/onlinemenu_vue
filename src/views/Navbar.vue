@@ -10,16 +10,15 @@
         text-color="#fff"
         active-text-color="#ffd04b"
         router
+        :ellipsis="true"
       >
         <el-menu-item
           v-for="item in tabItems"
           :key="item.path"
           :index="item.path"
         >
-          <!-- {{ item }} -->
           {{ item.name }}
         </el-menu-item>
-        <!-- <el-menu-item> test </el-menu-item> -->
       </el-menu>
     </div>
     <div class="login-regiser-cart">
@@ -33,7 +32,7 @@
         v-else
         class="hello-user"
       >
-        <span>您好! {{ userInfo.user_name }} &ensp;</span>
+        <!-- <span>{{ userInfo.user_name }} &ensp;</span> -->
         <el-button
           type="text"
           @click="logout"
@@ -45,22 +44,24 @@
         type="primary"
         @click="drawerVis = true"
       >
-        購物車
+        <el-icon :size="18"><ShoppingBag /></el-icon>
       </el-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { computed } from "@vue/reactivity";
-import { userStore } from "@/store/user.store";
+import { defineComponent, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { computed } from '@vue/reactivity';
+import { userStore } from '@/store/user.store';
+import { ShoppingBag } from '@element-plus/icons-vue';
 
 export default defineComponent({
-  name: "Navbar",
+  name: 'Navbar',
+  components: { ShoppingBag },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -80,7 +81,9 @@ export default defineComponent({
       await userstore.logout();
       // 根據環境切換cookieDomain
       const cookieDomain =
-        process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
+        process.env.NODE_ENV === 'development'
+          ? '192.168.0.197'
+          : '.lshuang.tw';
       // 刪除 cookie，Domain=localhost 時，會刪除所有 localhost 的 cookie，反之則為刪除lshuang.tw之cookie。
       // 刪除 cookie之方法為將 cookie 的值設為空字串，並設置過期日期為過去的時間。
       document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
@@ -90,51 +93,57 @@ export default defineComponent({
     watch(isLogin, async (val) => {
       if (isLogin.value === true) {
         userInfo.value = await userstore.getUserInfo();
+        console.log('NavBar');
       }
     });
 
     const tabItems = [
-      // {
-      //   name: "Home",
-      //   path: "/"
-      // },
       {
-        name: "菜單",
-        path: "/menu"
+        name: '菜單',
+        path: '/menu'
       },
       {
-        name: "我的訂單",
-        path: "/myorder"
+        name: '我的訂單',
+        path: '/myorder'
+      },
+      {
+        name: '我的資料',
+        path: '/myprofile'
       }
     ];
 
     // const handleSelect = (key: string, keyPath: string[]) => {
     //   console.log(key, keyPath);
     // };
-    return { tabItems, route, isLogin, userInfo, logout, drawerVis };
+    return {
+      tabItems,
+      route,
+      isLogin,
+      userInfo,
+      logout,
+      drawerVis
+    };
   }
 });
 </script>
 
 <style scoped>
+@import './NavBar.css';
 /* .opencartbutton {
   align-self: center;
 } */
-.NavBar {
+/* .NavBar {
   display: flex;
   align-items: center;
   background-color: #545c64;
   height: 70px;
 }
 .el-menu {
-  /* width: 100%; */
   border-right: 0;
   height: inherit;
   flex-grow: 1;
-  /* background: seagreen; */
 }
 .login-regiser-cart {
-  /* background: yellow; */
   flex-grow: 1;
   display: flex;
   justify-content: end;
@@ -152,5 +161,5 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   margin-right: 1%;
-}
+} */
 </style>

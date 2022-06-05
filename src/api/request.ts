@@ -1,30 +1,25 @@
-import Request from "@/api";
-import { BASE_URL, TIME_OUT } from "@/api/config";
-import { ElMessageBox } from "element-plus";
-import router from "@/router";
-import { userDTO } from "@/interface/userDTO";
-import { ImenuGroupByCategory } from "@/interface/menuData.Interface";
+import Request from '@/api';
+import { BASE_URL, TIME_OUT } from '@/api/config';
+import { userDTO } from '@/interface/userDTO';
+import { ImenuGroupByCategory } from '@/interface/menuData.Interface';
+import { AxiosError } from 'axios';
+import { IResponseError } from './type';
+import { responseErrorAction } from './utils';
 
 export const request = new Request({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
-  showLoading: true,
   interceptors: {
     requestSuccessInterceptor(config) {
-      // console.log(config);
-      // console.log("requestSuccessInterceptor實例請求成功的攔截器");
       return config;
     },
     requestErrorInterceptor(err) {
-      // console.log(err);
-      // console.log("requestErrorInterceptor實例請求失敗的攔截器");
       return err;
     },
     responseSuccessInterceptor(res) {
-      // console.log(res);
-      // console.log("responseSuccessInterceptor實例響應成功的攔截器");
       return res;
     },
+<<<<<<< HEAD
     responseErrorInterceptor(err) {
       // if (err.data.statusCode === 401) {
       //   ElMessageBox.alert("您尚未登入系統。無法存取該資源。", "錯誤", {
@@ -41,6 +36,13 @@ export const request = new Request({
       //     });
       // }
       // throw err;
+=======
+    responseErrorInterceptor(err: AxiosError<IResponseError>) {
+      // 預期後端回傳之錯誤訊息格式為 IResponseError
+      // 且err為一個AxiosError type
+      responseErrorAction(err);
+      return err;
+>>>>>>> FixCartItemDateStructure
     }
   }
 });
@@ -48,10 +50,4 @@ export const request = new Request({
 export interface IRequestData {
   // 可依照各API回傳之資料格式自行修改
   data: any | userDTO | ImenuGroupByCategory[];
-}
-
-export interface ILoginResponseError {
-  // 可依照各API回傳之資料格式自行修改
-  message: string;
-  statusCode: number;
 }

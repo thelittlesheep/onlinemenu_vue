@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import createuserbody from "@/components/createuser/createuser.body.vue";
+import createuserbody from '@/components/createuser/createuser.body.vue';
 
 export default {
-  name: "Createuser",
+  name: 'Createuser',
   components: { createuserbody }
 };
 </script>

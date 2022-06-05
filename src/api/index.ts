@@ -1,19 +1,15 @@
-import { LoadingInstance } from "element-plus/lib/components/loading/src/loading";
-import axios, { AxiosInstance } from "axios";
-import { IRequestConfig } from "./type";
-import { ElLoading } from "element-plus";
-
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import { IRequestConfig } from './type';
+import { ElLoading } from 'element-plus';
+import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading';
 const DEFAULT_LOADING = true;
-
 class Request {
   public instance: AxiosInstance;
   public showLoading: boolean;
   public loadingInstance?: LoadingInstance;
-
   constructor(config: IRequestConfig) {
-    // 默認不加載loading
-    this.showLoading = config.showLoading ?? DEFAULT_LOADING;
     this.instance = axios.create(config);
+    this.showLoading = config.showLoading ?? DEFAULT_LOADING;
     // 先創建實例請求攔截器
     this.instance.interceptors.request.use(
       config.interceptors?.requestSuccessInterceptor,
@@ -27,19 +23,16 @@ class Request {
     // 創建全局請求攔截器
     this.instance.interceptors.request.use(
       (config) => {
-        // console.log("全局請求成功創建的攔截器");
-        if (this.showLoading) {
-          // 添加加載loading
+        if (this.showLoading === true) {
           this.loadingInstance = ElLoading.service({
-            text: "Loading...",
-            background: "rgba(0, 0, 0, .1)",
+            text: '正在載入，請稍後...',
+            background: 'rgba(0, 0, 0, .1)',
             lock: true
           });
         }
         return config;
       },
       (err) => {
-        // console.log("全局請求失敗創建的攔截器");
         this.loadingInstance?.close();
         return err;
       }
@@ -47,16 +40,13 @@ class Request {
     // 創建全局響應攔截器
     this.instance.interceptors.response.use(
       (config) => {
-        // console.log("全局響應成功創建的攔截器");
-        setTimeout(() => {
-          this.loadingInstance?.close();
-        }, 1000);
+        // setTimeout(() => {
+        //   this.loadingInstance?.close();
+        // }, 1000);
+        this.loadingInstance?.close();
         return config;
       },
       (err) => {
-        // console.log("全局響應失敗創建的攔截器");
-        // console.log(err);
-
         this.loadingInstance?.close();
         return err;
       }
@@ -66,7 +56,6 @@ class Request {
   // 傳入的泛型是約束返回值
   request<T>(config: IRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
-      // 定製該請求是否加loading。當為傳入該參數時，默認為true
       if (config.showLoading === false) {
         this.showLoading = false;
       }
@@ -85,7 +74,7 @@ class Request {
           }
           resolve(res);
         })
-        .catch((err) => {
+        .catch((err: AxiosError<T>) => {
           this.showLoading = DEFAULT_LOADING;
           reject(err);
         });
@@ -93,19 +82,23 @@ class Request {
   }
 
   get<T>(config: IRequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: "GET" });
+    return this.request<T>({ ...config, method: 'GET' });
   }
 
   post<T>(config: IRequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: "POST" });
+    return this.request<T>({ ...config, method: 'POST' });
   }
 
   delete<T>(config: IRequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: "DELETE" });
+    return this.request<T>({ ...config, method: 'DELETE' });
   }
 
   patch<T>(config: IRequestConfig<T>): Promise<T> {
-    return this.request<T>({ ...config, method: "PATCH" });
+    return this.request<T>({ ...config, method: 'PATCH' });
+  }
+
+  put<T>(config: IRequestConfig<T>): Promise<T> {
+    return this.request<T>({ ...config, method: 'PUT' });
   }
 }
 

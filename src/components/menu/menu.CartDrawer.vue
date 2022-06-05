@@ -54,20 +54,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from "vue";
-import { ref } from "vue";
-import { ElMessageBox } from "element-plus";
-import { ShoppingCart } from "@element-plus/icons-vue";
-import Menucartitem from "./menu.CartItem.vue";
+import { defineComponent, watch } from 'vue';
+import { ref } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { ShoppingCart } from '@element-plus/icons-vue';
+import Menucartitem from './menu.CartItem.vue';
 
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
-import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+import { RWDElMessageBox } from '@/util/ElMessageBox.RWD';
 // import { cartdata } from "../interfaces/cartDataDTO";
 
 export default defineComponent({
-  name: "Menucartdrawer",
+  name: 'Menucartdrawer',
   components: { ShoppingCart, Menucartitem },
   setup() {
     const mainstore = mainStore();
@@ -76,17 +76,17 @@ export default defineComponent({
 
     // const isCartEmpty = ref(true);
     const drawerClass =
-      mainstore.isEmptyCart === true ? ref("emptyCart") : ref("normalCart");
+      mainstore.isEmptyCart === true ? ref('emptyCart') : ref('normalCart');
 
     watch(cartData.value, (val) => {
       drawerClass.value =
-        mainstore.isEmptyCart === true ? "emptyCart" : "normalCart";
+        mainstore.isEmptyCart === true ? 'emptyCart' : 'normalCart';
     });
 
     // const drawer = ref(false);
-    const direction = ref("rtl");
+    const direction = ref('rtl');
     const handleClose = (done: () => void) => {
-      ElMessageBox.confirm("Are you sure you want to close this?")
+      ElMessageBox.confirm('Are you sure you want to close this?')
         .then(() => {
           done();
         })
@@ -100,29 +100,29 @@ export default defineComponent({
     }
     function confirmClick() {
       drawerVis.value = false;
-      router.push("/checkout");
+      router.push('/checkout');
     }
-    let drawerWidth = "450px";
+    let drawerWidth = '450px';
     function drawerResize() {
       const drawer = document.getElementsByClassName(
-        "el-drawer"
+        'el-drawer'
       )[0] as HTMLElement;
       let windowSize = document.body.clientWidth;
       const defaultWidth = 450; // 預設寬度
       if (windowSize < defaultWidth) {
-        drawerWidth = "100%";
+        drawerWidth = '100%';
         if (drawer) {
           drawer.style.width = drawerWidth;
         }
       } else {
         if (drawer) {
-          drawer.style.width = defaultWidth + "px";
+          drawer.style.width = defaultWidth + 'px';
         }
       }
     }
     drawerResize();
-    window.addEventListener("resize", drawerResize);
-    window.addEventListener("orientationchange", drawerResize);
+    window.addEventListener('resize', drawerResize);
+    window.addEventListener('orientationchange', drawerResize);
     return {
       cancelClick,
       confirmClick,

@@ -44,42 +44,60 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, PropType, watch } from "vue";
-import { orderDTO } from "@/interface/orderDTO";
-import { mainStore } from "@/store/main.store";
-import { userStore } from "@/store/user.store";
-import { storeToRefs } from "pinia";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
-import { useRouter } from "vue-router";
+import { defineComponent, h, PropType, watch } from 'vue';
+import { orderDTO } from '@/interface/orderDTO';
+import { mainStore } from '@/store/main.store';
+import { userStore } from '@/store/user.store';
+import { storeToRefs } from 'pinia';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { RWDElMessageBox } from '@/util/ElMessageBox.RWD';
+import { useRouter } from 'vue-router';
+import { AxiosError } from 'axios';
+import { IResponseError } from '@/api/type';
 
 export default defineComponent({
   /* eslint-disable vue/require-default-prop */
-  name: "MyorderSingleOrder",
+  name: 'MyorderSingleOrder',
   props: {
     orders: { type: Array as PropType<Array<orderDTO>> },
     ordersType: { type: String }
   },
-  emits: ["ondeleteuserorder"],
+  emits: ['ondeleteuserorder'],
   setup(props, { emit }) {
     const mainstore = mainStore();
     const userstore = userStore();
     const router = useRouter();
     const { userInfo } = storeToRefs(userstore);
+<<<<<<< HEAD
+=======
+    // const cookieDomain =
+    //   process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
+    // document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
+>>>>>>> FixCartItemDateStructure
     // const msgBOX = document.getElementsByClassName(
     //   "el-message-box"
     // )[0] as HTMLElement;
 
+<<<<<<< HEAD
     async function deleteUserOrder(user_id: number, order_id: number) {
       ElMessageBox.confirm("確定要取消此訂單?", {
         type: "info",
         cancelButtonText: "讓我再想想",
         customClass: "deleteUserOrder-confirm",
+=======
+    async function deleteUserOrder(order_id: number) {
+      ElMessageBox.confirm('確定要取消此訂單?', {
+        type: 'info',
+        cancelButtonText: '讓我再想想',
+        customClass: 'deleteUserOrder-confirm',
+>>>>>>> FixCartItemDateStructure
         showClose: false
       })
         .then(async () => {
           try {
             const res = await userstore.deleteUserSingleOrder(
+<<<<<<< HEAD
               user_id,
               order_id
             );
@@ -100,15 +118,37 @@ export default defineComponent({
                   h("span", null, `原因：${res.data.message}`)
                 ])
               });
+=======
+              userInfo.value.user_id,
+              order_id
+            );
+            if (res.status === 200) {
+              ElMessage({
+                type: 'success',
+                message: `訂單:${order_id} 成功刪除`
+              });
+              // emit("ondeleteuserorder");
+            } else {
+              throw res;
+>>>>>>> FixCartItemDateStructure
             }
           } catch (e) {
-            console.log(e);
+            const err = e as AxiosError<IResponseError>;
+            console.log(err);
+            // ElMessage({
+            //   type: "error",
+            //   message: h("div", null, [
+            //     h("span", null, `訂單：${order_id} 刪除失敗`),
+            //     h("br"),
+            //     h("span", null, `原因：${err.response?.data.message}`)
+            //   ])
+            // });
           }
         })
         .catch(() => {
           ElMessage({
-            type: "info",
-            message: "操作取消"
+            type: 'info',
+            message: '操作取消'
           });
         });
       RWDElMessageBox();
@@ -125,7 +165,7 @@ export default defineComponent({
       // }
     }
     function openOrderDetail(order_id: number) {
-      router.push("/myorder/" + order_id);
+      router.push('/myorder/' + order_id);
     }
     // watch(
     //   () => msgBOX,

@@ -17,6 +17,7 @@
             <div
               style="
                 display: flex;
+
                 align-items: flex-start;
                 flex-wrap: wrap;
                 justify-content: space-between;
@@ -94,16 +95,16 @@
 </template>
 
 <script lang="ts">
-import { Iorderproduct, orderDTO } from "@/interface/orderDTO";
-import { mainStore } from "@/store/main.store";
-import { userStore } from "@/store/user.store";
-import { storeToRefs } from "pinia";
-import { defineComponent, PropType, Ref, ref } from "vue";
-import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
+import { Iorderproduct, orderDTO } from '@/interface/orderDTO';
+import { mainStore } from '@/store/main.store';
+import { userStore } from '@/store/user.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent, PropType, Ref, ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   /* eslint-disable vue/require-default-prop */
-  name: "MyorderSingleOrderDetail",
+  name: 'MyorderSingleOrderDetail',
   setup() {
     const mainstore = mainStore();
     const userstore = userStore();
@@ -128,29 +129,29 @@ export default defineComponent({
     }
     getUserSingleOrder();
     const defaultWidth = 500;
-    let skeletonWidth = defaultWidth + "px";
-    let skeletonWidthStyle = "width:" + skeletonWidth;
+    let skeletonWidth = defaultWidth + 'px';
+    let skeletonWidthStyle = 'width:' + skeletonWidth;
     function drawerResize() {
       const skeleton = document.getElementsByClassName(
-        "skeleton"
+        'skeleton'
       )[0] as HTMLElement;
       let windowSize = document.body.clientWidth;
       // 預設寬度
       if (windowSize < defaultWidth) {
-        skeletonWidth = "100%";
-        skeletonWidthStyle = "width:" + skeletonWidth;
+        skeletonWidth = '100%';
+        skeletonWidthStyle = 'width:' + skeletonWidth;
         if (skeleton) {
           skeleton.style.width = skeletonWidth;
         }
       } else {
         if (skeleton) {
-          skeleton.style.width = defaultWidth + "px";
+          skeleton.style.width = defaultWidth + 'px';
         }
       }
     }
     drawerResize();
-    window.addEventListener("resize", drawerResize);
-    window.addEventListener("orientationchange", drawerResize);
+    window.addEventListener('resize', drawerResize);
+    window.addEventListener('orientationchange', drawerResize);
     return {
       onClickOrderProducts,
       onClickOrderRestof,
@@ -166,6 +167,7 @@ export default defineComponent({
 <style scoped>
 .myorderSingleOrderDetail {
   display: flex;
+
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
@@ -175,6 +177,7 @@ span {
 }
 .skeleton {
   display: flex;
+
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
@@ -182,6 +185,7 @@ span {
 
 .userOrderProduct {
   display: flex;
+
   flex-direction: row;
   justify-content: center;
 }

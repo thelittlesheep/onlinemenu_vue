@@ -27,15 +27,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from "vue";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { ShoppingCart } from "@element-plus/icons-vue";
-import { orderDTO } from "@/interface/orderDTO";
-import { Iadjitem, IshoppingProduct } from "@/interface/menuData.Interface";
+import { defineComponent, Ref, ref, watch } from 'vue';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { ShoppingCart } from '@element-plus/icons-vue';
+import { orderDTO } from '@/interface/orderDTO';
+import { Iadjitem, IshoppingProduct } from '@/interface/menuData.Interface';
 
 export default defineComponent({
-  name: "Menuaddtocart",
+  name: 'Menuaddtocart',
   components: { ShoppingCart },
   setup() {
     const mainstore = mainStore();
@@ -77,21 +77,12 @@ export default defineComponent({
       }
     );
 
-    async function postCartData(payload: Ref<orderDTO>) {
-      try {
-        await mainstore.postMenuCartData(payload);
-      } catch (e: unknown) {
-        console.log(e);
-      }
-    }
-
     return {
       dialogVis,
       ShoppingCart,
       shoppingProduct,
       isModifyMode,
-      addToCart,
-      postCartData
+      addToCart
     };
   }
 });

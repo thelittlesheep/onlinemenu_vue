@@ -42,13 +42,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from "vue";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-// import custom interface
-import { responseError } from "../interfaces/responseError";
+import { defineComponent, ref, Ref } from 'vue';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
 // import child component
-import createuser from "./createuser.form.vue";
+import createuser from './createuser.form.vue';
 
 // declare props type
 export interface isShowProps {
@@ -58,7 +56,7 @@ export interface isShowProps {
 }
 
 export default defineComponent({
-  name: "Createuserbody",
+  name: 'Createuserbody',
   components: { createuser },
   setup() {
     // const mainstore = mainStore();
@@ -66,7 +64,7 @@ export default defineComponent({
 
     const isPostSubmmit: Ref<boolean> = ref(false);
     const isPostSuccess: Ref<boolean> = ref(false);
-    const errorResponse: Ref<string> = ref("");
+    const errorResponse: Ref<string> = ref('');
 
     const isShowTestArea: Ref<boolean> = ref(false);
 
@@ -123,7 +121,7 @@ export default defineComponent({
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 26px;
   width: 26px;
   left: 4px;

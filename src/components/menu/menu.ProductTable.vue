@@ -65,14 +65,14 @@
 </template>
 
 <script lang="ts">
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { defineComponent } from "vue";
-import { onBeforeRouteLeave } from "vue-router";
-import { Picture as IconPicture } from "@element-plus/icons-vue";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
+import { Picture as IconPicture } from '@element-plus/icons-vue';
 
 export default defineComponent({
-  name: "Menutable",
+  name: 'Menutable',
   components: { IconPicture },
   // watch: {
   //   dialogVisible(visible) {
@@ -130,16 +130,19 @@ export default defineComponent({
 }
 .cardBlock {
   display: flex;
+  display: -webkit-flex;
 }
 .cardContent {
   flex-basis: 100%;
+  min-width: 150px;
 }
 :deep() .el-image__inner {
-  max-height: 150px;
+  max-height: 110px;
 }
 .productTableBody {
   max-width: 1200px;
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
   flex-wrap: wrap;
 }

@@ -35,18 +35,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue';
 // import loading component
-import "vue-loading-overlay/dist/vue-loading.css";
-import Loading from "vue-loading-overlay";
+import 'vue-loading-overlay/dist/vue-loading.css';
+import Loading from 'vue-loading-overlay';
 
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
 
-import Menutable from "./menu.ProductTable.vue";
+import Menutable from './menu.ProductTable.vue';
+import { getMenuData } from '@/api/menu';
 
 export default defineComponent({
-  name: "MenuBody",
+  name: 'MenuBody',
   components: { Loading, Menutable },
   setup() {
     // init pinia
@@ -55,13 +56,13 @@ export default defineComponent({
     const isLoading = ref(true);
 
     function onCancel() {
-      console.log("User cancelled the loader.");
+      console.log('User cancelled the loader.');
       isLoading.value = false;
     }
     async function getMenuDatas() {
       isLoading.value = true;
       try {
-        const res = await mainstore.getMenuData();
+        const res = await getMenuData();
         menudatas.value = res.data;
         isLoading.value = false;
 

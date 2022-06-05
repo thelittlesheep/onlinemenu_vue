@@ -10,7 +10,7 @@
 // import tempbody from "@/components/tempandhumidity/tempbody.vue";
 
 export default {
-  name: "Home"
+  name: 'Home'
   // components: { tempbody },
 };
 </script>

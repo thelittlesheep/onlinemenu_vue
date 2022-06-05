@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Loginbody from "@/components/login/login.Body.vue";
+import Loginbody from '@/components/login/login.Body.vue';
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: { Loginbody }
 };
 </script>

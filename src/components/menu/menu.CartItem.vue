@@ -50,13 +50,13 @@
 </template>
 
 <script lang="ts">
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { defineComponent, ref, Ref } from "vue";
-import { IshoppingProduct } from "@/interface/menuData.Interface";
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { defineComponent, ref, Ref } from 'vue';
+import { IshoppingProduct } from '@/interface/menuData.Interface';
 
 export default defineComponent({
-  name: "Menucartitem",
+  name: 'Menucartitem',
   setup() {
     const mainstore = mainStore();
     const {
@@ -122,12 +122,14 @@ export default defineComponent({
 .cartItem .itemContent {
   /* background-color: aqua; */
   display: flex;
+
   align-items: flex-start;
   justify-content: space-between;
 }
 .cartItem .itemText {
   /* background: aquamarine; */
   display: flex;
+
   align-items: flex-start;
   flex-direction: column;
   align-self: stretch;
@@ -136,6 +138,7 @@ export default defineComponent({
 .cartItem .itemImg {
   width: 30%;
   display: flex;
+
   align-self: center;
   /* margin-left: auto; */
 }

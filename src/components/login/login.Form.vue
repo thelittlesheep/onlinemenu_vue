@@ -54,23 +54,24 @@
 </template>
 
 <script lang="ts">
-import { userStore } from "@/store/user.store";
-import { defineComponent, reactive, Ref, ref, watch } from "vue";
-import type { FormRules } from "element-plus";
-import Schema from "async-validator";
-import { userBasicDTO } from "@/interface/userDTO";
-import { loginForm } from "./validator";
-import type { FormInstance } from "element-plus";
-import { ElMessageBox } from "element-plus";
-import { useRouter } from "vue-router";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
-import { RWDElMessageBox } from "@/util/ElMessageBox.RWD";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { ILoginResponseError } from "@/api/request";
+import { userStore } from '@/store/user.store';
+import { defineComponent, reactive, Ref, ref, watch } from 'vue';
+import type { FormRules } from 'element-plus';
+import Schema from 'async-validator';
+import { userBasicDTO } from '@/interface/userDTO';
+import { loginForm } from './validator';
+import type { FormInstance } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
+import { useRouter } from 'vue-router';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
+import { RWDElMessageBox } from '@/util/ElMessageBox.RWD';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { sessionStorageSet } from '@/util/utils';
+// import { ILoginResponseError } from "@/api/request";
 
 export default defineComponent({
-  name: "Loginform",
+  name: 'Loginform',
   props: { islogintab: { type: Boolean } },
   setup(props) {
     Schema.warning = function () {
@@ -94,21 +95,21 @@ export default defineComponent({
         {
           required: true,
           validator: form.validateAccount,
-          trigger: ["change", "blur"]
+          trigger: ['change', 'blur']
         }
       ],
       password: [
         {
           required: true,
           validator: form.validatePassword,
-          trigger: ["change", "blur"]
+          trigger: ['change', 'blur']
         }
       ],
       passwordconfirm: [
         {
           required: true,
           validator: form.validatePasswordconfirm,
-          trigger: ["change", "blur"]
+          trigger: ['change', 'blur']
         }
       ]
     });
@@ -116,18 +117,6 @@ export default defineComponent({
     function resetForm(formEl: FormInstance | undefined) {
       if (!formEl) return;
       formEl.resetFields();
-    }
-
-    function sessionStorageSet(
-      key: string | number,
-      value: Record<string, unknown>
-    ) {
-      // var userEntity = {
-      //   name: "tom",
-      //   age: 22
-      // };
-      sessionStorage.setItem(String(key), JSON.stringify(value));
-      return undefined;
     }
 
     async function submitForm(formEl: FormInstance | undefined) {
@@ -138,62 +127,55 @@ export default defineComponent({
             user_account: formVal.account,
             user_password: formVal.password
           };
-
           if (props.islogintab) {
+            resetForm(formEl);
             // Login User
             await userstore
               .login(payload)
               .then(async (res) => {
-                if (res.status === 201) {
+                if (res.data !== undefined) {
+                  console.log(typeof res.data);
                   isLogin.value = true;
-                  const userdata = await userstore.getUserInfo();
-                  const { orders, ...userinfo } = userdata;
-                  user.value = userdata;
-                  userInfo.value = userinfo;
+                  userInfo.value = await userstore.getUserInfo();
+                  // const { orders, ...userinfo } = userdata;
+                  // user.value = userdata;
+                  // userInfo.value = userinfo;
                   // sessionStorageSet("userInfo", userInfo.value);
-                  router.push({ name: "Menu" });
+                  router.push({ name: 'Menu' });
                   resetForm(formEl);
                 } else if (axios.isAxiosError(res)) {
+                  resetForm(formEl);
                   throw res;
                 }
               })
-              .catch((e: AxiosError<ILoginResponseError>) => {
-                let errormsg;
-                e.response?.data
-                  ? (errormsg = e.response.data.message)
-                  : (errormsg = "登入失敗");
-
-                ElMessageBox.alert(errormsg, {
-                  type: "error",
-                  showClose: false
-                }).then(() => {
-                  resetForm(formEl);
-                });
-                RWDElMessageBox();
+              .catch((e) => {
+                console.log(e);
               })
               .finally(() => {
+                sessionStorageSet('userInfo', userInfo.value);
                 resetForm(formEl);
               });
           } else {
+            resetForm(formEl);
             // Register User
             await userstore
               .register(payload)
               .then((res) => {
                 ElMessageBox.alert(res.data.message, {
-                  type: "success"
+                  type: 'success'
                 }).then(async () => {
-                  console.log("then");
+                  console.log('then');
                   await userstore.login(payload);
                   user.value = await userstore.getUserInfo();
 
-                  router.push({ name: "Menu" });
+                  router.push({ name: 'Menu' });
                   resetForm(formEl);
                 });
                 RWDElMessageBox();
               })
               .catch((e) => {
                 ElMessageBox.alert(e.message, {
-                  type: "error",
+                  type: 'error',
                   showClose: false
                 }).then(() => {
                   resetForm(formEl);
@@ -201,15 +183,15 @@ export default defineComponent({
                 RWDElMessageBox();
               })
               .finally(async () => {
-                console.log("final");
+                console.log('final');
                 // resetForm(formEl);
               });
           }
         } else {
-          ElMessageBox.alert("請正確填寫帳號及密碼", {
-            confirmButtonText: "確認",
-            customClass: "inputError",
-            type: "error"
+          ElMessageBox.alert('請正確填寫帳號及密碼', {
+            confirmButtonText: '確認',
+            customClass: 'inputError',
+            type: 'error'
           });
           RWDElMessageBox();
           return false;

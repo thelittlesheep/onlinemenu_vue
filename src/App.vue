@@ -14,41 +14,37 @@
 </template>
 
 <script lang="ts">
-import Navbar from "@/views/Navbar.vue";
-import { ref, watch } from "vue";
+import Navbar from '@/views/Navbar.vue';
+import { ref, watch } from 'vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Navbar
   },
   setup() {
-    // const body = ref(document.getElementsByTagName("body")[0].className);
-    // const msgBOX = document.getElementsByClassName("el-message-box");
+    const body = ref(document.getElementsByTagName('body')[0].className);
+    const msgBOX = document.getElementsByClassName('el-message-box');
 
-    // console.log(msgBOX);
-    // watch(
-    //   () => msgBOX,
-    //   (newVal) => {
-    //     console.log(newVal);
-    //   }
-    // );
-    // let dialogWidth = "350px";
-    // let windowSize = document.body.clientWidth;
-    // console.log(windowSize);
+    watch(
+      () => msgBOX,
+      (newVal) => {
+        console.log(newVal);
+      }
+    );
+    let dialogWidth = '350px';
+    let windowSize = document.body.clientWidth;
 
-    // const defaultWidth = 450; // 預設寬度
-    // if (windowSize < defaultWidth) {
-    //   console.log(123);
-    //   dialogWidth = "100%";
-    //   if (msgBOX.length > 0) {
-    //     console.log(456);
-    //     (msgBOX[0] as HTMLElement).style.width = dialogWidth;
-    //   }
-    // } else {
-    //   dialogWidth = defaultWidth + "px";
-    // }
-
+    const defaultWidth = 450; // 預設寬度
+    if (windowSize < defaultWidth) {
+      dialogWidth = '100%';
+      if (msgBOX.length > 0) {
+        console.log(456);
+        (msgBOX[0] as HTMLElement).style.width = dialogWidth;
+      }
+    } else {
+      dialogWidth = defaultWidth + 'px';
+    }
     return {};
   }
 };
@@ -56,11 +52,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  /* color: #2c3e50; */
+  font-family: 'Noto Sans TC', Avenir, Helvetica, Arial, sans-serif;
 }
 html,
 body,

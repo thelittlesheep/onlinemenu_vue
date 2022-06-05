@@ -40,12 +40,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { mainStore } from "@/store/main.store";
-import { storeToRefs } from "pinia";
+import { defineComponent } from 'vue';
+import { mainStore } from '@/store/main.store';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
-  name: "Checkoutcarttable",
+  name: 'Checkoutcarttable',
   setup() {
     const mainstore = mainStore();
     const { cartData } = storeToRefs(mainstore);

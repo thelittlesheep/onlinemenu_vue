@@ -1,20 +1,20 @@
 // 必要
-import { defineStore, acceptHMRUpdate } from "pinia";
-import { userBasicDTO, userDTO } from "@/interface/userDTO";
-import axios, { AxiosResponse } from "axios";
-import { Ref } from "vue";
-import axiosRetry from "axios-retry";
-import { v4 as uuidv4 } from "uuid";
+import { defineStore, acceptHMRUpdate } from 'pinia';
+import { userBasicDTO, userDTO } from '@/interface/userDTO';
+import axios, { AxiosResponse } from 'axios';
+import { Ref } from 'vue';
+import axiosRetry from 'axios-retry';
+import { v4 as uuidv4 } from 'uuid';
 // 資料型態
 import {
   ImenuGroupByCategory,
   Iproductdata,
   IshoppingProduct
-} from "@/interface/menuData.Interface";
-import { Iorderproduct, orderDTO } from "@/interface/orderDTO";
-import moment from "moment";
-import { userStore } from "./user.store";
-import { IRequestData, request } from "@/api/request";
+} from '@/interface/menuData.Interface';
+import { Iorderproduct, orderDTO } from '@/interface/orderDTO';
+import moment from 'moment';
+import { userStore } from './user.store';
+import { IRequestData, request } from '@/api/request';
 // 環境變數
 // console.log(import.meta.env.MODE);
 // console.log(import.meta.env.PROD);
@@ -22,7 +22,7 @@ import { IRequestData, request } from "@/api/request";
 const url = import.meta.env.VITE_BACKEND_HOST;
 
 axiosRetry(axios, { retries: 3 });
-export const mainStore = defineStore("mainStore", {
+export const mainStore = defineStore('mainStore', {
   state: () => ({
     menudatas: [] as Array<ImenuGroupByCategory>,
     dialogVis: false,
@@ -45,7 +45,7 @@ export const mainStore = defineStore("mainStore", {
     ] as IshoppingProduct[],
     order: {} as orderDTO,
     shoppingProduct: {} as IshoppingProduct,
-    clickedCartItemId: "",
+    clickedCartItemId: '',
     clickedProductId: NaN,
     clickedProductCategoryId: NaN,
     checkbox: [] as number[]
@@ -86,6 +86,7 @@ export const mainStore = defineStore("mainStore", {
     }
   },
   actions: {
+<<<<<<< HEAD
     async getMenuData(): Promise<IRequestData> {
       return request
         .get<IRequestData>({
@@ -130,6 +131,36 @@ export const mainStore = defineStore("mainStore", {
         withCredentials: true
       });
     },
+=======
+    // async getMenuData(): Promise<IRequestData> {
+    //   return request
+    //     .get<IRequestData>({
+    //       url: '/menu/product',
+
+    //       interceptors: {
+    //         requestSuccessInterceptor(config) {
+    //           return config;
+    //         }
+    //       },
+    //       withCredentials: true
+    //     })
+    //     .then((res) => {
+    //       return res;
+    //     });
+    // },
+    // async postMenuCartData(user_id: number, payload: Ref<orderDTO>) {
+    //   return request.post<AxiosResponse>({
+    //     url: `/users/${user_id}/orders`,
+    //     data: payload.value,
+    //     interceptors: {
+    //       requestSuccessInterceptor(config) {
+    //         return config;
+    //       }
+    //     },
+    //     withCredentials: true
+    //   });
+    // },
+>>>>>>> FixCartItemDateStructure
     getSingleCartItem(queryuuid: string) {
       return this.cartData.find(
         (item) => item.shoppingProduct_uuid === queryuuid
@@ -155,8 +186,8 @@ export const mainStore = defineStore("mainStore", {
     },
     displayLocalDateTime(date: string | undefined) {
       return date
-        ? moment(date).format("y年 MMM Do (ddd) A hh:mm")
-        : "時間格式有誤";
+        ? moment(date).format('y年 MMM Do (ddd) A hh:mm')
+        : '時間格式有誤';
     },
     getOrderTotalPrice(
       order_products: Array<Iorderproduct> | undefined
