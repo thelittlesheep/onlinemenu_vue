@@ -6,7 +6,7 @@ import { IRequestData, request } from '../request';
 export async function getMenuData(): Promise<IRequestData> {
   return request
     .get<IRequestData>({
-      url: '/menu/product',
+      url: '/menu/products',
 
       interceptors: {
         requestSuccessInterceptor(config) {
