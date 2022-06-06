@@ -86,34 +86,6 @@ export const mainStore = defineStore('mainStore', {
     }
   },
   actions: {
-    // async getMenuData(): Promise<IRequestData> {
-    //   return request
-    //     .get<IRequestData>({
-    //       url: '/menu/product',
-
-    //       interceptors: {
-    //         requestSuccessInterceptor(config) {
-    //           return config;
-    //         }
-    //       },
-    //       withCredentials: true
-    //     })
-    //     .then((res) => {
-    //       return res;
-    //     });
-    // },
-    // async postMenuCartData(user_id: number, payload: Ref<orderDTO>) {
-    //   return request.post<AxiosResponse>({
-    //     url: `/users/${user_id}/orders`,
-    //     data: payload.value,
-    //     interceptors: {
-    //       requestSuccessInterceptor(config) {
-    //         return config;
-    //       }
-    //     },
-    //     withCredentials: true
-    //   });
-    // },
     getSingleCartItem(queryuuid: string) {
       return this.cartData.find(
         (item) => item.shoppingProduct_uuid === queryuuid

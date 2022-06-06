@@ -79,7 +79,7 @@ export default defineComponent({
     };
     const router = useRouter();
     const userstore = userStore();
-    const { userOrders, userInfo } = storeToRefs(userstore);
+    const { userInfo } = storeToRefs(userstore);
     const { isLogin } = storeToRefs(mainStore());
 
     let payload: userBasicDTO;

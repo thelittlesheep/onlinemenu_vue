@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, PropType, watch } from 'vue';
+import { defineComponent, h, PropType, toRefs, watch } from 'vue';
 import { orderDTO } from '@/interface/orderDTO';
 import { mainStore } from '@/store/main.store';
 import { userStore } from '@/store/user.store';
@@ -54,7 +54,9 @@ import { RWDElMessageBox } from '@/util/ElMessageBox.RWD';
 import { useRouter } from 'vue-router';
 import { AxiosError } from 'axios';
 import { IResponseError } from '@/api/type';
-
+export interface test {
+  a: Date;
+}
 export default defineComponent({
   /* eslint-disable vue/require-default-prop */
   name: 'MyorderSingleOrder',
@@ -68,6 +70,7 @@ export default defineComponent({
     const userstore = userStore();
     const router = useRouter();
     const { userInfo } = storeToRefs(userstore);
+
     // const cookieDomain =
     //   process.env.NODE_ENV === "development" ? "localhost" : ".lshuang.tw";
     // document.cookie = `user_session=;Domain=${cookieDomain}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
@@ -139,7 +142,13 @@ export default defineComponent({
     //     console.log(newVal, oldVal);
     //   }
     // );
-    return { props, mainstore, userInfo, deleteUserOrder, openOrderDetail };
+    return {
+      props,
+      mainstore,
+      userInfo,
+      deleteUserOrder,
+      openOrderDetail
+    };
   }
 });
 </script>

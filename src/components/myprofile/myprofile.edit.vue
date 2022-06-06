@@ -150,7 +150,9 @@ export default defineComponent({
                 type: 'success',
                 message: '修改成功'
               });
-              userInfo.value = await userstore.getUserInfo();
+              userInfo.value = await userstore.getUserInfo(
+                userInfo.value.user_id
+              );
               sessionStorageSet('userInfo', userInfo.value);
             }
           });
